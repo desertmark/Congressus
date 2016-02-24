@@ -1,0 +1,188 @@
+﻿@using Microsoft.AspNet.Identity;
+@model Congressus.Web.Models.Entities.Paper
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var miembros = Model.Evento.Comite;
+    var miembrosSelect = new SelectList(miembros, "Id", "Nombre");
+    var evaluador = Model.Evaluador != null ? Model.Evaluador.Nombre + " " + Model.Evaluador.Apellido : "No asignado";
+    var autor = Model.Autor.Nombre + " " + Model.Autor.Apellido;
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Paper</h4>
+    <hr />
+
+    <table class="striped detailsTable">
+        <tr></tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
+            <td><span>@Model.Nombre</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Evento:</strong></th>
+            <td><span>@Model.Evento.Nombre</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Fecha:</strong></th>
+            <td><span>@Model.Fecha</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Descripcion:</strong></th>
+            <td><span>@Model.Descripcion</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Area Cientifica:</strong></th>
+            <td><span>@Model.AreaCientifica</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Estado:</strong></th>
+            <td>@Html.Partial("_PaperEstadoField",Model)</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Autor:</strong></th>
+            <td><span>@autor</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Evaluador:</strong></th>
+            <td><span>@evaluador</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Archivo:</strong></th>
+            <td><a target="_blank" href="@Url.Action("DescargarArchivo", new { id = Model.Id })">@Model.NombreArchivo()</a></td>
+        </tr>
+    </table>
+    <br />
+
+    @if (User.Identity.GetUserId() == Model.Evento.Presidente.UsuarioId)
+    {
+        <div>
+            <a href="@Url.Action("AceptarRechazar","Papers", new {Id = Model.Id, accion = "Aceptar"})" class="btn">Aceptar</a> 
+            <a href="@Url.Action("AceptarRechazar","Papers", new {Id = Model.Id, accion = "Rechazar"})" class="btn">Rechazar</a>
+        </div>
+        <br />
+    }
+
+    @if (Model.Evaluador.UsuarioId == User.Identity.GetUserId())
+    {
+        <a class="btn" href="@Url.Action("Create", "Revisiones", new { paperId = Model.Id })">Dar revision</a>
+        <br /><br />
+        if (Model.Evaluacion == null)
+        {
+            <a class="btn" href="@Url.Action("Create", "Evaluaciones", new { paperId = Model.Id })">Realizar evaluacion final</a>
+            <br /><br />
+        }
+    }
+</div>
+<p>
+    @if (User.IsInRole("admin") || User.IsInRole("autor"))
+    {
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id })<span>|</span>
+    }
+
+    <a href="javascript:history.back(1)">Volver</a>
+</p>
+<br />
+@*----------ASIGNAR MIEMBRO*@
+@if (User.IsInRole("admin") || User.IsInRole("presidente"))
+{
+    <hr />
+    <div>
+        <h5 class="teal-text">Asignar paper a miembro del comite</h5>
+        @using (@Html.BeginForm("AsignarMiembro", "Papers", FormMethod.Post, new { name = "AsignarMiembroForm" }))
+        {
+            @Html.Hidden("paperId", Model.Id);
+            @Html.DropDownList("miembroId", miembrosSelect, new { @class = "browser-default" })
+            if (ViewBag.AsignarMiembroError != null)
+            {
+                <span class="red-text">@ViewBag.AsignarMiembroError</span>
+                <br />
+            }
+            <br />
+            <button type="submit" class="btn waves-effect teal">Asignar</button>
+        }
+    </div>
+}
+
+    @*------------EVALUACION FINAL*@
+    @{
+        var miembro = "Administrador";
+        if (Model.Evaluacion != null && Model.Evaluacion.MiembroComite != null)
+        {
+            miembro = Model.Evaluacion.MiembroComite.Nombre + " " + Model.Evaluacion.MiembroComite.Apellido;
+        }
+    }
+    @if (Model.Evaluacion != null)
+    {
+        <br />
+        <hr />
+        <div>
+            <h5 class="teal-text">Evaluacion final</h5>
+            <table class="striped detailsTable">
+                <tr></tr>
+                <tr>
+                    <th class="black-text text-accent-4"><strong>Calificacion:</strong></th>
+                    <td>
+                        <span class="yellow-text text-darken-1">
+                            <i class="tiny material-icons">grade</i>
+                            @Model.Evaluacion.Calificacion
+                            <i class="tiny material-icons">grade</i>
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="black-text text-accent-4"><strong>Comentario:</strong></th>
+                    <td><span>@Model.Evaluacion.Comentario</span></td>
+                </tr>
+
+                <tr>
+                    <th class="black-text text-accent-4"><strong>Evaluador:</strong></th>
+                    <td><span>@miembro</span></td>
+                </tr>
+            </table>
+        </div>
+        if (Model.Evaluador.UsuarioId == User.Identity.GetUserId())
+        {
+            <a class="btn" href="@Url.Action("Delete","Evaluaciones", new { Id = Model.Evaluacion.Id })">Eliminar evaluacion</a>
+            <br />
+        }
+
+    }
+    @*------------REVISIONES*@
+
+    <br />
+    <hr />
+    <div>
+        <h5 class="teal-text">Revisiones</h5>
+        @if (Model.Revisiones.Count > 0)
+        {
+            <table class="striped detailsTable">
+                <tr>
+                    <th>Estado</th>
+                    <th>Comentario</th>
+                    <th>Evaluador</th>
+                    <th>Archivo</th>
+                </tr>
+                @foreach (var revision in Model.Revisiones)
+                {
+                    var NombreMiembro = revision.MiembroComite.Nombre + " " + revision.MiembroComite.Apellido;
+                    <tr>
+                        <td>@revision.Estado</td>
+                        <td>@revision.Comentario</td>
+                        <td>@NombreMiembro</td>
+                        <td><a target="_blank" href="@Url.Action("DescargarArchivo","Revisiones",new { id = revision.Id})">@revision.NombreArchivo()</a></td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p class="grey-text">No se han dado revisiones aún.</p>
+        }
+
+
+    </div>

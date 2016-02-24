@@ -1,0 +1,61 @@
+﻿@model Congressus.Web.Models.Entities.Revision
+
+@{
+    Congressus.Web.Models.Entities.Paper paper = ViewBag.paper;
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var autor = paper.Autor.Nombre + " " + paper.Autor.Apellido;
+}
+
+<h2>Dar revision</h2>
+
+@using (Html.BeginForm("Create","Revisiones", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h5>Revision para <span class="teal-text">@paper.Nombre</span> de <span class="teal-text">@autor</span></h5>
+        <hr />
+        @Html.ValidationSummary(true, "")
+        <div>
+            @Html.LabelFor(model => model.Estado)
+            <div>
+                @Html.DropDownList("Estado", new SelectList(Congressus.Web.Models.Entities.Revision.EstadosPosibles()), new { @class="browser-default"})
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Comentario)
+            <div>
+                @Html.TextAreaFor(model => model.Comentario)
+                @Html.ValidationMessageFor(model => model.Comentario, "")
+            </div>
+        </div>
+
+        <div>
+           @Html.Hidden("PaperId", paper.Id)
+        </div>
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Archivo</span>
+                <input name="Archivo" type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input name="path" class="file-path validate" type="text" placeholder="Elige un archivo">
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <div>
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn waves-effect">Enviar</button>
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

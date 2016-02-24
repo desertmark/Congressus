@@ -1,0 +1,163 @@
+﻿/*-TAGS-*/
+*
+{
+    margin:0px;
+    padding:0px;
+}
+input,
+select,
+textarea {
+    max-width: 480px;
+}
+
+html, body {
+  height: 100%;
+}
+body{
+    background-color:#c2c2c2;
+}
+
+/*-HELPERS-*/
+.centrar
+{
+    margin-left:auto!important;
+    margin-right:auto!important;
+}
+.form-group
+{
+    padding:10px
+}
+.titulo{
+    font-size:24px;
+}
+/*para darle efecto hover a los renglones de las tablas*/
+.hoverableTr:hover{
+    background-color: #333!important;   
+    color:whitesmoke!important;
+    cursor:pointer;
+}
+.hoverableTr td{
+    color:inherit!important;
+}
+
+
+/*-_LAYOUT-*/
+.logo{
+    width:100px;
+    padding-left:25%!important;
+    padding:10%;
+}
+/*nav*/
+.centrar>ul>li>a, .LoginPartial ul>li>a, .brand-logo {
+  color: #444!important;
+}
+.navBtn
+{
+    max-width:300px;
+}
+
+
+.LoginPartial
+{
+    max-width:500px;
+    float:right;
+    text-align:center;
+}
+#changePassword li
+{
+    min-width: 200px;
+}
+#changePassword li > ul{
+    display:none;
+    position:absolute;
+    box-shadow: 5px 5px 4px #999;
+    background-color:#fff;
+    z-index:1000;
+}
+#changePassword li:hover > ul{
+    display:block;
+}
+
+.contenido {
+    max-width: 80%;
+    padding: 20px;
+    margin-top: 60px!important;
+}
+
+.sideMenuDiv {
+    width: 200px;
+    height:70%;
+    float:left;
+    border-left:solid 10px #009688;
+    top:53px;
+    z-index:0;
+}
+.icono-medium
+{
+    margin-right:5px;   
+    vertical-align:bottom;
+    font-size:40px!important;
+}
+
+.icono-small
+{
+    margin-right:5px; 
+    vertical-align:bottom;
+    font-size:26px!important;
+}
+
+.sideMenuTitulo{
+    padding:25px; 
+     -webkit-transition:all 2s;
+}
+.sideMenuTitulo:hover{ background-color:#7ecec7}
+.sideMenuUl>li{ height:50px;}
+.sideMenuUl>li:hover { background-color:#009688}
+.sideMenuUl>li>a { margin-top:5px;}
+
+
+/*-INDEX-*/
+#indexSubtitle, #indexTitle 
+{
+    text-shadow: 1px 1px black;    
+}
+
+
+/*-ABOUT-*/
+.about-text{
+    font-size: 16px;
+}
+.about-card{
+    max-width:350px!important;
+}
+/*-STICKY-FOOTER-*/
+.RenderBody, #index-body {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -225px; 
+}
+.RenderBody:after, #index-body:after {
+  content: "";
+  display: block;
+}
+.page-footer, .RenderBody:after, #index-body:after {
+  height: 227px; 
+}
+
+/*EVENTOS*/
+/*Administrar*/
+.deleteFormDiv {
+    max-width: 50px;
+
+}
+
+/*MIEMBROS*/
+/*Details*/
+ .detailsTable {
+        background-color: ;
+
+        font-size: 17px;
+    }
+    .detailsTable td {
+        color: grey;
+    }

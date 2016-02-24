@@ -1,0 +1,33 @@
+﻿@model Congressus.Web.Models.Entities.Autor
+
+@{
+    ViewBag.Title = "Perfil - Autor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Perfil</h2>
+
+<div>
+    <h4>Autor</h4>
+    <hr />
+
+    <table class="striped detailsTable">
+        <tr></tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Email:</strong></th>
+            <td><span>@Model.Usuario.Email</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
+            <td><span>@Model.Nombre</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Apellido:</strong></th>
+            <td><span>@Model.Apellido</span></td>
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Volver", "Index")
+</p>

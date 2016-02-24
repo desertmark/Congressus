@@ -1,0 +1,42 @@
+﻿@model Congressus.Web.Models.Entities.MiembroComite
+
+@{
+    ViewBag.Title = "Miembro - Detalle";
+}
+
+<h2 class="teal-text text-darken-2">Perfil</h2>
+<style>
+   
+
+</style>
+<div>
+    <h4 class="teal-text ">Miembro Comite</h4>
+    <hr />
+
+    <br/>
+
+    <table class="striped detailsTable">
+        <tr></tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Email:</strong></th>
+            <td><span>@Model.Usuario.Email</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
+            <td><span>@Model.Nombre</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Apellido:</strong></th>
+            <td><span>@Model.Apellido</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Area Cientifica:</strong></th>
+            <td><span>@Model.AreaCientifica</span></td>
+        </tr>
+    </table>
+    
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    <a href="javascript:history.back()">Volver</a>
+</p>

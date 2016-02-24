@@ -1,0 +1,47 @@
+﻿@model Congressus.Web.Models.Entities.MiembroComite
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h3>Eliminar</h3>
+
+<h4>Esta seguro que desea eliminar este miembro?</h4>
+<div>
+    <h5>Miembro de Comite</h5>
+    <hr />
+
+    <table class="striped detailsTable">
+        <tr></tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Email:</strong></th>
+            <td><span>@Model.Usuario.Email</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
+            <td><span>@Model.Nombre</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Apellido:</strong></th>
+            <td><span>@Model.Apellido</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Area cientifica:</strong></th>
+            <td><span>@Model.AreaCientifica</span></td>
+        </tr>
+      </table>
+    <br />
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Eliminar" class="btn btn-default" />
+                    <br />
+                    <br />
+                    @Html.ActionLink("Volver", "Index")
+                </div>
+            }
+</div>

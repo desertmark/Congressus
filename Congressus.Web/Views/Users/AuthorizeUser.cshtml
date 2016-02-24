@@ -1,0 +1,28 @@
+﻿@model Dictionary<string,object>
+@{
+    var usuarios = (List<Congressus.Web.Models.ApplicationUser>) Model["usuarios"];
+    var roles = (List<Congressus.Web.Models.ApplicationRole>)Model["roles"];
+    
+    ViewBag.Title = "Autorizar Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userSelect = new SelectList(usuarios,"Id","UserName");
+    var rolesSelect = new SelectList(roles, "Id", "Name");
+    
+}
+
+<h2>Autorizar Usuario</h2>
+
+@using (Html.BeginForm("AuthorizeUser","Users",FormMethod.Post)){
+    <label>Usuario</label>
+    @Html.DropDownList("UserId", userSelect, new { @class = "browser-default" })
+
+    <label>Role</label>
+    @Html.DropDownList("RoleId", rolesSelect, new { @class = "browser-default" })
+
+    <br />
+<input type="submit" class="btn waves-light black" value="Autorizar"/>
+}
+
+
+
+

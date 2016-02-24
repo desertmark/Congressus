@@ -1,0 +1,116 @@
+﻿@model Congressus.Web.Models.Entities.Evento
+
+@{
+    ViewBag.Title = "Administrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var miembrosSelect = new SelectList(ViewBag.miembros, "Id", "Nombre");
+    var papers = Model.Papers;
+}
+
+<div>
+    <h4 class="teal-text text-darken-2">Administracion del evento: @Model.Nombre</h4>
+    <hr />
+    <h5 class="teal-text text-darken-1"
+         > Presidente del comité</h5>
+    <a href="@Url.Action("Details", "Miembros", new { id = Model.Presidente.Id })">
+        <img src="../../Images/presidenteIcon.png" width="25px" /> 
+        @Model.Presidente.Nombre @Model.Presidente.Apellido
+    </a>
+    <hr />
+    <h5 class="teal-text text-darken-1" >Miembros del comité</h5>
+    <ul>
+        
+        @foreach (var miembro in Model.Comite)
+        {
+            <li>
+                <div class="row">
+                    <div class="col s2">
+                        <a href="@Url.Action("Details", "Miembros", new { id = miembro.Id })">
+                            <i class='material-icons'>perm_identity</i>
+                            @miembro.Nombre @miembro.Apellido
+                        </a>
+                     </div>
+                     <div class="col s1">
+                        @using (Html.BeginForm("RetirarMiembro", "Eventos", FormMethod.Post))
+                        {
+                            @Html.Hidden("miembroId", miembro.Id)
+                            @Html.Hidden("eventoId", Model.Id)
+                            <button type="submit" class="btn-floating red">X</button>
+                        }
+                     </div>
+                </div>
+            </li>
+        }
+    
+    </ul>
+    <!-- Modal Trigger -->
+    <button id="agregarMiembro" 
+            class="modal-trigger btn-floating btn-large waves-effect waves-light green tooltipped"
+            data-position="top"
+            data-delay="50"
+            data-tooltip="Agregar miembro" >
+        <i class='material-icons'>add</i>
+    </button>
+    
+</div>
+
+<!-- Modal Structure -->
+<div id="agregarMiembroDiv" class="modal">
+    <div class="modal-content">
+        <h4>Agregar Miembro Existente</h4>
+        @using (@Html.BeginForm("AgregarMiembro", "Eventos", FormMethod.Post, new { name = "AgregarMiembroForm" }))
+        {   
+            @Html.Hidden("eventoId", Model.Id);     
+            @Html.DropDownList("miembroId", miembrosSelect, new {@class="browser-default"})            
+        }
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn btn-flat" href="@Url.Action("Create", "Miembros")">Crear nuevo miembro</a>
+        <a href="javascript:document.forms['AgregarMiembroForm'].submit()" class="modal-action modal-close waves-effect waves-green btn btn-flat">Aceptar</a>
+    </div>
+</div>
+
+<br />
+<hr />
+<div>
+    <h5 class="teal-text">Papers de este evento</h5>
+    <table class="striped detailsTable">
+        <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Evaluacion</th>
+            <th>Area Cientifica</th>
+            <th>Descripcion</th>
+            <th>Autor</th>
+            <th>Evento</th>
+            <th>Estado</th>
+        </tr>
+        @foreach (var paper in papers)
+        {            
+            <tr class="hoverableTr tooltipped"
+                onClick="window.location = '/Papers/Details/'+@paper.Id"
+                data-position="left"
+                data-delay="50"
+                data-tooltip="Ver">
+                <td><i class="material-icons icono-small">description</i></td>
+                <td>@paper.Nombre</td>
+                <td>
+                    @if (paper.Evaluacion != null)
+                {
+                        <p>@paper.Evaluacion.Comentario</p>
+                    }
+                    else
+                    {
+                        <p>Sin evaluacion</p>
+                    }
+                </td>
+                <td>@paper.AreaCientifica</td>
+                <td>@paper.Descripcion</td>
+                <td>@paper.Autor.Nombre</td>
+                <td>@paper.Evento.Nombre</td>
+                <td>@Html.Partial("_PaperEstadoField",paper)</td>
+            </tr>
+        }
+    </table>
+
+</div>

@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNet.Identity;
+@model IEnumerable<Congressus.Web.Models.Entities.Paper>
+
+@{
+
+    ViewBag.Title = "Papers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de papers</h2>
+
+@*<a class="btn-floating tooltipped btn-large waves-effect waves-light green"
+   data-position="top"
+   data-delay="50"
+   data-tooltip="Subir un paper nuevo"
+   href="@Url.Action("Create", "Papers")">
+    <i class='material-icons'>add</i>*@
+<p class="teal-text">Para enviar nuevos papers busque la conferencia a la que desea enviar el paper en la seccion buscar del menú y utilice el vinculo "Enviar Paper"</p>
+</a>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+        <th>@Html.DisplayNameFor(model => model.AreaCientifica)</th>
+        <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+        <th>@Html.DisplayNameFor(model => model.Evento)</th>
+        <th>@Html.DisplayNameFor(model => model.Estado)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AreaCientifica)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            <a href="Eventos/Details/@item.Evento.Id">@Html.DisplayFor(modelItem => item.Evento.Nombre)</a>
+        </td>
+        <td>
+            @Html.Partial("_PaperEstadoField", item)
+        </td>
+        <td>
+            @if (User.IsInRole("admin") || User.IsInRole("autor"))
+            {
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id })<span>|</span>
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })<span>|</span>
+            }
+            @if (item.Evaluador.UsuarioId == User.Identity.GetUserId())
+            {
+                <a href="@Url.Action("Create","Revisiones",new { paperId = item.Id})">Dar revision</a><span>|</span>
+            }
+            @Html.ActionLink("Detalles", "Details", new { id = item.Id })
+
+        </td>
+    </tr>
+}
+
+</table>

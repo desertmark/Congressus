@@ -1,0 +1,17 @@
+﻿@model Congressus.Web.Models.Entities.Paper
+@{
+    string EstadoColor;
+    switch (Model.Estado)
+    {
+        case "Aceptado":
+            EstadoColor = "green-text";
+            break;
+        case "Rechazado":
+            EstadoColor = "red-text";
+            break;
+        default:
+            EstadoColor = "grey-text";
+            break;
+    }
+}
+<span class="@EstadoColor">@Model.Estado</span>

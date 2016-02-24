@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Congressus.Web.Models.Entities.MiembroComite>
+
+@{
+    ViewBag.Title = "Miembros de comite";
+}
+
+<h2>Lista de miembros de comite</h2>
+
+<p>
+    <a class="btn-floating tooltipped btn-large waves-effect waves-light green"
+       data-position="top"
+       data-delay="50"
+       data-tooltip="Crear nuevo miembro"
+       href="@Url.Action("Create", "Miembros")">
+        <i class='material-icons'>add</i>
+    </a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AreaCientifica)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AreaCientifica)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

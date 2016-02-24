@@ -1,0 +1,52 @@
+﻿@model Congressus.Web.Models.Entities.Evaluacion
+
+@{
+    ViewBag.Title = "Evaluacion final";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Congressus.Web.Models.Entities.Paper paper = ViewBag.paper;
+    var autor = paper.Autor.Nombre + " " + paper.Autor.Apellido;
+}
+
+<h2>Evaluacion final</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h5>Realizar evaluacion final del paper <span class="teal-text">@paper.Nombre</span> de <span class="teal-text">@autor</span></h5>
+        <hr />
+        <br />
+        @Html.ValidationSummary(true, "")
+        <div class="">
+            @Html.Hidden("Paper", paper.Id)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Calificacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                <input name="Calificacion" id="Califiacacion" type="number" placeholder="introduzca una calificación entre 0 y 100" min="0" max="100" />
+                @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Comentario, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Comentario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <button type="submit" class="btn waves-effect" >Enviar</button>
+            </div>
+        </div>
+    </div>
+}
+<br />
+<br />    
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

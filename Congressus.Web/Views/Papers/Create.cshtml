@@ -1,0 +1,75 @@
+﻿@model Congressus.Web.Models.Entities.Paper
+
+@{
+    ViewBag.Title = "Enviar paper";
+    int eventoId = ViewBag.EventoId;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Enviar paper</h2>
+
+@using (Html.BeginForm("Create", "Papers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h4>Paper</h4>
+        <hr />
+        @Html.ValidationSummary(true, "")
+        <div>
+            @Html.LabelFor(model => model.Nombre)
+            <div>
+                @Html.EditorFor(model => model.Nombre)
+                @Html.ValidationMessageFor(model => model.Nombre)
+            </div>
+        </div>
+
+        <div>
+            @Html.Hidden("eventoId", eventoId)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.AreaCientifica)
+            <div>
+                @Html.EditorFor(model => model.AreaCientifica)
+                @Html.ValidationMessageFor(model => model.AreaCientifica)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Fecha)
+            <div>
+                @Html.EditorFor(model => model.Fecha)
+                @Html.ValidationMessageFor(model => model.Fecha)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Descripcion)
+            <div >
+                @Html.EditorFor(model => model.Descripcion)
+                @Html.ValidationMessageFor(model => model.Descripcion)
+            </div>
+        </div>
+
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Archivo</span>
+                <input name="Archivo" type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input name="path" class="file-path validate" type="text" placeholder="Elige un archivo">
+            </div>
+        </div>
+        <br />
+        <div>
+            <div>
+                <button type="submit" class="btn waves-effect waves-ligt">Enviar</button>
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

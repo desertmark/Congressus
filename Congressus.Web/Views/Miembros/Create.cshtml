@@ -1,0 +1,86 @@
+﻿@using Congressus.Web.Models.Entities
+@model Congressus.Web.Models.CrearMiembroViewModel
+
+@{
+    ViewBag.Title = "Crear";
+    SelectList eventos = ViewBag.Eventos;
+}
+
+<h2>Crear</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div>
+        <h4>Miembro Comite</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "" })
+        
+        <div>
+            @Html.Label("Evento")
+            <div>
+                @Html.DropDownList("EventoId", eventos, new { @class = "browser-default" })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "" })
+            <div>
+                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.AreaCientifica, htmlAttributes: new { @class = "" })
+            <div>
+                @Html.EditorFor(model => model.AreaCientifica, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.AreaCientifica, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })
+            <div>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "" })
+            <div>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Confirm, htmlAttributes: new { @class = "" })
+            <div>
+                @Html.EditorFor(model => model.Confirm, new { htmlAttributes = new { @class = "" } })
+                @Html.ValidationMessageFor(model => model.Confirm, "", new { @class = "" })
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <button type="submit" class="btn waves-effect waves-light black" >Crear <i class="material-icons right">send</i></button>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="javascript:history.back()">Volver</a>
+</div>

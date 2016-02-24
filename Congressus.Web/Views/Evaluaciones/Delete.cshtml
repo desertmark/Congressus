@@ -1,0 +1,46 @@
+﻿@model Congressus.Web.Models.Entities.Evaluacion
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Esta seguro que desea eliminar esta evaluacion?</h3>
+<div>
+    <h4>Evaluacion</h4>
+    <hr />
+    <br />
+    <table class="striped detailsTable">
+        <tr>
+            <th>Paper:</th>
+            <td>
+                <span>@Model.Paper.Nombre</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Calificacion:</th>
+            <td>
+                <span>@Model.Calificacion</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Comentario:</th>
+            <td>
+                <span>@Model.Comentario</span>
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" />
+        </div>
+        <br />
+        <a href="@Url.Action("Details","Papers", new { Id = Model.Paper.Id })">Volver</a>
+    }
+</div>
