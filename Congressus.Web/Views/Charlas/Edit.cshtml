@@ -1,0 +1,161 @@
+﻿@model Congressus.Web.Models.CharlaViewModel
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>Editar Charla/Taller</h2>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+@using (Html.BeginForm("Edit","Charlas",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.EventoId)
+
+    <div class="input-field">
+        @Html.LabelFor(model => model.Titulo)
+        @Html.TextBoxFor(model => model.Titulo)
+    </div>
+    <div class="input-field">
+        @Html.LabelFor(model => model.Descripcion)
+        @Html.TextAreaFor(model => model.Descripcion)
+        @Html.ValidationMessageFor(model => model.Descripcion)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Fecha)
+        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "input-field", name = "FechaHora", id = "FechaHora" } })
+        @Html.ValidationMessageFor(model => model.Fecha)
+    </div>
+    <p>
+        <input type="checkbox" id="TipoTaller" />
+        <label for="TipoTaller">Es una charla tipo taller con cupo limitado?</label>
+    </p>
+
+    <div class="">
+        @Html.LabelFor(model => model.Cupo)
+        <input type="number" min="0" disabled class="input-field" name="Cupo" id="Cupo" value="0" />
+        @Html.ValidationMessageFor(model => model.Cupo)
+    </div>
+    <div class="input-field">
+        @Html.LabelFor(model => model.Lugar)
+        @Html.TextBoxFor(model => model.Lugar)
+        @Html.ValidationMessageFor(model => model.Lugar)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Papers)
+        @Html.DropDownList("PaperId", Model.Papers, new { @class = "browser-default input-field" })
+        @Html.ValidationMessageFor(model => model.PaperId)
+    </div>
+
+    <div>
+        <button type="submit" class="btn waves-effect waves-light">Guardar</button>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $('document').ready(function () {
+            var checkbox = $("#TipoTaller");
+            checkbox.change(function () {
+                if (checkbox.is(":checked")) {
+                    $("#Cupo").prop("disabled", "");
+                } else {
+                    $("#Cupo").prop("disabled", "false");
+                    $("#Cupo").val(0);
+                }
+            });
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+@*@model Congressus.Web.Models.Entities.Charla
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Charla</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tipo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cupo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Cupo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cupo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaHora, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaHora, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FechaHora, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Lugar, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lugar, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

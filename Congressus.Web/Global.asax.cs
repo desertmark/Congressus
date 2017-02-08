@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Globalization;
 using System.Threading;
+using Congressus.Web.Context;
 
 namespace Congressus.Web
 {

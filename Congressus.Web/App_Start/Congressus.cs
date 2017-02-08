@@ -1,4 +1,5 @@
-﻿using Congressus.Web.Models;
+﻿using Congressus.Web.Context;
+using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -26,6 +27,11 @@ namespace Congressus.Web.App_Start
             {
                 var AutorRole = new ApplicationRole("autor");
                 RoleManager.Create(AutorRole);
+            }
+            if (!context.Roles.Any(r => r.Name == "asistente"))
+            {
+                var asistenteRole = new ApplicationRole("asistente");
+                RoleManager.Create(asistenteRole);
             }
             if (!context.Roles.Any(r => r.Name == "MiembroComite"))
             {

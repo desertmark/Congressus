@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Congressus.Web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using Congressus.Web.Context;
+
 namespace Congressus.Web.Controllers
 {
     [Authorize(Roles="admin")]
@@ -16,13 +18,14 @@ namespace Congressus.Web.Controllers
     {
         public UserManager<ApplicationUser> UserManager { get; set; }
         public RoleManager<ApplicationRole> RoleManager { get; set; }
-
+        private ApplicationDbContext _db;
         public UsersController()
         {
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            _db = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(_db);
             UserManager = new ApplicationUserManager(store);
 
-            var roleStore = new RoleStore<ApplicationRole>(new ApplicationDbContext());
+            var roleStore = new RoleStore<ApplicationRole>(_db);
             RoleManager = new RoleManager<ApplicationRole>(roleStore);  
         }
         
@@ -57,6 +60,9 @@ namespace Congressus.Web.Controllers
                     }else if (UserManager.IsInRole(user.Id, "admin"))
                     {
                         uvm.ProfileType = "admin";
+                    }else if(UserManager.IsInRole(user.Id,"asistente"))
+                    {
+                        uvm.ProfileType = "asistente";
                     }
                     usersVm.Add(uvm);
                 }
@@ -158,6 +164,13 @@ namespace Congressus.Web.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             ApplicationUser applicationUser = UserManager.FindById(id);
+            var Autor = _db.Autores.FirstOrDefault(x => x.UsuarioId == id);
+            var Miembro = _db.Miembros.FirstOrDefault(x => x.UsuarioId == id);
+            var Asistente = _db.Asistentes.FirstOrDefault(x => x.UsuarioId == id);
+            if (Autor != null) { _db.Autores.Remove(Autor); }
+            if (Miembro != null) { _db.Miembros.Remove(Miembro); }
+            if (Asistente != null) { _db.Asistentes.Remove(Asistente); }
+            _db.SaveChanges();
             UserManager.Delete(applicationUser);
             //db.ApplicationUsers.Remove(applicationUser);
             //db.SaveChanges();

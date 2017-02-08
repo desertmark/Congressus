@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Congressus.Web.Models;
+using Congressus.Web.Context;
 
 namespace Congressus.Web
 {

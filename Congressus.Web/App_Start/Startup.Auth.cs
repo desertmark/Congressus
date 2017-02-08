@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Congressus.Web.Models;
+using Congressus.Web.Context;
 
 namespace Congressus.Web
 {

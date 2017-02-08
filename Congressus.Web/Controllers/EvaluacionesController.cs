@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {

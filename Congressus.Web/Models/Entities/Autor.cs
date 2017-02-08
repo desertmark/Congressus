@@ -13,5 +13,12 @@ namespace Congressus.Web.Models.Entities
         public virtual string UsuarioId { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
         public virtual ICollection<Paper> Papers { get; set; }
+        public virtual ICollection<Charla> Charlas { get; set; }
+
+
+        public override string ToString()
+        {
+            return Nombre + " " + Apellido;
+        }
     }
 }

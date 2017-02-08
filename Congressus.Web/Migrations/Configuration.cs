@@ -10,7 +10,7 @@ namespace Congressus.Web.Migrations
     using System.Linq;
     using System.Collections.Generic;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Congressus.Web.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Context.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -18,7 +18,7 @@ namespace Congressus.Web.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(Congressus.Web.Models.ApplicationDbContext context)
+        protected override void Seed(Context.ApplicationDbContext context)
         {
             //Creacion de los Roles
             var roleStore = new RoleStore<ApplicationRole>(context);

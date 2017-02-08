@@ -6,10 +6,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>@ViewBag.Title - Congressus</title>
-        
+        @Styles.Render("~/Content/site.css")
         @Styles.Render("~/Content/datetimepicker.min.css")
         @Styles.Render("~/Content/materialize.css")
-        @Styles.Render("~/Content/site.css")
+
 
     </head>
 <body>
@@ -20,8 +20,8 @@
             </a>
             <div class="centrar navBtn">
                 <ul id="nav-mobile" class="hide-on-med-and-down">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Eventos", "Index", "Eventos")</li>
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>                    
+                    <li>@Html.ActionLink("Eventos", "BuscarEvento", "Eventos")</li>
                     <li>@Html.ActionLink("Sobre nosotors", "About", "Home")</li>
                 </ul>
             </div>
@@ -37,11 +37,18 @@
             </div>
             <ul class="sideMenuUl">
 
-                <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i>Mis Eventos</a></li>
-                <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i>Mis Papers</a></li>
+                
+                @if (!User.IsInRole("asistente"))
+                {
+                    <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i>Mis Eventos</a></li>
+                    <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i>Mis Papers</a></li>
+                }
                 @if (User.IsInRole("autor"))
                 {
                     <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
+                }
+                @if (User.IsInRole("autor") || User.IsInRole("asistente"))
+                {
                     <li><a href=@Url.Action("BuscarEvento", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">search</i>Buscar</a></li>
                 }
                 @if (User.IsInRole("presidente") || User.IsInRole("admin"))
@@ -51,6 +58,10 @@
                 @if (User.IsInRole("presidente") || User.IsInRole("MiembroComite"))
                 {
                     <li><a href=@Url.Action("Details", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
+                }
+                @if (User.IsInRole("asistente"))
+                {
+                    <li><a href=@Url.Action("Details", "Asistentes") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
                 }
                 @if (User.IsInRole("admin"))
                 {

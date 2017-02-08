@@ -32,42 +32,5 @@ namespace Congressus.Web.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public DbSet<Paper> Papers { get; set; }
-        public DbSet<Revision> Revisiones { get; set; }
-        public DbSet<Autor> Autores { get; set; }
-        public DbSet<MiembroComite> Miembros { get; set; }
-        public DbSet<Evento> Eventos { get; set; }
-        public DbSet<ApplicationRole> IdentityRoles { get; set; }
-
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-            
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-
-            modelBuilder.Entity<Evento>()
-                        .HasMany<MiembroComite>(e => e.Comite)
-                        .WithMany(m => m.Eventos)
-                        .Map(em =>
-                        {
-                            em.MapLeftKey("EventoId");
-                            em.MapRightKey("MiembroId");
-                            em.ToTable("MiembroComiteEventos");
-                        });
-            base.OnModelCreating(modelBuilder);
-
-        }
-
-        public System.Data.Entity.DbSet<Congressus.Web.Models.Entities.Evaluacion> Evaluacions { get; set; }
-    }
+    
 }

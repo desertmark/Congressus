@@ -1,0 +1,72 @@
+﻿@model Congressus.Web.Models.Entities.Certificado
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Certificado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LogoPath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LogoPath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoCuerpo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoCuerpo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma3)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,63 @@
+﻿@model Congressus.Web.Models.Entities.Charla
+
+@{
+    ViewBag.Title = "Eliminar charla";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Esta seguro que quiere eliminar esto?</h3>
+<div>
+    <h4>@Model.Tipo - @Model.Titulo</h4>
+    <hr />
+    <table class="striped detailsTable">
+        <tr>
+            <th class="black-text text-accent-4">Evento</th>
+            <td>@Model.Evento.Nombre</td>
+        </tr>
+
+        <tr>
+            <th class="black-text text-accent-4">Fecha y Horario</th>
+            <td>@Model.FechaHora</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Descripcion</th>
+            <td>@Model.Descripcion</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Orador</th>
+            <td>@Model.Orador.ToString()</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Lugar</th>
+            <td>@Model.Lugar</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Cantidad de inscriptos</th>
+            <td>@Model.Inscriptos.Count</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Cupo</th>
+            <td>
+                @if (Model.Cupo == 0)
+                {
+                    <span>Sin cupo</span>
+                }
+                else
+                {
+                    <span>@Model.Cupo</span>
+                }
+            </td>
+        </tr>
+    </table>
+        
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver", "Index")
+        </div>
+    }
+</div>

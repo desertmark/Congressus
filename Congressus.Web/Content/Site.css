@@ -148,9 +148,10 @@ body{
 /*Administrar*/
 .deleteFormDiv {
     max-width: 50px;
-
 }
-
+.certTd{
+    width:100px
+}
 /*MIEMBROS*/
 /*Details*/
  .detailsTable {

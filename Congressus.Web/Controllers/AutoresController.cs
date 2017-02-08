@@ -10,6 +10,7 @@ using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {

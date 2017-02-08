@@ -12,6 +12,7 @@ using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {

@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Congressus.Web.Models;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {
@@ -85,9 +86,14 @@ namespace Congressus.Web.Controllers
                 case SignInStatus.Success:
                     if(returnUrl==null)
                     {
-                        if(User.IsInRole("autor"))
+                        var userId = UserManager.FindByEmail(model.Email).Id;
+                        if(UserManager.IsInRole(userId, "autor"))
                         {
                             return RedirectToAction("Index", "Papers");
+                        }
+                        if(UserManager.IsInRole(userId, "asistente"))
+                        {
+                            return RedirectToAction("Details", "asistentes");
                         }
                         return RedirectToAction("Index", "Eventos");
                     }
@@ -199,10 +205,49 @@ namespace Congressus.Web.Controllers
         //
         // GET: /Account/RegisterAutor
         [AllowAnonymous]
+        public ActionResult RegisterAsistente()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAsistente(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = UserManager.Create(user, model.Password);
+                if (result.Succeeded)
+                {
+
+                    user = UserManager.FindByEmail(user.Email);
+                    UserManager.AddToRole(user.Id, "asistente");
+                    //creacion del asistente
+                    var asistente = new Asistente() { UsuarioId = user.Id };
+                    var db = new ApplicationDbContext();
+                    db.Asistentes.Add(asistente);
+                    db.SaveChanges();
+                    //Login
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("Details", "Asistentes");
+                }
+                AddErrors(result);
+            }
+
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(model);
+        }
+
+        //
+        // GET: /Account/RegisterAutor
+        [AllowAnonymous]
         public ActionResult RegisterAutor()
         {
             return View("RegisterAutor");
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

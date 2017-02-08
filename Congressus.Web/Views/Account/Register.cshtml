@@ -9,6 +9,7 @@
 {
     @Html.AntiForgeryToken()
     <h5>@Html.ActionLink("Eres un Autor?","RegisterAutor", "Account")</h5>
+    <h5>@Html.ActionLink("Solo quieres asistir de una conferencia?", "RegisterAsistente", "Account")</h5>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

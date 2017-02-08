@@ -11,87 +11,57 @@ using Congressus.Web.Models.Entities;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
+using Microsoft.Reporting.WebForms;
+using Congressus.Web.Context;
+using Congressus.Web.Repositories;
 
 namespace Congressus.Web.Controllers
 {
     //[Authorize(Roles ="presidente, admin")]    
     public class EventosController : Controller
     {
-        private readonly ApplicationDbContext db = new ApplicationDbContext();
+        //private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private readonly EventosRepository _repo = new EventosRepository();
 
-        [Authorize(Roles = "autor, admin")]
+        [Authorize(Roles = "asistente, autor, admin")]
         public ActionResult BuscarEvento()
         {
-            return View(db.Eventos);
+            return View(_repo.GetAll());
         }
 
-        [Authorize(Roles = "autor, admin")]
+        [Authorize(Roles = "autor, admin, asistente")]
         [HttpPost]
         public ActionResult BuscarEvento(string patron)
         {
             if (patron.IsNullOrWhiteSpace()) {
-                return View(db.Eventos);
-            }
-            var eventos = db.Eventos.Where(e => e.Nombre.Contains(patron) || 
-                                           e.Lugar.Contains(patron) || 
-                                           e.Direccion.Contains(patron) || 
-                                           e.Tema.Contains(patron));
-
-            return View(eventos);
+                return View(_repo.GetAll());
+            }            
+            return View(_repo.FindByPattern(patron).ToList());
         }
 
         [Authorize(Roles = "presidente, admin")] 
         //GET: Eventos/Administrar/5
         public ActionResult Administrar(int id)
         {
-            var model = db.Eventos.Find(id);
+            var model = _repo.FindById(id);
 
-            //Todos los miembros de los eventos del usuario con userId
-            var userId = User.Identity.GetUserId();
-            var eventos = db.Miembros.Single(m => m.UsuarioId == userId).Eventos;
-            var miembros = new List<MiembroComite>();
-            foreach (var e in eventos)
-            {
-                miembros = miembros.Concat(e.Comite.ToList()).ToList();
-            }
-            ViewBag.miembros = miembros.Distinct();
+            //Todos los miembros de los eventos del usuario del presidente.
+            var userId = model.Presidente.UsuarioId;
+            ViewBag.miembros = _repo.MiembrosDeTodosLosEventos(userId);
             model.Comite.Remove(model.Presidente);               
             return View(model);
         }
-        public ActionResult AgregarMiembro()
+        public ActionResult AgregarMiembro(int miembroId, int eventoId)
         {
-            var miembroId = Convert.ToInt16((Request.Form["miembroId"]));
-            var eventoId = Convert.ToInt16(Request.Form["eventoId"]);
-
-            var miembro = db.Miembros.Find(miembroId);
-            var evento = db.Eventos.Find(eventoId);
-            if (miembro.Eventos == null)
-            {
-                miembro.Eventos = new List<Evento>() {evento};
-            }
-            else
-            {
-                miembro.Eventos.Add(evento);
-            }
-            evento.Comite.Add(miembro);
-
-            db.SaveChanges();
+            _repo.AgregarMiembroComite(miembroId, eventoId);
             return RedirectToAction("Administrar/" + eventoId);
         }
 
 
-        public ActionResult RetirarMiembro()
+        public ActionResult RetirarMiembro(int miembroId, int eventoId)
         {
-            var miembroId = Convert.ToInt16((Request.Form["miembroId"]));
-            var eventoId = Convert.ToInt16(Request.Form["eventoId"]);
-
-            var miembro = db.Miembros.Find(miembroId);
-            var evento = db.Eventos.Find(eventoId);
-
-            miembro.Eventos.Remove(evento);
-            evento.Comite.Remove(miembro);
-
-            db.SaveChanges();
+            _repo.RetirarMiembroComite(miembroId, eventoId);
             return RedirectToAction("Administrar/" + eventoId);
         }
 
@@ -104,39 +74,25 @@ namespace Congressus.Web.Controllers
             if (User.IsInRole("MiembroComite") || User.IsInRole("presidente"))
             {
                 var userId = User.Identity.GetUserId();
-                var miembro = db.Miembros.Single(m => m.UsuarioId == userId);
-                var model = miembro.Eventos;
+                var model = _repo.FindByMiembroUserId(userId);
                 return View(model);
             }
             if(User.IsInRole("autor"))
             {
                 var userId = User.Identity.GetUserId();//buscar id usuario
-                var autor = db.Autores.Single(a => a.UsuarioId == userId); // buscar autor para ese Id de usuario 
-                var eventos = autor.Papers.Select(p => p.Evento).Distinct(); // buscar en la lista de papers de ese autor todos los eventos en que participa habiendo enviado un paper
-
+                var eventos = _repo.FindByAutorUserId(userId);
                 return View(eventos.ToList());
             }
-            return View(db.Eventos.ToList());
+            return View(_repo.GetAll());
         }
 
         // GET: Eventos/Details/5
-        [Authorize(Roles = "presidente, admin, MiembroComite, autor")] 
-        public ActionResult Details(int? id)
+        [Authorize] 
+        public ActionResult Details(int id)
         {            
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var evento = db.Eventos.Find(id);
+            var evento = _repo.FindById(id);
             if (evento == null)
-            {
                 return HttpNotFound();
-            }
-            //var userId = User.Identity.GetUserId();
-            //if(evento.Comite.All(m => m.UsuarioId != userId))
-            //{
-            //    return new HttpUnauthorizedResult();
-            //}
 
             return View(evento);
         }
@@ -159,18 +115,15 @@ namespace Congressus.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(!User.IsInRole("admin"))
+                var userId = User.Identity.GetUserId();
+                if (!User.IsInRole("admin"))
                 { 
-                    var userId = User.Identity.GetUserId();
-                    evento.Presidente = db.Miembros.Single(p => p.Usuario.Id == userId);
-                    evento.Presidente.Eventos.Add(evento);
+                    _repo.CrearEventoByOrganizador(evento, userId);
                 }
                 else
                 {
-                    evento.Presidente = new MiembroComite();
-                    db.Eventos.Add(evento);
+                    _repo.CrearEventoByAdmin(evento, userId);
                 }
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -179,17 +132,12 @@ namespace Congressus.Web.Controllers
 
         // GET: Eventos/Edit/5
         [Authorize(Roles = "presidente, admin")] 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Evento evento = db.Eventos.Find(id);
+            Evento evento = _repo.FindById(id);
             if (evento == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(evento);
         }
 
@@ -203,8 +151,7 @@ namespace Congressus.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(evento).State = EntityState.Modified;
-                db.SaveChanges();
+                _repo.Edit(evento);
                 return RedirectToAction("Index");
             }
             return View(evento);
@@ -212,17 +159,12 @@ namespace Congressus.Web.Controllers
 
         // GET: Eventos/Delete/5
         [Authorize(Roles = "presidente, admin")] 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Evento evento = db.Eventos.Find(id);
+            Evento evento = _repo.FindById(id);
             if (evento == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(evento);
         }
 
@@ -232,24 +174,110 @@ namespace Congressus.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Evento evento = db.Eventos.Find(id);
-
-            evento.Papers.ToList().ForEach(p => p.DeletePaper(db));
-            db.Papers.RemoveRange(evento.Papers);
-
-            evento.Comite.Clear();
-            db.Eventos.Remove(evento);
-            db.SaveChanges();
+            _repo.EliminarEvento(id);
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+        [Authorize(Roles ="presidente, admin")]
+        public ActionResult UploadCertificadoAsistentes(int eventoId, HttpPostedFileBase certificado)
+        {            
+            var extension = certificado.FileName.Split('.').Last();
+            if((extension == "rdl") || (extension == "rdlc"))
             {
-                db.Dispose();
+                var path = GetCertificadosPath("CertificadoAsistencia.rdl");
+                _repo.GuardarCertificadoAsistentes(eventoId, path, certificado);
             }
-            base.Dispose(disposing);
+            return RedirectToAction("Administrar",new { Id = 1 });
         }
+
+        [Authorize(Roles ="asistente")]
+        public ActionResult VerCertificadoAsistente(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (string.IsNullOrEmpty(evento.CertificadoAsistentesPath))
+            {
+                return HttpNotFound();
+            }
+
+            try { 
+                var renderedBytes = _repo.RenderizarCertificado(evento);
+                return File(renderedBytes, "application/pdf");
+            }
+            catch(Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                return View("Error");
+            }
+        }
+        [Authorize(Roles ="admin, presidente")]
+        public ActionResult UploadCertificadoOradores(int eventoId, HttpPostedFileBase certificado)
+        {
+            var extension = certificado.FileName.Split('.').Last();
+            if ((extension == "rdl") || (extension == "rdlc"))
+            {
+                var path = GetCertificadosPath("CertificadoOradores.rdl");
+                _repo.GuardarCertificadoOradores(eventoId, path, certificado);
+            }
+            return RedirectToAction("Administrar", new { Id = 1 });
+        }
+        [Authorize(Roles = "autor")]
+        public ActionResult VerCertificadoOradores(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (string.IsNullOrEmpty(evento.CertificadoOradoresPath))
+            {
+                return HttpNotFound();
+            }
+            try { 
+                var renderedBytes = _repo.RenderizarCertificado(evento);
+                return File(renderedBytes, "application/pdf");
+            }catch (Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                return View("Error");
+            }
+        }
+
+        private string GetCertificadosPath(string certificadoName)
+        {
+            string path;
+            var username = User.Identity.GetUserName();
+            path = Path.Combine(Server.MapPath("/Content/Files"), username, "Certificados");
+            Directory.CreateDirectory(path);
+            path = Path.Combine(path, certificadoName);
+            return path;
+        }
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult EliminarCertificadoAsistentes(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado.";
+                return View("Error");
+            }
+            _repo.EliminarCertificadoAsistentes(evento);
+            return RedirectToAction("Administrar", new { id = id });
+        }
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult EliminarCertificadoOradores(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado.";
+                return View("Error");
+            }
+            _repo.EliminarCertificadoOradores(evento);
+            return RedirectToAction("Administrar", new { id = id });
+        }
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

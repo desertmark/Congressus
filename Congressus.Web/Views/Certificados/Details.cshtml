@@ -1,0 +1,66 @@
+﻿@model Congressus.Web.Models.Entities.Certificado
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Certificado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LogoPath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LogoPath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoCuerpo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoCuerpo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextoFirma3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextoFirma3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

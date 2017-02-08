@@ -1,25 +1,51 @@
-﻿@model Congressus.Web.Models.Entities.Evento
+﻿@using Microsoft.AspNet.Identity;
+@model Congressus.Web.Models.Entities.Evento
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var uid = User.Identity.GetUserId();
+    bool inscripto = Model.Inscripciones.Any(x => x.Asistente.UsuarioId == uid);
 }
 
 <h2>Detalles</h2>
 
 <div>
     <h4>Evento</h4>
+    @if (!inscripto)
+    {
+        <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
+    }
+    else
+    {
+        <h5>
+            Ya estas inscripto a este evento.
+            <a href="@Url.Action("EliminarInscripcionEvento","Asistentes",new { inscripcionId = Model.Inscripciones.First(x => x.Asistente.UsuarioId == uid).Id })">Eliminar inscripcion</a>
+        </h5>
+    }
     <hr />
-    
+
     <table class="striped detailsTable">
-        <tr></tr>        
+        <tr></tr>
         <tr>
             <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
             <td><span>@Model.Nombre</span></td>
         </tr>
         <tr>
-            <th class="black-text text-accent-4"><strong>Fecha:</strong></th>
-            <td><span>@Model.Fecha</span></td>
+            <th class="black-text text-accent-4"><strong>Fecha limite de presentacion de trabajos:</strong></th>
+            <td><span>@Model.FechaFinTrabajos</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Fecha limite de inscripcion:</strong></th>
+            <td><span>@Model.FechaFinInscripcion</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Fecha de inicio:</strong></th>
+            <td><span>@Model.FechaInicio</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Fecha de finalizacion:</strong></th>
+            <td><span>@Model.FechaFin</span></td>
         </tr>
         <tr>
             <th class="black-text text-accent-4"><strong>Direccion:</strong></th>
@@ -34,23 +60,26 @@
             <td><span>@Model.Tema</span></td>
         </tr>
     </table>
-    
-
 </div>
 <p>
-    @if (User.IsInRole("admin") || User.IsInRole("presidente")) { 
+    @if (User.IsInRole("admin") || User.IsInRole("presidente"))
+    {
         @Html.ActionLink("Editar", "Edit", new { id = Model.Id })        <span>|</span>
     }
     <a href="javascript:history.back()">Volver</a>
 </p>
-@{ 
+@{
     var q = String.IsNullOrEmpty(Model.Direccion) ? "Argentina" : Model.Direccion;
     var src = "https://www.google.com/maps/embed/v1/place?q=" + q + "&key=AIzaSyB5LWfPe62A2B8pU7hQNVAKDtcWiKse6c8";
 }
 <iframe src="@src"
-        width="600" 
-        height="450" 
-        frameborder="0" 
-        style="border:0" 
-        allowfullscreen>
-</iframe>
+        width="600"
+        height="450"
+        frameborder="0"
+        style="border:0"
+        allowfullscreen></iframe>
+
+<br />
+
+@Html.Partial("_CharlasPartial", Model.Charlas)
+

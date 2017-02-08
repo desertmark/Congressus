@@ -49,6 +49,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -171,7 +183,10 @@
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Context\ModelDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\AutoresController.cs" />
+    <Compile Include="Controllers\CertificadosController.cs" />
+    <Compile Include="Controllers\CharlasController.cs" />
     <Compile Include="Controllers\EvaluacionesController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -181,6 +196,13 @@
     <Compile Include="Controllers\RevisionesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Models\CharlaViewModel.cs" />
+    <Compile Include="Models\Entities\Asistente.cs" />
+    <Compile Include="Models\Entities\Charla.cs" />
+    <Compile Include="Models\Entities\InscripcionCharla.cs" />
+    <Compile Include="Models\Entities\InscripcionEvento.cs" />
+    <Compile Include="Models\InscripcionCharlaViewMode.cs" />
+    <Compile Include="Models\InscripcionEventoViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,10 +227,26 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\Certificados.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Certificados.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\AsistentesRepository.cs" />
+    <Compile Include="Repositories\CharlasRepository.cs" />
+    <Compile Include="Repositories\EventosRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\datetimepicker.min.css" />
+    <Content Include="Content\Files\logo.png" />
+    <Content Include="Content\Files\logo_utn.png" />
+    <Content Include="Content\Files\Marco.jpg" />
+    <Content Include="Content\Images\about\Eliana.jpg" />
+    <Content Include="Content\Images\about\Fernando.png" />
+    <Content Include="Content\Images\about\Javier.png" />
+    <Content Include="Content\Images\about\Maximiliano.jpg" />
     <Content Include="Content\Images\congressusLogo.png" />
     <Content Include="Content\Images\FondoParallax1.jpg" />
     <Content Include="Content\Images\FondoParallax2.jpg" />
@@ -240,8 +278,23 @@
     <None Include="Properties\PublishProfiles\desertmark.pubxml" />
     <None Include="Properties\PublishProfiles\fgasulay - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\fgasulay - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\fgasulay.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterCongressus.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterWebDeploy.pubxml" />
+    <Content Include="Reporting\Certificados.xsc">
+      <DependentUpon>Certificados.xsd</DependentUpon>
+    </Content>
+    <Content Include="Reporting\Certificado2.rdl">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Reporting\Certificados.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Certificados.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Reporting\Certificados.xss">
+      <DependentUpon>Certificados.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\congressus.png" />
     <Content Include="Images\logo.jpg" />
@@ -338,15 +391,35 @@
     <Content Include="Views\Evaluaciones\Create.cshtml" />
     <Content Include="Views\Evaluaciones\Delete.cshtml" />
     <Content Include="Views\Shared\_PaperEstadoField.cshtml" />
+    <Content Include="Views\Certificados\Create.cshtml" />
+    <Content Include="Views\Certificados\Delete.cshtml" />
+    <Content Include="Views\Certificados\Details.cshtml" />
+    <Content Include="Views\Certificados\Edit.cshtml" />
+    <Content Include="Views\Certificados\Index.cshtml" />
+    <Content Include="Views\Charlas\Create.cshtml" />
+    <Content Include="Views\Charlas\Delete.cshtml" />
+    <Content Include="Views\Charlas\Details.cshtml" />
+    <Content Include="Views\Charlas\Edit.cshtml" />
+    <Content Include="Views\Charlas\Index.cshtml" />
+    <Content Include="Views\Eventos\_CharlasPartial.cshtml" />
+    <Content Include="Views\Account\RegisterAsistente.cshtml" />
+    <Content Include="Views\Asistentes\Create.cshtml" />
+    <Content Include="Views\Asistentes\Delete.cshtml" />
+    <Content Include="Views\Asistentes\Details.cshtml" />
+    <Content Include="Views\Asistentes\Edit.cshtml" />
+    <Content Include="Views\Asistentes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Files\" />
     <Folder Include="Content\Papers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reporting\Certificado.rdlc" />
+    <EmbeddedResource Include="Reporting\_CertificadoAsistencia.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

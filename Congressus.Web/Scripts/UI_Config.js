@@ -9,22 +9,27 @@
     //    "data-tooltip": "formato: dd/mm/aaaa hh:mm:ss"
     //    });
     //$('.tooltipped').tooltip({ delay: 50 });
-
+    var campos = $('input[type="datetime"]');
     //inicializar los datetime
-    if ($('input[type="datetime"]').length > 0)
+    if (campos.length > 0)
     {
-        var value = $('input[type="datetime"]').val();
-        var widget = '<div class="well">';
-        widget += '<div class="input-append datetimepicker">';
-        widget += '<input data-format="dd/MM/yyyy hh:mm:ss" type="text" Name="Fecha" id="Fecha" value="'+value+'">';
-        widget += '<span class="add-on btn">';
-        widget += '<i class="material-icons">perm_contact_calendar</i>';
-        widget += '</span></div></div>';
-    
-        $('input[type="datetime"]').replaceWith(widget);
-        $('.datetimepicker').datetimepicker({
-            language: 'es-AR',
-        });
+        for (var i in campos) {
+
+            var value = campos[i].value;
+            var name = campos[i].name;
+
+            var widget = '<div class="well">';
+            widget += '<div class="input-append datetimepicker">';
+            widget += '<input data-format="dd/MM/yyyy hh:mm:ss" type="text" Name="' + name + '" id="' + name + '" value="' + value + '">';
+            widget += '<span class="add-on btn">';
+            widget += '<i class="material-icons">perm_contact_calendar</i>';
+            widget += '</span></div></div>';
+
+            $('input[name="'+name+'"]').replaceWith(widget);
+            $('.datetimepicker').datetimepicker({
+                language: 'es-AR',
+            });
+        }
     }
 
     //textareas

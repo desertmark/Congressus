@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Congressus.Web.Models;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {

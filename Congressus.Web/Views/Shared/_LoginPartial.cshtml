@@ -1,18 +1,43 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
+    string rol = null;
+    if (User.IsInRole("asistente"))
+    {
+        rol = "Asistentes";
+    }else if(User.IsInRole("presidente") || User.IsInRole("miembro"))
+    {
+        rol = "Miembros";
+    }else if(User.IsInRole("autor"))
+    {
+        rol = "Autores";
+    }
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
         <ul id="changePassword">
+
             <li>
-                @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @if (rol != null) { 
+                <a href="@Url.Action("Details", rol)">
+                    @User.Identity.GetUserName()
+                </a>
+                }
+                else
+                {
+                    <a>@User.Identity.GetUserName()</a>
+                }
                 <ul>
-                    <li>@Html.ActionLink("Cambiar la contraseña", "ChangePassword","Manage")</li>
+
+                    <li>@Html.ActionLink("Cambiar la contraseña", "ChangePassword", "Manage")</li>
+
                 </ul>
+
             </li>
+
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+
         </ul>
     }
 }

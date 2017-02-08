@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Congressus.Web.Models;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {

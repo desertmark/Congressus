@@ -10,16 +10,17 @@
 <div>
     <h4 class="teal-text text-darken-2">Administracion del evento: @Model.Nombre</h4>
     <hr />
-    <h5 class="teal-text text-darken-1"
-         > Presidente del comité</h5>
+    <h5 class="teal-text text-darken-1">
+        Presidente del comité
+    </h5>
     <a href="@Url.Action("Details", "Miembros", new { id = Model.Presidente.Id })">
-        <img src="../../Images/presidenteIcon.png" width="25px" /> 
+        <img src="../../Images/presidenteIcon.png" width="25px" />
         @Model.Presidente.Nombre @Model.Presidente.Apellido
     </a>
     <hr />
-    <h5 class="teal-text text-darken-1" >Miembros del comité</h5>
+    <h5 class="teal-text text-darken-1">Miembros del comité</h5>
     <ul>
-        
+
         @foreach (var miembro in Model.Comite)
         {
             <li>
@@ -29,29 +30,29 @@
                             <i class='material-icons'>perm_identity</i>
                             @miembro.Nombre @miembro.Apellido
                         </a>
-                     </div>
-                     <div class="col s1">
+                    </div>
+                    <div class="col s1">
                         @using (Html.BeginForm("RetirarMiembro", "Eventos", FormMethod.Post))
                         {
                             @Html.Hidden("miembroId", miembro.Id)
                             @Html.Hidden("eventoId", Model.Id)
                             <button type="submit" class="btn-floating red">X</button>
                         }
-                     </div>
+                    </div>
                 </div>
             </li>
         }
-    
+
     </ul>
     <!-- Modal Trigger -->
-    <button id="agregarMiembro" 
+    <button id="agregarMiembro"
             class="modal-trigger btn-floating btn-large waves-effect waves-light green tooltipped"
             data-position="top"
             data-delay="50"
-            data-tooltip="Agregar miembro" >
+            data-tooltip="Agregar miembro">
         <i class='material-icons'>add</i>
     </button>
-    
+
 </div>
 
 <!-- Modal Structure -->
@@ -59,9 +60,9 @@
     <div class="modal-content">
         <h4>Agregar Miembro Existente</h4>
         @using (@Html.BeginForm("AgregarMiembro", "Eventos", FormMethod.Post, new { name = "AgregarMiembroForm" }))
-        {   
-            @Html.Hidden("eventoId", Model.Id);     
-            @Html.DropDownList("miembroId", miembrosSelect, new {@class="browser-default"})            
+        {
+            @Html.Hidden("eventoId", Model.Id);
+            @Html.DropDownList("miembroId", miembrosSelect, new { @class = "browser-default" })
         }
     </div>
     <div class="modal-footer">
@@ -86,7 +87,7 @@
             <th>Estado</th>
         </tr>
         @foreach (var paper in papers)
-        {            
+        {
             <tr class="hoverableTr tooltipped"
                 onClick="window.location = '/Papers/Details/'+@paper.Id"
                 data-position="left"
@@ -108,9 +109,86 @@
                 <td>@paper.Descripcion</td>
                 <td>@paper.Autor.Nombre</td>
                 <td>@paper.Evento.Nombre</td>
-                <td>@Html.Partial("_PaperEstadoField",paper)</td>
+                <td>@Html.Partial("_PaperEstadoField", paper)</td>
             </tr>
         }
     </table>
 
+    <hr />
+    <h5 class="teal-text text-darken-1">Certificado para asistentes</h5>
+
+    @if (string.IsNullOrEmpty(Model.CertificadoAsistentesPath))
+    {
+        using (Html.BeginForm("UploadCertificadoAsistentes", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("eventoId", Model.Id)
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Abrir</span>
+                    <input name="certificado" type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input name="path" class="file-path validate" type="text" placeholder="Certificado para asistentes">
+                </div>
+            </div>
+            <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col s3"><span>Certificado para oradores</span></div>
+            <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoAsistente", new { id = Model.Id })</div>
+            <div class="col s1">
+                <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoAsistentes",new { id = Model.Id })">
+                    <i class='material-icons'>delete</i>
+                </a>
+            </div>
+        </div>
+    }
+    <br />
+    <hr />
+    <h5 class="teal-text text-darken-1">Certificado para asistentes</h5>
+
+    @if (string.IsNullOrEmpty(Model.CertificadoOradoresPath))
+    {
+        using (Html.BeginForm("UploadCertificadoOradores", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Hidden("eventoId", Model.Id)
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Abrir</span>
+                    <input name="certificado" type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input name="path" class="file-path validate" type="text" placeholder="Certificado para oradores">
+                </div>
+            </div>
+            <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col s3"><span>Certificado para oradores</span></div>
+            <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoOradores", new { id = Model.Id })</div>
+            <div class="col s1">
+                <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoOradores",new { id = Model.Id })">
+                    <i class='material-icons'>delete</i>
+                </a>
+            </div>
+        </div>
+    }
+
+</div>
+<br />
+<div>
+    @Html.Partial("_CharlasPartial", Model.Charlas)
+    <br />
+    <a href="@Url.Action("Create", "Charlas",new { eventoId = Model.Id })" class="modal-trigger btn-floating btn-large waves-effect waves-light green tooltipped"
+       data-position="top"
+       data-delay="50"
+       data-tooltip="Agregar charla">
+        <i class='material-icons'>add</i>
+    </a>
 </div>

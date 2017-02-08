@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNet.Identity;
+@model Congressus.Web.Models.Entities.Charla
+
+@{
+    ViewBag.Title = "Detalle - Charla";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>@Model.Tipo - @Model.Titulo</h4>
+    <hr />
+    <table class="striped detailsTable">
+        <tr>
+            <th class="black-text text-accent-4">Evento</th>
+            <td><a href="@Url.Action("Details","Eventos",new { id = Model.Evento.Id})">@Model.Evento.Nombre</a></td>
+        </tr>
+
+        <tr>
+            <th class="black-text text-accent-4">Fecha y Horario</th>
+            <td>@Model.FechaHora</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Descripcion</th>
+            <td>@Model.Descripcion</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Orador</th>
+            <td>@Model.Orador.ToString()</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Lugar</th>
+            <td>@Model.Lugar</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Cantidad de inscriptos</th>
+            <td>@Model.Inscripciones.Count</td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4">Cupo</th>
+            <td>
+                @if (Model.Cupo == 0)
+                {
+                    <span>Sin cupo</span>
+                }
+                else
+                {
+                    <span>@Model.Cupo</span>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+<p>
+    @{
+        bool InscriptoACharla = Model.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
+        bool InscriptoAEvento = Model.Evento.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
+    }
+    @Html.ActionLink("Volver", "Index") |
+    @if (User.Identity.GetUserId() == Model.Evento.Presidente.UsuarioId)
+    {
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id })
+        <span>|</span> @Html.ActionLink("Eliminar", "Delete", new { id = Model.Id })
+    }
+    @if (User.IsInRole("asistente"))
+    {
+        if (InscriptoACharla)
+        {
+            <span class="green-text">Ya estas inscripto a esta charla. </span><a href="@Url.Action("EliminarInscripcionCharla","Asistentes",new { inscripcionId = Model.Inscripciones.First(x=>x.Asistente.UsuarioId == User.Identity.GetUserId()).Id})">Eliminar Inscripcion.</a>
+        }
+        else if (!InscriptoAEvento)
+        {
+            <span class="red-text">Para inscribirte a esta charla debes inscribirte al evento primero.</span>
+        }
+        else
+        {
+            @Html.ActionLink("Inscribirme", "InscribirCharla", "Asistentes", new { CharlaId = Model.Id }, null)
+        }
+    }
+
+</p>

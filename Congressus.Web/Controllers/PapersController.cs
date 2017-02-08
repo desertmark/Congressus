@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity;
+using Congressus.Web.Context;
 
 namespace Congressus.Web.Controllers
 {
@@ -68,6 +69,15 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "admin, autor")]
         public ActionResult Create(int eventoId)
         {
+            var evento = db.Eventos.FirstOrDefault(x => x.Id == eventoId);
+            if (evento == null) {
+                return HttpNotFound();
+            }
+            else if(evento.FechaFinTrabajos.Date<DateTime.Today)
+            {
+                ViewBag.Mensaje = "Ya ha finalizado la fecha de presentacion de trabajos para este evento.";
+                return View("Error");
+            }
             ViewBag.EventoId = eventoId;
             return View();
         }
@@ -102,7 +112,7 @@ namespace Congressus.Web.Controllers
                 db.SaveChanges();
                 //Se guarda para y carga de nuevo el mismo paper para poder tener el valor del id.
                 paper = db.Papers.Single(p => p.Nombre == paper.Nombre && p.Fecha == paper.Fecha && p.Autor.Id == paper.Autor.Id);
-                paper.GuardarArchivo(paperVm.Archivo);
+                if(paperVm.Archivo!=null) paper.GuardarArchivo(paperVm.Archivo);
                 //Se modifica la variable path al guardar el archivo.
                 db.Entry(paper).State = EntityState.Modified;
                 db.SaveChanges();
