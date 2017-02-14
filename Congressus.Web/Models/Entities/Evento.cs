@@ -23,6 +23,7 @@ namespace Congressus.Web.Models.Entities
         public string Lugar { get; set; }
         public string Tema { get; set; }        
         public string Direccion { get; set; }
+        public bool HabilitarDescargaCertificados { get; set; }
         public virtual MiembroComite Presidente { get; set; }
         public virtual ICollection<Paper> Papers{ get; set; }        
         public virtual ICollection<MiembroComite> Comite { get; set; }
@@ -30,5 +31,6 @@ namespace Congressus.Web.Models.Entities
         public virtual ICollection<InscripcionEvento> Inscripciones { get; set; }
         public string CertificadoAsistentesPath { get; set; }
         public string CertificadoOradoresPath { get; set; }
+        
     }
 }

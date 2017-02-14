@@ -9,6 +9,21 @@
 
 <div>
     <h4>@Model.Tipo - @Model.Titulo</h4>
+    @if (User.Identity.GetUserId() == Model.Orador.UsuarioId)
+    {
+        if (Model.Evento.HabilitarDescargaCertificados)
+        {
+            <h5>
+                <a href="@Url.Action("GenerarCertificadoOradores", "Eventos", new { id = Model.Evento.Id, charlaId = Model.Id })">
+                    Descargar certificado de orador
+                </a>
+            </h5>
+        }
+        else
+        {
+            <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
+        }
+    }
     <hr />
     <table class="striped detailsTable">
         <tr>
@@ -56,7 +71,7 @@
         bool InscriptoACharla = Model.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
         bool InscriptoAEvento = Model.Evento.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
     }
-    @Html.ActionLink("Volver", "Index") |
+    @Html.ActionLink("Volver", "Index") 
     @if (User.Identity.GetUserId() == Model.Evento.Presidente.UsuarioId)
     {
         @Html.ActionLink("Editar", "Edit", new { id = Model.Id })

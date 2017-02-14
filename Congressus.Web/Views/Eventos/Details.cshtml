@@ -12,16 +12,28 @@
 
 <div>
     <h4>Evento</h4>
-    @if (!inscripto)
+
+    @if (User.IsInRole("asistente"))
     {
-        <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
-    }
-    else
-    {
-        <h5>
-            Ya estas inscripto a este evento.
-            <a href="@Url.Action("EliminarInscripcionEvento","Asistentes",new { inscripcionId = Model.Inscripciones.First(x => x.Asistente.UsuarioId == uid).Id })">Eliminar inscripcion</a>
-        </h5>
+        if (!inscripto)
+        {
+            <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
+        }
+        else
+        {
+            <h5>
+                <span class="green-text">Ya estas inscripto a este evento.</span>                
+            </h5>            
+            if (Model.HabilitarDescargaCertificados)
+            {
+                <h5><a href="@Url.Action("GenerarCertificadoAsistente", "Eventos", new { id = Model.Id })">Descargar certificado de asistentcia</a></h5>
+            }
+            else
+            {
+                <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
+            }
+            <a href="@Url.Action("EliminarInscripcionEvento", "Asistentes", new { inscripcionId = Model.Inscripciones.First(x => x.Asistente.UsuarioId == uid).Id })">Eliminar inscripcion</a>
+        }
     }
     <hr />
 
@@ -59,17 +71,23 @@
             <th class="black-text text-accent-4"><strong>Tema:</strong></th>
             <td><span>@Model.Tema</span></td>
         </tr>
+        @{var estadoCertificados = Model.HabilitarDescargaCertificados ? "Habilitados" : "Deshabilitados";}
+        <tr>
+            <th class="black-text text-accent-4"><strong>Certificados:</strong></th>
+            <td><span>@estadoCertificados</span></td>
+        </tr>
     </table>
 </div>
 <p>
     @if (User.IsInRole("admin") || User.IsInRole("presidente"))
     {
+        @Html.ActionLink("Administrar", "Administrar", new { id = Model.Id }) <span>|</span>
         @Html.ActionLink("Editar", "Edit", new { id = Model.Id })        <span>|</span>
     }
     <a href="javascript:history.back()">Volver</a>
 </p>
 @{
-    var q = String.IsNullOrEmpty(Model.Direccion) ? "Argentina" : Model.Direccion;
+    var q = string.IsNullOrEmpty(Model.Direccion) ? "Argentina" : Model.Direccion;
     var src = "https://www.google.com/maps/embed/v1/place?q=" + q + "&key=AIzaSyB5LWfPe62A2B8pU7hQNVAKDtcWiKse6c8";
 }
 <iframe src="@src"

@@ -55,25 +55,28 @@
                     bool hayCupo = charla.Cupo > charla.Inscripciones.Count;
                     bool charlaSinCupo = charla.Cupo == 0;
                 }
-                @if (User.IsInRole("asistente") && (hayCupo || charlaSinCupo) && inscriptoEvento && !inscriptoCharla)
+                @if (User.IsInRole("asistente"))
                 {
-                    <span>|</span> <a href="@Url.Action("InscribirCharla","Asistentes", new { CharlaId = charla.Id })">Inscribirme</a>
-                }
+                    if ((hayCupo || charlaSinCupo) && inscriptoEvento && !inscriptoCharla)
+                    {
+                        <span>|</span> <a href="@Url.Action("InscribirCharla","Asistentes", new { CharlaId = charla.Id })">Inscribirme</a>
+                    }
 
-                else if (!charlaSinCupo && !hayCupo)
-                {
-                    <span class="red-text">No hay mas cupo para esta charla</span>
+                    else if (!charlaSinCupo && !hayCupo)
+                    {
+                        <span class="red-text">No hay mas cupo para esta charla</span>
+                    }
+                    else if (inscriptoCharla)
+                    {
+                        <a href="@Url.Action("EliminarInscripcionCharla","Asistentes", new { inscripcionId = charla.Inscripciones.First(x =>x.Asistente.UsuarioId == User.Identity.GetUserId()).Id})">| Eliminar inscripcion</a>
+                    }
+                    else if (!inscriptoEvento)
+                    {
+                        <span class="red-text">Antes de inscribirte a esta charla debes inscribirte al evento.</span>
+                    }
                 }
-                else if (inscriptoCharla)
-                {
-                    <a href="@Url.Action("EliminarInscripcionCharla","Asistentes", new { inscripcionId = charla.Inscripciones.First(x =>x.Asistente.UsuarioId == User.Identity.GetUserId()).Id})">| Eliminar inscripcion</a>
-                }
-                else if (!inscriptoEvento)
-                {
-                    <span class="red-text">Antes de inscribirte a esta charla debes inscribirte al evento.</span>
-                }
-
             </td>
+
         </tr>
-    }
+                    }
 </table>

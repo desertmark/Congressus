@@ -1,4 +1,5 @@
-﻿@model Congressus.Web.Models.Entities.Evento
+﻿@using Microsoft.AspNet.Identity; 
+@model Congressus.Web.Models.Entities.Evento
 
 @{
     ViewBag.Title = "Administrar";
@@ -8,7 +9,18 @@
 }
 
 <div>
-    <h4 class="teal-text text-darken-2">Administracion del evento: @Model.Nombre</h4>
+    <h4 class="teal-text text-darken-2">Administracion del evento: <a href="@Url.Action("Details","Eventos", new { id = Model.Id})">@Model.Nombre</a></h4>
+    @if(User.Identity.GetUserId() == Model.Presidente.UsuarioId)
+    {
+        if (!Model.HabilitarDescargaCertificados)
+        {
+            <a href="@Url.Action("HabilitarDescargaCertificados", "Eventos", new { id = Model.Id })">Habilitar descarga de certificados de asistencia</a>
+        }
+        else
+        {
+            <a href="@Url.Action("DeshabilitarDescargaCertificados", "Eventos", new { id = Model.Id })">Deshabilitar descarga de certificados de asistencia</a>
+        }
+    }
     <hr />
     <h5 class="teal-text text-darken-1">
         Presidente del comité
@@ -22,7 +34,7 @@
     <ul>
 
         @foreach (var miembro in Model.Comite)
-        {
+            {
             <li>
                 <div class="row">
                     <div class="col s2">
@@ -97,7 +109,7 @@
                 <td>@paper.Nombre</td>
                 <td>
                     @if (paper.Evaluacion != null)
-                {
+                    {
                         <p>@paper.Evaluacion.Comentario</p>
                     }
                     else
@@ -118,9 +130,9 @@
     <h5 class="teal-text text-darken-1">Certificado para asistentes</h5>
 
     @if (string.IsNullOrEmpty(Model.CertificadoAsistentesPath))
-    {
-        using (Html.BeginForm("UploadCertificadoAsistentes", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+            {
+                using (Html.BeginForm("UploadCertificadoAsistentes", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
             @Html.Hidden("eventoId", Model.Id)
             <div class="file-field input-field">
                 <div class="btn">
@@ -137,7 +149,7 @@
     else
     {
         <div class="row">
-            <div class="col s3"><span>Certificado para oradores</span></div>
+            <div class="col s3"><span>Certificado para asistentes</span></div>
             <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoAsistente", new { id = Model.Id })</div>
             <div class="col s1">
                 <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoAsistentes",new { id = Model.Id })">
@@ -148,12 +160,12 @@
     }
     <br />
     <hr />
-    <h5 class="teal-text text-darken-1">Certificado para asistentes</h5>
+    <h5 class="teal-text text-darken-1">Certificado para oradores</h5>
 
     @if (string.IsNullOrEmpty(Model.CertificadoOradoresPath))
-    {
-        using (Html.BeginForm("UploadCertificadoOradores", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+            {
+                using (Html.BeginForm("UploadCertificadoOradores", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
             @Html.Hidden("eventoId", Model.Id)
             <div class="file-field input-field">
                 <div class="btn">

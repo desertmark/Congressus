@@ -121,15 +121,15 @@ namespace Congressus.Web.Repositories
             Edit(evento);
         }
 
-        public byte[] RenderizarCertificado(Evento evento)
+        public byte[] RenderizarCertificado(int eventoId, string path)
         {
             
             LocalReport report = new LocalReport();
-            string path = evento.CertificadoAsistentesPath;
+            
             if (!File.Exists(path))
                 throw new FileNotFoundException();
 
-            report.ReportPath = path;
+            report.ReportPath = path;    
             report.EnableExternalImages = true;
             string reportType = "PDF";
             string mimeType;
@@ -139,7 +139,7 @@ namespace Congressus.Web.Repositories
             string deviceInfo =
 
             "<DeviceInfo>" +
-            "  <OutputFormat>" + evento.Id + "</OutputFormat>" +
+            "  <OutputFormat>" + eventoId + "</OutputFormat>" +
             "  <PageWidth>11in</PageWidth>" +
             "  <PageHeight>8.5in</PageHeight>" +
             "  <MarginTop>0.25in</MarginTop>" +
@@ -162,6 +162,45 @@ namespace Congressus.Web.Repositories
                 out warnings);
             return renderedBytes;
         }
+
+        public string GenerarCertificado(string path, string nombre, string evento, string fecha, string charla = null)
+        {
+            
+            var rdlText = File.ReadAllLines(path);
+            if (rdlText.Any(x => x.Contains("[Nombre]")))
+            {
+                var value = rdlText.First(x => x.Contains("[Nombre]"));
+                var index = Array.IndexOf(rdlText, value);
+                value = value.Replace("[Nombre]", nombre);
+                rdlText.SetValue(value, index);
+            }
+            if (rdlText.Any(x => x.Contains("[Evento]")))
+            {
+                var value = rdlText.First(x => x.Contains("[Evento]"));
+                var index = Array.IndexOf(rdlText, value);
+                value = value.Replace("[Evento]", evento);
+                rdlText.SetValue(value, index);
+            }
+
+            if (rdlText.Any(x => x.Contains("[Fecha]")))
+            {
+                var value = rdlText.First(x => x.Contains("[Fecha]"));
+                var index = Array.IndexOf(rdlText, value);
+                value = value.Replace("[Fecha]", fecha);
+                rdlText.SetValue(value, index);
+            }
+            if(rdlText.Any(x=>x.Contains("[Charla]")) && charla != null)
+            {
+                var value = rdlText.First(x => x.Contains("[Charla]"));
+                var index = Array.IndexOf(rdlText, value);
+                value = value.Replace("[Charla]", charla);
+                rdlText.SetValue(value, index);
+            }
+            var tempPath = Path.GetTempFileName();
+            File.WriteAllLines(tempPath, rdlText);
+            return tempPath;
+        }
+
         public void EliminarCertificadoAsistentes(Evento evento)
         {
             if (File.Exists(evento.CertificadoAsistentesPath))
@@ -175,6 +214,12 @@ namespace Congressus.Web.Repositories
             if (File.Exists(evento.CertificadoOradoresPath))
                 File.Delete(evento.CertificadoOradoresPath);
             evento.CertificadoOradoresPath = "";
+            Edit(evento);
+        }
+
+        public void HabilitarDeshabilitarCertificados(Evento evento, bool accion)
+        {
+            evento.HabilitarDescargaCertificados = accion;
             Edit(evento);
         }
     }

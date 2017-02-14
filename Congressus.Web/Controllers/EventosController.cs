@@ -189,7 +189,7 @@ namespace Congressus.Web.Controllers
             return RedirectToAction("Administrar",new { Id = 1 });
         }
 
-        [Authorize(Roles ="asistente")]
+        [Authorize(Roles ="admin,presidente")]
         public ActionResult VerCertificadoAsistente(int id)
         {
             var evento = _repo.FindById(id);
@@ -198,8 +198,8 @@ namespace Congressus.Web.Controllers
                 return HttpNotFound();
             }
 
-            try { 
-                var renderedBytes = _repo.RenderizarCertificado(evento);
+            try {
+                var renderedBytes = _repo.RenderizarCertificado(evento.Id, evento.CertificadoAsistentesPath);
                 return File(renderedBytes, "application/pdf");
             }
             catch(Exception e)
@@ -207,6 +207,70 @@ namespace Congressus.Web.Controllers
                 ViewBag.Mensaje = e.Message;
                 return View("Error");
             }
+        }
+        [Authorize(Roles ="asistente")]
+        public ActionResult GenerarCertificadoAsistente(int id)
+        {
+            
+            var evento = _repo.FindById(id);
+            if (string.IsNullOrEmpty(evento.CertificadoAsistentesPath))
+            {
+                ViewBag.Mensaje = "No se ha cargado ninguna plantilla para la generacion de certificados.";
+                return View("Error");
+            }
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado";
+                return View("Error");
+            }
+            if (!evento.HabilitarDescargaCertificados)
+            {
+                ViewBag.Mensaje = "Los organizadores todavia no han habilitado la descarga de los certificados.";
+                return View("Error");
+            }
+            try
+            {
+                var uid = User.Identity.GetUserId();
+                var inscripcion = evento.Inscripciones.FirstOrDefault(x => x.Asistente.UsuarioId == uid);
+                if (inscripcion == null)
+                {
+                    ViewBag.Mensaje = "Ud no es un asistente inscripto a este evento.";
+                    return View("Error");
+                }
+                var nombre = inscripcion.Asistente.Nombre + " " + inscripcion.Asistente.Apellido;
+                var tempPath = _repo.GenerarCertificado(evento.CertificadoAsistentesPath, nombre, evento.Nombre, evento.FechaFin.ToShortDateString());
+                var renderedBytes = _repo.RenderizarCertificado(evento.Id, tempPath);
+                return File(renderedBytes, "application/pdf");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                return View("Error");
+            }
+        }
+        [Authorize(Roles="admin, presidente")]
+        public ActionResult HabilitarDescargaCertificados(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado.";
+                return View("Error");
+            }
+            _repo.HabilitarDeshabilitarCertificados(evento, true);
+            return RedirectToAction("Administrar", new { id = evento.Id });
+        }
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult DeshabilitarDescargaCertificados(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado.";
+                return View("Error");
+            }
+            _repo.HabilitarDeshabilitarCertificados(evento, false);
+            return RedirectToAction("Administrar",new { id = evento.Id});
         }
         [Authorize(Roles ="admin, presidente")]
         public ActionResult UploadCertificadoOradores(int eventoId, HttpPostedFileBase certificado)
@@ -219,7 +283,7 @@ namespace Congressus.Web.Controllers
             }
             return RedirectToAction("Administrar", new { Id = 1 });
         }
-        [Authorize(Roles = "autor")]
+        [Authorize(Roles = "admin,presidente")]
         public ActionResult VerCertificadoOradores(int id)
         {
             var evento = _repo.FindById(id);
@@ -228,9 +292,49 @@ namespace Congressus.Web.Controllers
                 return HttpNotFound();
             }
             try { 
-                var renderedBytes = _repo.RenderizarCertificado(evento);
+                var renderedBytes = _repo.RenderizarCertificado(evento.Id,evento.CertificadoOradoresPath);
                 return File(renderedBytes, "application/pdf");
             }catch (Exception e)
+            {
+                ViewBag.Mensaje = e.Message;
+                return View("Error");
+            }
+        }
+
+        [Authorize(Roles = "autor")]
+        public ActionResult GenerarCertificadoOradores(int id, int charlaId)
+        {            
+            var evento = _repo.FindById(id);
+            if (string.IsNullOrEmpty(evento.CertificadoAsistentesPath))
+            {
+                ViewBag.Mensaje = "No se ha cargado ninguna plantilla para la generacion de certificados.";
+                return View("Error");
+            }
+            if (evento == null)
+            {
+                ViewBag.Mensaje = "Evento no encontrado";
+                return View("Error");
+            }
+            if (!evento.HabilitarDescargaCertificados)
+            {
+                ViewBag.Mensaje = "Los organizadores todavia no han habilitado la descarga de los certificados.";
+                return View("Error");
+            }
+            try
+            {
+                var uid = User.Identity.GetUserId();
+                var charla = evento.Charlas.First(x => x.Orador.UsuarioId == uid && x.Id == charlaId);
+                if (charla == null)
+                {
+                    ViewBag.Mensaje = "No se ha encontrado la charla, o ésta no lo tiene a usted como orador.";
+                    return View("Error");
+                }
+                var nombre = charla.Orador.Nombre + " " + charla.Orador.Apellido;
+                var tempPath = _repo.GenerarCertificado(evento.CertificadoOradoresPath, nombre, evento.Nombre, evento.FechaFin.ToShortDateString(),charla.Titulo);
+                var renderedBytes = _repo.RenderizarCertificado(evento.Id, tempPath);
+                return File(renderedBytes, "application/pdf");
+            }
+            catch (Exception e)
             {
                 ViewBag.Mensaje = e.Message;
                 return View("Error");
