@@ -45,7 +45,8 @@
                 }
                 @if (User.IsInRole("autor"))
                 {
-                    <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
+                    <li><a href=@Url.Action("Charlas", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">mic_none</i>Mis Charlas</a></li>
+                    <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>                    
                 }
                 @if (User.IsInRole("autor") || User.IsInRole("asistente"))
                 {
@@ -72,7 +73,7 @@
     }
 
     <div class="RenderBody">
-        <div class="card contenido centrar">
+        <div class="card contenido">
             <div class="card-content centrar">
                 @RenderBody()
             </div>
@@ -116,6 +117,8 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryUnobtrusive")
     @Scripts.Render("~/Scripts/materialize.js")
     @Scripts.Render("~/Scripts/datetimepicker.min.js")
     @Scripts.Render("~/Scripts/UI_Config.js")

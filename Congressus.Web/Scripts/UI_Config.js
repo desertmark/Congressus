@@ -1,14 +1,9 @@
 ﻿$('document').ready(function () {
     console.log("document ready!");
-
-    //tooltip para los datetime
-    //$('input[type="datetime"]').addClass("tooltipped");
-    //$('input[type="datetime"]').attr({
-    //    "data-position":"top",
-    //    "data-delay": 50,
-    //    "data-tooltip": "formato: dd/mm/aaaa hh:mm:ss"
-    //    });
-    //$('.tooltipped').tooltip({ delay: 50 });
+    //Para validar las fechas con Jquery en formato dd/mm/aaaa
+    $.validator.methods.date = function (value, element) {
+        return this.optional(element) || parseDate(value, "dd-MM-yyyy") !== null;
+    };
     var campos = $('input[type="datetime"]');
     //inicializar los datetime
     if (campos.length > 0)
@@ -55,5 +50,8 @@
         var upperVal = $(e.currentTarget).val().toUpperCase();
         $(e.currentTarget).val(upperVal);
     });
-
 });
+//Silder eventos
+function next() {
+    $('.carousel.carousel-slider').carousel('next');
+}

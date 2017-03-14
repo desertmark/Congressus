@@ -374,7 +374,60 @@ namespace Congressus.Web.Controllers
             _repo.EliminarCertificadoOradores(evento);
             return RedirectToAction("Administrar", new { id = id });
         }
+        [Authorize(Roles = "presidente")]
+        public ActionResult SubirLogo(LogoVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            var path = "/Content/Files/Images/Eventos/" + evento.Id + "/Logo/";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(Server.MapPath(path));
+            }
+            var pathFile = path + model.Logo.FileName;
+            model.Logo.SaveAs(Server.MapPath(pathFile));
+            evento.LogoPath = pathFile;
+            _repo.Edit(evento);
+            return RedirectToAction("Administrar", new { id = model.Id });
+        }
 
+        [Authorize(Roles = "presidente")]
+        public ActionResult SubirImagenesInicio(ImagenesInicioVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            if (evento != null)
+            {
+                var path = "/Content/Files/Images/Eventos/" + model.Id + "/Inicio/";
+                if (ModelState.IsValid)
+                {
+                    if (!Directory.Exists(Server.MapPath(path)))
+                        Directory.CreateDirectory(Server.MapPath(path));
+                    var imagenes = new List<string>();
+                    foreach (var imagen in model.Imagenes)
+                    {
+                        var filePath = path + imagen.FileName;
+                        imagen.SaveAs(Server.MapPath(filePath));
+                        imagenes.Add(filePath);
+                    }
+                    evento.ImagenesInicio = string.Join(";", imagenes);
+                    _repo.Edit(evento);
+                }
+            }
+            
+            return RedirectToAction("Administrar", new { id = model.Id });
+        }
+        public ActionResult SubirTextoInicio(TextoInicioVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            if (evento != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    evento.TextoBienvenida = model.Texto;
+                    _repo.Edit(evento);
+                }
+            }
+            return RedirectToAction("Administrar", new { id = model.Id });
+        }
         //protected override void Dispose(bool disposing)
         //{
         //    if (disposing)

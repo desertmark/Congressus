@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNet.Identity
+@model Congressus.Web.Models.Entities.Evento
+@{ 
+    var uid = User.Identity.GetUserId();
+    bool inscripto = Model.Inscripciones.Any(x => x.Asistente.UsuarioId == uid);
+}
+<div id="Inscripcion">
+    @if (User.IsInRole("asistente"))
+    {
+        if (!inscripto)
+        {
+            <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
+        }
+        else
+        {
+            <a class="btn btn-default" style="float:right" href="@Url.Action("EliminarInscripcionEvento", "Asistentes", new { inscripcionId = Model.Inscripciones.First(x => x.Asistente.UsuarioId == uid).Id })">Eliminar inscripcion</a>
+            <h5>
+                <span class="green-text">Ya estas inscripto a este evento.</span>
+            </h5>
+            if (Model.HabilitarDescargaCertificados)
+            {
+                <h5><a href="@Url.Action("GenerarCertificadoAsistente", "Eventos", new { id = Model.Id })">Descargar certificado de asistentcia</a></h5>
+            }
+            else
+            {
+                <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
+            }
+
+        }
+    }
+</div>

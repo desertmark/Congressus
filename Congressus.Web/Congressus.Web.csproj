@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Congressus.Web</RootNamespace>
     <AssemblyName>Congressus.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -63,17 +66,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -114,6 +115,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -190,6 +192,8 @@
     <Compile Include="Controllers\EvaluacionesController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\TextoInicioVM.cs" />
+    <Compile Include="Models\ImagenesInicioVM.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MiembrosController.cs" />
     <Compile Include="Controllers\PapersController.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="Models\Entities\InscripcionEvento.cs" />
     <Compile Include="Models\InscripcionCharlaViewMode.cs" />
     <Compile Include="Models\InscripcionEventoViewModel.cs" />
+    <Compile Include="Models\LogoVM.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -279,6 +284,7 @@
     <None Include="Properties\PublishProfiles\fgasulay - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\fgasulay - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\fgasulay.pubxml" />
+    <None Include="Properties\PublishProfiles\prueba local.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterCongressus.pubxml" />
     <None Include="Properties\PublishProfiles\SmarterWebDeploy.pubxml" />
     <Content Include="Reporting\Certificados.xsc">
@@ -305,6 +311,8 @@
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -401,13 +409,22 @@
     <Content Include="Views\Charlas\Details.cshtml" />
     <Content Include="Views\Charlas\Edit.cshtml" />
     <Content Include="Views\Charlas\Index.cshtml" />
-    <Content Include="Views\Eventos\_CharlasPartial.cshtml" />
+    <Content Include="Views\Shared\_CharlasPartial.cshtml" />
     <Content Include="Views\Account\RegisterAsistente.cshtml" />
     <Content Include="Views\Asistentes\Create.cshtml" />
     <Content Include="Views\Asistentes\Delete.cshtml" />
     <Content Include="Views\Asistentes\Details.cshtml" />
     <Content Include="Views\Asistentes\Edit.cshtml" />
     <Content Include="Views\Asistentes\Index.cshtml" />
+    <Content Include="Views\Autores\Charlas.cshtml" />
+    <Content Include="Views\Asistentes\_Charlas.cshtml" />
+    <Content Include="Views\Eventos\_nav.cshtml" />
+    <Content Include="Views\Eventos\_carousel.cshtml" />
+    <Content Include="Views\Eventos\_Inicio.cshtml" />
+    <Content Include="Views\Eventos\_FechasImportantes.cshtml" />
+    <Content Include="Views\Eventos\_Contacto.cshtml" />
+    <Content Include="Views\Eventos\_Programa.cshtml" />
+    <Content Include="Views\Eventos\_Inscripcion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -439,7 +456,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5131</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5131/</IISUrl>
+          <IISUrl>http://localhost:8080</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

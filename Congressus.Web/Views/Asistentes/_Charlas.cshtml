@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Congressus.Web.Models.Entities.InscripcionCharla>
+@if (Model.Count()>0)
+{
+    <table class="striped">
+        <tr>
+            <th>Evento de la charla</th>
+            <th>Titulo de la charla</th>
+            <th>Tipo</th>
+            <th>Fecha de inscripcion</th>
+            <th>Dia y horario</th>
+            <th>Acciones</th>
+        </tr>
+        @foreach (var inscripcion in Model.OrderBy(x => x.Charla.Evento.Nombre))
+        {
+            <tr>
+                <td>@inscripcion.Charla.Evento.Nombre</td>
+                <td>
+                    <strong>
+                        <a href="@Url.Action("Details","Charlas", new { id = inscripcion.Charla.Id})">@inscripcion.Charla.Titulo</a>
+                    </strong>
+                </td>
+                <td>@inscripcion.Charla.Tipo</td>
+                <td>@inscripcion.Fecha</td>
+                <td>@inscripcion.Charla.FechaHora</td>
+                <td><a href="@Url.Action("EliminarInscripcionCharla",new { inscripcionId = inscripcion.Id})">Eliminar Inscripción</a></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No se han encontrado inscripciones.</p>
+}

@@ -36,7 +36,7 @@
     <h5>Usted se está inscripto en los siguientes eventos:</h5>
     @if (Model.Eventos.Count > 0)
     {
-        <table class="striped">
+        <table class="striped detailsTable">
             <tr>
                 <th>Nombre del evento</th>
                 <th>Fecha de inscripcion</th>
@@ -53,7 +53,11 @@
                     </td>
                     <td>@inscripcion.Fecha</td>
                     <td>@inscripcion.Evento.FechaInicio</td>
-                    <td><a href="@Url.Action("EliminarInscripcionEvento",new { inscripcionId = inscripcion.Id})">Eliminar Inscripción</a></td>
+                    <td>
+                        <a href="@Url.Action("EliminarInscripcionEvento",new { inscripcionId = inscripcion.Id})">Eliminar Inscripción</a> |
+                        
+                        @Ajax.ActionLink("Ver solo charlas de este evento", "FiltrarCharlas", new { eventoId = inscripcion.Evento.Id },new AjaxOptions {HttpMethod = "GET",InsertionMode = InsertionMode.Replace, UpdateTargetId = "charlas"})
+                    </td>
                 </tr>
             }
         </table>
@@ -65,36 +69,8 @@
     <hr />
     <h4>Charlas/talleres</h4>
     <h5>Usted está inscripto a las siguientes charlas:</h5>
-    @if (Model.Charlas.Count > 0)
-    {
-        <table class="striped">
-            <tr>
-                <th>Evento de la charla</th>
-                <th>Titulo de la charla</th>
-                <th>Tipo</th>
-                <th>Fecha de inscripcion</th>
-                <th>Dia y horario</th>
-                <th>Acciones</th>
-            </tr>
-            @foreach (var inscripcion in Model.Charlas.OrderBy(x => x.Charla.Evento.Nombre))
-            {
-                <tr>
-                    <td>@inscripcion.Charla.Evento.Nombre</td>
-                    <td>
-                        <strong>
-                            <a href="@Url.Action("Details","Charlas", new { id = inscripcion.Charla.Id})">@inscripcion.Charla.Titulo</a>
-                        </strong>
-                    </td>
-                    <td>@inscripcion.Charla.Tipo</td>
-                    <td>@inscripcion.Fecha</td>
-                    <td>@inscripcion.Charla.FechaHora</td>
-                    <td><a href="@Url.Action("EliminarInscripcionCharla",new { inscripcionId = inscripcion.Id})">Eliminar Inscripción</a></td>
-                </tr>
-            }
-        </table>
-    }
-    else
-    {
-        <p>No se han encontrado inscripciones.</p>
-    }
+    <div id="charlas">
+        @Html.Partial("_Charlas", Model.Charlas)
+    </div>
+    @Ajax.ActionLink("Ver todas las charlas a las que estoy inscripto", "Charlas", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "charlas"})
 </div>

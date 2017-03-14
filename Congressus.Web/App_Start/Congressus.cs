@@ -6,7 +6,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace Congressus.Web.App_Start
@@ -14,6 +16,8 @@ namespace Congressus.Web.App_Start
     public class Congressus
     {
         public static void start(ApplicationDbContext context) {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-AR");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-AR");
             //Creacion de los Roles
             var roleStore = new RoleStore<ApplicationRole>(context);
             var RoleManager = new RoleManager<ApplicationRole>(roleStore);

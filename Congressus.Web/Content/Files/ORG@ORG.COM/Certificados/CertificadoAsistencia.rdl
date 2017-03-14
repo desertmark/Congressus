@@ -23,11 +23,11 @@
     <Height>295.7pt</Height>
     <PrintOnFirstPage>true</PrintOnFirstPage>
     <PrintOnLastPage>true</PrintOnLastPage>
-    <ReportItems >
+    <ReportItems>
       <Textbox Name="Textbox1">
         <Height>159.59pt</Height>
         <Width>432.11pt</Width>
-        <Value>Se certifica que el Sr/a [Nombre] ha asistido al evento [Evento] en el dia [Fecha]</Value>
+        <Value>Se certifica que el Sr/a [Nombre] ha participado como orador de la conferencia [Charla] en el evento [Evento] en el dia [Fecha]</Value>
         <ZIndex>1</ZIndex>
         <Left>173.5pt</Left>
         <Top>57.7pt</Top>

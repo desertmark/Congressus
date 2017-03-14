@@ -1,0 +1,27 @@
+﻿@model Congressus.Web.Models.Entities.Evento
+<div id="Contacto">
+    <table class="striped detailsTable">
+        <tr>
+            <th class="black-text text-accent-4"><strong>Direccion:</strong></th>
+            <td><span>@Model.Direccion</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Lugar:</strong></th>
+            <td><span>@Model.Lugar</span></td>
+        </tr>
+    </table>
+    <h5 class="teal-text">Mapa</h5>
+    @{
+        var q = string.IsNullOrEmpty(Model.Direccion) ? "Argentina" : Model.Direccion;
+        var src = "https://www.google.com/maps/embed/v1/place?q=" + q + "&key=AIzaSyB5LWfPe62A2B8pU7hQNVAKDtcWiKse6c8";
+    }
+    <iframe src="@src"
+            width="600"
+            height="450"
+            frameborder="0"
+            style="border:0"
+            allowfullscreen></iframe>
+    <br />
+</div>
+
+ 

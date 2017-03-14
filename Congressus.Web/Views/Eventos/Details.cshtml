@@ -4,79 +4,26 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var uid = User.Identity.GetUserId();
-    bool inscripto = Model.Inscripciones.Any(x => x.Asistente.UsuarioId == uid);
 }
 
-<h2>Detalles</h2>
-
 <div>
-    <h4>Evento</h4>
-
-    @if (User.IsInRole("asistente"))
+    @if (!string.IsNullOrEmpty(Model.LogoPath))
     {
-        if (!inscripto)
-        {
-            <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
-        }
-        else
-        {
-            <h5>
-                <span class="green-text">Ya estas inscripto a este evento.</span>                
-            </h5>            
-            if (Model.HabilitarDescargaCertificados)
-            {
-                <h5><a href="@Url.Action("GenerarCertificadoAsistente", "Eventos", new { id = Model.Id })">Descargar certificado de asistentcia</a></h5>
-            }
-            else
-            {
-                <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
-            }
-            <a href="@Url.Action("EliminarInscripcionEvento", "Asistentes", new { inscripcionId = Model.Inscripciones.First(x => x.Asistente.UsuarioId == uid).Id })">Eliminar inscripcion</a>
-        }
+        <img src="@Model.LogoPath" style="max-width:100%;" class="center" />
     }
-    <hr />
+    <h3>@Model.Nombre</h3>
+    @*@Html.Partial("_nav", Model)
+        <br />*@
 
-    <table class="striped detailsTable">
-        <tr></tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Nombre:</strong></th>
-            <td><span>@Model.Nombre</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Fecha limite de presentacion de trabajos:</strong></th>
-            <td><span>@Model.FechaFinTrabajos</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Fecha limite de inscripcion:</strong></th>
-            <td><span>@Model.FechaFinInscripcion</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Fecha de inicio:</strong></th>
-            <td><span>@Model.FechaInicio</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Fecha de finalizacion:</strong></th>
-            <td><span>@Model.FechaFin</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Direccion:</strong></th>
-            <td><span>@Model.Direccion</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Lugar:</strong></th>
-            <td><span>@Model.Lugar</span></td>
-        </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Tema:</strong></th>
-            <td><span>@Model.Tema</span></td>
-        </tr>
-        @{var estadoCertificados = Model.HabilitarDescargaCertificados ? "Habilitados" : "Deshabilitados";}
-        <tr>
-            <th class="black-text text-accent-4"><strong>Certificados:</strong></th>
-            <td><span>@estadoCertificados</span></td>
-        </tr>
-    </table>
+    @Html.Partial("_nav")
+
+    <div class="card-content">
+        @Html.Partial("_Inicio",@Model)
+        @Html.Partial("_FechasImportantes",@Model)
+        @Html.Partial("_Contacto",@Model)
+        @Html.Partial("_Programa",@Model)
+        @Html.Partial("_Inscripcion",@Model)
+    </div>
 </div>
 <p>
     @if (User.IsInRole("admin") || User.IsInRole("presidente"))
@@ -86,18 +33,15 @@
     }
     <a href="javascript:history.back()">Volver</a>
 </p>
-@{
-    var q = string.IsNullOrEmpty(Model.Direccion) ? "Argentina" : Model.Direccion;
-    var src = "https://www.google.com/maps/embed/v1/place?q=" + q + "&key=AIzaSyB5LWfPe62A2B8pU7hQNVAKDtcWiKse6c8";
-}
-<iframe src="@src"
-        width="600"
-        height="450"
-        frameborder="0"
-        style="border:0"
-        allowfullscreen></iframe>
 
-<br />
 
 @Html.Partial("_CharlasPartial", Model.Charlas)
 
+@section scripts{
+    <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.carousel.carousel-slider').carousel({ fullWidth: true });
+                        window.setInterval(next, 3000);
+                    });
+    </script>
+}

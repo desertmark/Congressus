@@ -82,6 +82,8 @@ body{
     max-width: 80%;
     padding: 20px;
     margin-top: 60px!important;
+    margin-left:250px!important;
+    margin-right:auto!important;
 }
 
 .sideMenuDiv {

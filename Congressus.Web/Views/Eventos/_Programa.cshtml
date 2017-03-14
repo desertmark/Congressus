@@ -1,0 +1,10 @@
+﻿@model Congressus.Web.Models.Entities.Evento
+
+<div id="Programa">
+    Proximamente!
+    @{var estadoCertificados = Model.HabilitarDescargaCertificados ? "Habilitados" : "Deshabilitados";}
+    <div>
+        <p class="black-text text-accent-4"><strong>Certificados:</strong></p>
+        <p>@estadoCertificados</p>
+    </div>
+</div>

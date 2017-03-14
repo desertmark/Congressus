@@ -9,8 +9,8 @@
 }
 
 <div>
-    <h4 class="teal-text text-darken-2">Administracion del evento: <a href="@Url.Action("Details","Eventos", new { id = Model.Id})">@Model.Nombre</a></h4>
-    @if(User.Identity.GetUserId() == Model.Presidente.UsuarioId)
+    <h4 class="teal-text text-darken-2">Administracion del evento: <a href="@Url.Action("Details", "Eventos", new { id = Model.Id })">@Model.Nombre</a></h4>
+    @if (User.Identity.GetUserId() == Model.Presidente.UsuarioId)
     {
         if (!Model.HabilitarDescargaCertificados)
         {
@@ -32,7 +32,6 @@
     <hr />
     <h5 class="teal-text text-darken-1">Miembros del comité</h5>
     <ul>
-
         @foreach (var miembro in Model.Comite)
             {
             <li>
@@ -194,6 +193,50 @@
 
 </div>
 <br />
+<hr />
+@{
+    var value = string.IsNullOrEmpty(Model.LogoPath) ? "" : Model.LogoPath.Split('/').Last();
+}
+<h4 class="teal-text">Configuracion de Inicio</h4>
+<h5 class="teal-text">Logo de la conferencia.</h5>
+@using (Html.BeginForm("SubirLogo", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("Id", Model.Id)
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>Abrir</span>
+            <input type="file" name="Logo">
+        </div>
+        <div class="file-path-wrapper">
+            <input value="@value" class="file-path validate" type="text">
+        </div>
+    </div>
+    <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+}
+<br />
+<h5 class="teal-text">Imagenes inicio</h5>
+@using(Html.BeginForm("SubirImagenesInicio","Eventos",FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.Hidden("id", Model.Id);
+    <div class="file-field input-field">
+        <div class="btn">
+            <span>Abrir</span>
+            <input name="imagenes" type="file" multiple>        
+        </div>
+        <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Sube una o mas imagenes">
+        </div>
+    </div>
+    <button class="btn waves-effect waves-light blue darken-2" type="submit">Subir</button>
+}
+<h5 class="teal-text">Texto de bienvenida</h5>
+@using (Html.BeginForm("SubirTextoInicio", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("id", Model.Id);
+    @Html.TextArea("texto");
+    <br />
+    <button class="btn waves-effect waves-light blue darken-2" type="submit">Subir</button>
+}
+
 <div>
     @Html.Partial("_CharlasPartial", Model.Charlas)
     <br />

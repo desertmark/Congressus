@@ -132,6 +132,11 @@ namespace Congressus.Web.Controllers
                 ViewBag.Mensaje = "El asistente, el evento o ambos son inexistentes.";
                 return View("Error");
             }
+            if (evento.FechaFinInscripcion < DateTime.Today)
+            {
+                ViewBag.Mensaje = "La fecha de inscripcion de este evento ya pasó.";
+                return View("Error");
+            }
             _repo.InscribirEvento(asistente, evento);
             return RedirectToAction("Details", "Asistentes");
         }
@@ -213,6 +218,29 @@ namespace Congressus.Web.Controllers
             _repo.EliminarInscripcionCharla(inscripcion);
             return RedirectToAction("Details");
         }
+
+        public ActionResult FiltrarCharlas(int eventoId)
+        {
+            var asistente = _repo.FindByUserId(User.Identity.GetUserId());
+            if (asistente == null)
+            {
+                return HttpNotFound();
+            }
+            var charlas = asistente.Charlas.Where(x => x.Charla.Evento.Id == eventoId);
+            return PartialView("_Charlas", charlas);
+        }
+
+        public ActionResult Charlas()
+        {
+            var asistente = _repo.FindByUserId(User.Identity.GetUserId());
+            if (asistente == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("_Charlas", asistente.Charlas);
+        }
+
 
         //protected override void Dispose(bool disposing)
         //{

@@ -31,6 +31,10 @@ namespace Congressus.Web.Models.Entities
         public virtual ICollection<InscripcionEvento> Inscripciones { get; set; }
         public string CertificadoAsistentesPath { get; set; }
         public string CertificadoOradoresPath { get; set; }
+        public string LogoPath { get; set; }
+        public string ImagenesInicio { get; set; }
+        public string ImagenesSponsors { get; set; }
+        public string TextoBienvenida { get; set; }
         
     }
 }

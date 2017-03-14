@@ -26,7 +26,18 @@ namespace Congressus.Web.Controllers
             var autores = db.Autores.Include(a => a.Usuario);
             return View(autores.ToList());
         }
-
+        [Authorize(Roles ="autor")]
+        public ActionResult Charlas()
+        {
+            var uid = User.Identity.GetUserId();
+            var autor = db.Autores.FirstOrDefault(x => x.UsuarioId == uid);
+            if (autor == null)
+            {
+                ViewBag.Mensaje = "Ha ocurrido un error, su perfil no ha sido encontrado.";
+                return View("Error");
+            }
+            return View(autor.Charlas);
+        }
         // GET: Autores/Details/5
         [Authorize(Roles = "admin, autor")]
         public ActionResult Details(int? id)
