@@ -1,0 +1,72 @@
+﻿@model Congressus.Web.Models.Entities.Evento
+@{
+    ViewBag.Title = "Comite evaluador";
+
+    Layout = "~/Views/Eventos/_AdministrarLayout.cshtml";
+    var miembrosSelect = new SelectList(ViewBag.miembros, "Id", "Nombre");
+}
+<h2 class="teal-text">Comite Evaluador</h2>
+
+<h5 class="teal-text text-darken-1">
+    Presidente del comité
+</h5>
+
+<a href="@Url.Action("Details", "Miembros", new { id = Model.Presidente.Id })">
+    <img src="../../Images/presidenteIcon.png" width="25px" />
+    @Model.Presidente.Nombre @Model.Presidente.Apellido
+</a>
+
+<hr />
+<h5 class="teal-text text-darken-1">Miembros del comité</h5>
+<ul>
+    @foreach (var miembro in Model.Comite)
+            {
+        <li>
+            <div class="row">
+                <div class="col s2">
+                    <a href="@Url.Action("Details", "Miembros", new { id = miembro.Id })">
+                        <i class='material-icons'>perm_identity</i>
+                        @miembro.Nombre @miembro.Apellido
+                    </a>
+                </div>
+                <div class="col s1">
+                    @using (Html.BeginForm("RetirarMiembro", "Eventos", FormMethod.Post))
+                    {
+                        @Html.Hidden("miembroId", miembro.Id)
+                        @Html.Hidden("eventoId", Model.Id)
+                        <button type="submit" class="btn-floating red">X</button>
+                    }
+                </div>
+            </div>
+        </li>
+    }
+
+</ul>
+
+
+<!-- Modal Trigger -->
+<button id="agregarMiembro"
+        class="modal-trigger btn-floating btn-large waves-effect waves-light green tooltipped"
+        data-position="top"
+        data-delay="50"
+        data-tooltip="Agregar miembro">
+    <i class='material-icons'>add</i>
+</button>
+
+
+<!-- Modal Structure -->
+<div id="agregarMiembroDiv" class="modal">
+    <div class="modal-content">
+        <h4>Agregar Miembro Existente</h4>
+        @using (@Html.BeginForm("AgregarMiembro", "Eventos", FormMethod.Post, new { name = "AgregarMiembroForm" }))
+        {
+            @Html.Hidden("eventoId", Model.Id);
+            @Html.DropDownList("miembroId", miembrosSelect, new { @class = "browser-default" })
+        }
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn btn-flat" href="@Url.Action("Create", "Miembros")">Crear nuevo miembro</a>
+        <a href="javascript:document.forms['AgregarMiembroForm'].submit()" class="modal-action modal-close waves-effect waves-green btn btn-flat">Aceptar</a>
+    </div>
+</div>
+

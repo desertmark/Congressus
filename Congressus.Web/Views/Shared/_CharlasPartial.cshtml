@@ -1,82 +1,81 @@
 ﻿@using Microsoft.AspNet.Identity;
 @model ICollection<Congressus.Web.Models.Entities.Charla>
-
-<h4>Charlas y talleres</h4>
-<hr />
-<br />
-<table class="striped detailsTable">
-    <tr></tr>
-    <tr>
-        <th class="black-text text-accent-4"><strong>Titulo</strong></th>
-        <th class="black-text text-accent-4"><strong>Fecha y Hora</strong></th>
-        <th class="black-text text-accent-4"><strong>Descripcion</strong></th>
-        <th class="black-text text-accent-4"><strong>Tipo</strong></th>
-        <th class="black-text text-accent-4"><strong>Cupo</strong></th>
-        <th class="black-text text-accent-4"><strong>Acciones</strong></th>
-    </tr>
-
-    @foreach (var charla in Model)
-    {
+<div id="Charlas">
+    <h5 class="teal-text">Charlas y talleres</h5>
+    <hr />
+    <br />
+    <table class="striped detailsTable">
+        <tr></tr>
         <tr>
-            <td>
-                <span>@charla.Titulo</span>
-            </td>
-            <td>
-                <span>@charla.FechaHora</span>
-            </td>
-            <td>
-                <span>@charla.Descripcion</span>
-            </td>
-            <td>
-                <span>@charla.Tipo</span>
-            </td>
-            <td>
-                @if (charla.Cupo > 0)
+            <th class="black-text text-accent-4"><strong>Titulo</strong></th>
+            <th class="black-text text-accent-4"><strong>Fecha y Hora</strong></th>
+            <th class="black-text text-accent-4"><strong>Descripcion</strong></th>
+            <th class="black-text text-accent-4"><strong>Tipo</strong></th>
+            <th class="black-text text-accent-4"><strong>Cupo</strong></th>
+            <th class="black-text text-accent-4"><strong>Acciones</strong></th>
+        </tr>
+        @foreach (var charla in Model)
+        {
+            <tr>
+                <td>
+                    <span>@charla.Titulo</span>
+                </td>
+                <td>
+                    <span>@charla.FechaHora</span>
+                </td>
+                <td>
+                    <span>@charla.Descripcion</span>
+                </td>
+                <td>
+                    <span>@charla.Tipo</span>
+                </td>
+                <td>
+                    @if (charla.Cupo > 0)
                 {
-                    <span>@charla.Cupo.ToString()</span>
-                }
-                else
+                        <span>@charla.Cupo.ToString()</span>
+                    }
+                    else
+                    {
+                        <span>Sin cupo</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Ver", "Details", "Charlas", new { id = charla.Id }, null)
+                    @if (User.Identity.GetUserId() == charla.Evento.Presidente.UsuarioId)
                 {
-                    <span>Sin cupo</span>
-                }
-            </td>
-            <td>
-                @Html.ActionLink("Ver", "Details", "Charlas", new { id = charla.Id }, null)
-                @if (User.Identity.GetUserId() == charla.Evento.Presidente.UsuarioId)
-                {
-                    <span>|</span> @Html.ActionLink("Editar", "Edit", "Charlas", new { id = charla.Id }, null)
-                    <span>|</span> @Html.ActionLink("Eliminar", "Delete", "Charlas", new { id = charla.Id }, null)
-                }
+                        <span>|</span> @Html.ActionLink("Editar", "Edit", "Charlas", new { id = charla.Id }, null)
+                        <span>|</span> @Html.ActionLink("Eliminar", "Delete", "Charlas", new { id = charla.Id }, null)
+                    }
 
-                @* Si se cumple que hay cupos disponibles o la charla es sin cupo, el usuario es un asistente inscripto al evento y no se ha inscripto a esta charla anteriormente.*@
-                @{
-                    bool inscriptoEvento = charla.Evento.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
-                    bool inscriptoCharla = charla.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
-                    bool hayCupo = charla.Cupo > charla.Inscripciones.Count;
-                    bool charlaSinCupo = charla.Cupo == 0;
-                }
-                @if (User.IsInRole("asistente"))
+                    @* Si se cumple que hay cupos disponibles o la charla es sin cupo, el usuario es un asistente inscripto al evento y no se ha inscripto a esta charla anteriormente.*@
+                    @{
+                        bool inscriptoEvento = charla.Evento.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
+                        bool inscriptoCharla = charla.Inscripciones.Any(x => x.Asistente.UsuarioId == User.Identity.GetUserId());
+                        bool hayCupo = charla.Cupo > charla.Inscripciones.Count;
+                        bool charlaSinCupo = charla.Cupo == 0;
+                    }
+                    @if (User.IsInRole("asistente"))
                 {
                     if ((hayCupo || charlaSinCupo) && inscriptoEvento && !inscriptoCharla)
                     {
-                        <span>|</span> <a href="@Url.Action("InscribirCharla","Asistentes", new { CharlaId = charla.Id })">Inscribirme</a>
-                    }
+                            <span>|</span> <a href="@Url.Action("InscribirCharla","Asistentes", new { CharlaId = charla.Id })">Inscribirme</a>
+                        }
 
-                    else if (!charlaSinCupo && !hayCupo)
-                    {
-                        <span class="red-text">No hay mas cupo para esta charla</span>
+                        else if (!charlaSinCupo && !hayCupo)
+                        {
+                            <span class="red-text">No hay mas cupo para esta charla</span>
+                        }
+                        else if (inscriptoCharla)
+                        {
+                            <a href="@Url.Action("EliminarInscripcionCharla","Asistentes", new { inscripcionId = charla.Inscripciones.First(x =>x.Asistente.UsuarioId == User.Identity.GetUserId()).Id})">| Eliminar inscripcion</a>
+                        }
+                        else if (!inscriptoEvento)
+                        {
+                            <span class="red-text">Antes de inscribirte a esta charla debes inscribirte al evento.</span>
+                        }
                     }
-                    else if (inscriptoCharla)
-                    {
-                        <a href="@Url.Action("EliminarInscripcionCharla","Asistentes", new { inscripcionId = charla.Inscripciones.First(x =>x.Asistente.UsuarioId == User.Identity.GetUserId()).Id})">| Eliminar inscripcion</a>
-                    }
-                    else if (!inscriptoEvento)
-                    {
-                        <span class="red-text">Antes de inscribirte a esta charla debes inscribirte al evento.</span>
-                    }
-                }
-            </td>
-
-        </tr>
-                    }
-</table>
+                </td>
+            </tr>
+                        }
+    </table>
+</div>

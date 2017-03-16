@@ -25,16 +25,19 @@ namespace Congressus.Web.Models.Entities
         public string Direccion { get; set; }
         public bool HabilitarDescargaCertificados { get; set; }
         public virtual MiembroComite Presidente { get; set; }
-        public virtual ICollection<Paper> Papers{ get; set; }        
-        public virtual ICollection<MiembroComite> Comite { get; set; }
-        public virtual ICollection<Charla> Charlas { get; set; }
-        public virtual ICollection<InscripcionEvento> Inscripciones { get; set; }
         public string CertificadoAsistentesPath { get; set; }
         public string CertificadoOradoresPath { get; set; }
         public string LogoPath { get; set; }
         public string ImagenesInicio { get; set; }
         public string ImagenesSponsors { get; set; }
         public string TextoBienvenida { get; set; }
+        public virtual ICollection<Paper> Papers{ get; set; }        
+        public virtual ICollection<MiembroComite> Comite { get; set; }
+        public virtual ICollection<Charla> Charlas { get; set; }
+        public virtual ICollection<InscripcionEvento> Inscripciones { get; set; }
+        public virtual ICollection<SeccionEvento> Secciones { get; set; }
+
+
         
     }
 }

@@ -182,6 +182,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attributes\FileExtensionAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Context\ModelDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -192,6 +193,9 @@
     <Compile Include="Controllers\EvaluacionesController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SeccionesController.cs" />
+    <Compile Include="Models\Entities\SeccionEvento.cs" />
+    <Compile Include="Models\SeccionEventoVM.cs" />
     <Compile Include="Models\TextoInicioVM.cs" />
     <Compile Include="Models\ImagenesInicioVM.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -207,7 +211,6 @@
     <Compile Include="Models\Entities\InscripcionEvento.cs" />
     <Compile Include="Models\InscripcionCharlaViewMode.cs" />
     <Compile Include="Models\InscripcionEventoViewModel.cs" />
-    <Compile Include="Models\LogoVM.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -241,6 +244,7 @@
     <Compile Include="Repositories\CharlasRepository.cs" />
     <Compile Include="Repositories\EventosRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\SeccionesRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -425,6 +429,13 @@
     <Content Include="Views\Eventos\_Contacto.cshtml" />
     <Content Include="Views\Eventos\_Programa.cshtml" />
     <Content Include="Views\Eventos\_Inscripcion.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Eventos\ConfiguracionInicio.cshtml" />
+    <Content Include="Views\Eventos\Certificados.cshtml" />
+    <Content Include="Views\Eventos\_carousel-slider.cshtml" />
+    <Content Include="Views\Eventos\ComiteEvaluador.cshtml" />
+    <Content Include="Views\Eventos\_AdministrarLayout.cshtml" />
+    <Content Include="Views\Secciones\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,9 +1,11 @@
 ﻿$('document').ready(function () {
     console.log("document ready!");
+    if($.validator!=null){
     //Para validar las fechas con Jquery en formato dd/mm/aaaa
-    $.validator.methods.date = function (value, element) {
-        return this.optional(element) || parseDate(value, "dd-MM-yyyy") !== null;
-    };
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || parseDate(value, "dd-MM-yyyy") !== null;
+        };
+    }
     var campos = $('input[type="datetime"]');
     //inicializar los datetime
     if (campos.length > 0)
@@ -37,8 +39,9 @@
 
 
     //views/Miembros/Administrar/AgregarMiembro Modal
+    $('.modal').modal();
     $('#agregarMiembro').click(function () {
-        $('#agregarMiembroDiv').openModal();
+        $('#agregarMiembroDiv').modal('open');
     });
 
     //INPUT VALUES TO UPPER CASE
@@ -53,5 +56,6 @@
 });
 //Silder eventos
 function next() {
-    $('.carousel.carousel-slider').carousel('next');
+    $('.carousel-slider').carousel('next');
+    $('.carousel-normal').carousel('next');
 }

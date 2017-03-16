@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Congressus.Web.Attributes;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Congressus.Web.Controllers
 {
-    public class ImagenesInicioVM
+    public class ImagenesUploadVM
     {
         [Required]
         public int Id { get; set; }
         [Required]
-        //[MaxLength (5)]
+        [FileExtension(new string[] { ".jpg", ".jpeg", ".png" })]
         public List<HttpPostedFileBase> Imagenes { get; set; }
     }
 }

@@ -1,18 +1,18 @@
-﻿@model Congressus.Web.Models.Entities.Evento
+﻿@model string[]
+@*@model Congressus.Web.Models.Entities.Evento
 @{
     string[] imagenes = null;
     if (Model.ImagenesInicio != null) {
         imagenes = Model.ImagenesInicio.Split(';');
     }
-}
-@if (!string.IsNullOrEmpty(Model.ImagenesInicio))
+}*@
+@if (Model!=null)
 {
-
-    <div class="carousel carousel-slider">        
-        <a class="carousel-item" href="#"><img src="@imagenes.First()"/></a>
-        @foreach (var imagen in imagenes.Skip(1))
+    <div class="carousel carousel-normal">        
+        <a class="carousel-item" href="#"><img src="@Model.First()"/></a>
+        @foreach (var imagen in Model.Skip(1))
         {
-            <div class="carousel-item"><img src="@imagen" /></div>
+            <div class="carousel-item"><img src="@imagen"/></div>
         }
     </div>
 }

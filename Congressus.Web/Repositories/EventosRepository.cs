@@ -1,4 +1,5 @@
-﻿using Congressus.Web.Models;
+﻿using Congressus.Web.Controllers;
+using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.Reporting.WebForms;
 using System;
@@ -221,6 +222,24 @@ namespace Congressus.Web.Repositories
         {
             evento.HabilitarDescargaCertificados = accion;
             Edit(evento);
+        }
+
+        public List<string> GuardarImagenes(ImagenesUploadVM model,string carpeta ="")
+        {
+            var Server = HttpContext.Current.Server;
+            var path = "/Content/Files/Images/Eventos/" + model.Id + "/" + carpeta;
+
+            if (!Directory.Exists(Server.MapPath(path)))
+                Directory.CreateDirectory(Server.MapPath(path));
+            var imagenes = new List<string>();
+
+            foreach (var imagen in model.Imagenes)
+            {
+                var filePath = path + imagen.FileName;
+                imagen.SaveAs(Server.MapPath(filePath));
+                imagenes.Add(filePath);
+            }
+            return imagenes;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity;
-@model Congressus.Web.Models.Entities.Evento
+﻿@model Congressus.Web.Models.Entities.Evento
 
 @{
     ViewBag.Title = "Details";
@@ -9,21 +8,26 @@
 <div>
     @if (!string.IsNullOrEmpty(Model.LogoPath))
     {
-        <img src="@Model.LogoPath" style="max-width:100%;" class="center" />
+        <img src="@Model.LogoPath" style="max-width:100%;" class="centrar" />
     }
     <h3>@Model.Nombre</h3>
-    @*@Html.Partial("_nav", Model)
-        <br />*@
-
     @Html.Partial("_nav")
 
+@* TABS *@
     <div class="card-content">
-        @Html.Partial("_Inicio",@Model)
-        @Html.Partial("_FechasImportantes",@Model)
-        @Html.Partial("_Contacto",@Model)
-        @Html.Partial("_Programa",@Model)
-        @Html.Partial("_Inscripcion",@Model)
+        @Html.Partial("_Inicio",Model)
+        @Html.Partial("_FechasImportantes",Model)
+        @Html.Partial("_Contacto",Model)
+        @Html.Partial("_Programa",Model)
+        @Html.Partial("_Inscripcion",Model)
+        @Html.Partial("_CharlasPartial", Model.Charlas)
     </div>
+</div>
+
+@* SPONSORS *@
+<div class="centrar">
+    <h3 class="teal-text">Sponsors</h3>
+    @Html.Partial("_carousel", Model.ImagenesSponsors.Split(';'))
 </div>
 <p>
     @if (User.IsInRole("admin") || User.IsInRole("presidente"))
@@ -35,13 +39,13 @@
 </p>
 
 
-@Html.Partial("_CharlasPartial", Model.Charlas)
-
 @section scripts{
     <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('.carousel.carousel-slider').carousel({ fullWidth: true });
-                        window.setInterval(next, 3000);
-                    });
+        $(document).ready(function () {
+            $('.carousel-normal').carousel();
+            window.setInterval(next, 3000);
+            $('.carousel-slider').carousel({ fullWidth: true });
+            window.setInterval(next, 3000);
+        });
     </script>
 }

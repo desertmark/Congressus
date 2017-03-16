@@ -46,10 +46,10 @@ namespace Congressus.Web.Controllers
         {
             var model = _repo.FindById(id);
 
-            //Todos los miembros de los eventos del usuario del presidente.
-            var userId = model.Presidente.UsuarioId;
-            ViewBag.miembros = _repo.MiembrosDeTodosLosEventos(userId);
-            model.Comite.Remove(model.Presidente);               
+            ////Todos los miembros de los eventos del usuario del presidente.
+            //var userId = model.Presidente.UsuarioId;
+            //ViewBag.miembros = _repo.MiembrosDeTodosLosEventos(userId);
+            //model.Comite.Remove(model.Presidente);               
             return View(model);
         }
         public ActionResult AgregarMiembro(int miembroId, int eventoId)
@@ -374,47 +374,95 @@ namespace Congressus.Web.Controllers
             _repo.EliminarCertificadoOradores(evento);
             return RedirectToAction("Administrar", new { id = id });
         }
-        [Authorize(Roles = "presidente")]
-        public ActionResult SubirLogo(LogoVM model)
+
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult ComiteEvaluador(int id)
         {
-            var evento = _repo.FindById(model.Id);
-            var path = "/Content/Files/Images/Eventos/" + evento.Id + "/Logo/";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(Server.MapPath(path));
-            }
-            var pathFile = path + model.Logo.FileName;
-            model.Logo.SaveAs(Server.MapPath(pathFile));
-            evento.LogoPath = pathFile;
-            _repo.Edit(evento);
-            return RedirectToAction("Administrar", new { id = model.Id });
+            var evento = _repo.FindById(id);
+            if (!ValidarPresidente(evento))
+                return View("Error");
+
+            //Todos los miembros de los eventos del usuario del presidente.
+            var userId = evento.Presidente.UsuarioId;
+            ViewBag.miembros = _repo.MiembrosDeTodosLosEventos(userId);
+            evento.Comite.Remove(evento.Presidente);
+
+            return View(evento);
         }
 
-        [Authorize(Roles = "presidente")]
-        public ActionResult SubirImagenesInicio(ImagenesInicioVM model)
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult Certificados(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (!ValidarPresidente(evento))
+                return View("Error");
+            return View(evento);
+        }
+
+        [Authorize(Roles ="admin, presidente")]
+        public ActionResult ConfiguracionInicio(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (!ValidarPresidente(evento))
+                return View("Error");
+            return View(evento);
+        }
+
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult SubirLogo(ImagenesUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
-            if (evento != null)
+            if (evento == null)
             {
-                var path = "/Content/Files/Images/Eventos/" + model.Id + "/Inicio/";
-                if (ModelState.IsValid)
-                {
-                    if (!Directory.Exists(Server.MapPath(path)))
-                        Directory.CreateDirectory(Server.MapPath(path));
-                    var imagenes = new List<string>();
-                    foreach (var imagen in model.Imagenes)
-                    {
-                        var filePath = path + imagen.FileName;
-                        imagen.SaveAs(Server.MapPath(filePath));
-                        imagenes.Add(filePath);
-                    }
-                    evento.ImagenesInicio = string.Join(";", imagenes);
-                    _repo.Edit(evento);
-                }
+                return HttpNotFound();
             }
-            
-            return RedirectToAction("Administrar", new { id = model.Id });
+            if (ModelState.IsValid) { 
+                var pathFile = _repo.GuardarImagenes(model, "Logo").First();
+                evento.LogoPath = pathFile;
+                _repo.Edit(evento);
+                return RedirectToAction("Administrar", new { id = model.Id });
+            }
+            return View("ConfigurarInicio", evento);
         }
+
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult SubirImagenesInicio(ImagenesUploadVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            if (evento == null)
+            {
+                return HttpNotFound();
+            }          
+            if (ModelState.IsValid)
+            {
+                var imagenes = _repo.GuardarImagenes(model, "Inicio");
+                evento.ImagenesInicio = string.Join(";", imagenes);
+                _repo.Edit(evento);
+                return RedirectToAction("Administrar", new { id = model.Id });
+            }
+            return View("ConfiguracionInicio", evento);
+            
+        }
+        [Authorize(Roles = "admin, presidente")]
+        public ActionResult SubirImagenesSponsors(ImagenesUploadVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            if (evento == null)
+            {
+                return HttpNotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                var imagenes = _repo.GuardarImagenes(model, "Sponsors");
+                evento.ImagenesSponsors = string.Join(";", imagenes);
+                _repo.Edit(evento);
+                return RedirectToAction("Administrar", new { id = model.Id });
+            }
+            return View("ConfiguracionInicio", evento);
+            
+            
+        }
+        [Authorize(Roles = "admin, presidente")]
         public ActionResult SubirTextoInicio(TextoInicioVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -427,6 +475,11 @@ namespace Congressus.Web.Controllers
                 }
             }
             return RedirectToAction("Administrar", new { id = model.Id });
+        }
+
+        public bool ValidarPresidente(Evento evento)
+        {
+            return evento.Presidente.UsuarioId == User.Identity.GetUserId();
         }
         //protected override void Dispose(bool disposing)
         //{
