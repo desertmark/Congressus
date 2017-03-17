@@ -4,28 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<nav>
-    <div class="nav-wrapper teal">
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-            <li>
-                <a href="@Url.Action("Administrar", new { id = Model.Id })"><i class="material-icons icono-small left">settings_applications</i>Administrar</a>
-            </li>
-            <li>
-                <a href="@Url.Action("ConfiguracionInicio", new { id = Model.Id })"><i class="material-icons icono-small left">settings</i>Configurar Inicio</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Certificados", new { id = Model.Id })"><i class="material-icons icono-small left">description</i> Certificados</a>
-            </li>
-            <li>
-                <a href="@Url.Action("ComiteEvaluador", new { id = Model.Id })"><i class="material-icons icono-small left">supervisor_account</i>Comite evaluador</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Secciones", new { id = Model.Id })"><i class="material-icons icono-small left">clear_all</i>Secciones</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+@Html.Partial("_AdministrarEventoNav",Model)
 
 <h4 class="teal-text text-darken-2">Administracion del evento: <a href="@Url.Action("Details", "Eventos", new { id = Model.Id })">@Model.Nombre</a></h4>
 

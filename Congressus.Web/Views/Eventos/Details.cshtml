@@ -21,6 +21,15 @@
         @Html.Partial("_Programa",Model)
         @Html.Partial("_Inscripcion",Model)
         @Html.Partial("_CharlasPartial", Model.Charlas)
+        @foreach (var seccion in Model.Secciones)
+        {
+            <div id="@seccion.Nombre">
+                <h5 class="teal-text">@seccion.Titulo</h5>
+                <div>
+                    @Html.Raw(HttpUtility.HtmlDecode(@seccion.Cuerpo))
+                </div>
+            </div>
+        }
     </div>
 </div>
 

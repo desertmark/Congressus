@@ -1,0 +1,38 @@
+﻿@model Congressus.Web.Models.Entities.SeccionEvento
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Eliminar</h2>
+
+<h3 class="teal-text">Esta seguro que desea eliminar este elemento?</h3>
+<h4 class="teal-text">Seccion del evento @Model.Evento.Nombre</h4>
+<div>
+    <table class="table stripe">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.Nombre)
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+
+            <td>
+                @Html.DisplayFor(model => model.Titulo)
+            </td>
+        </tr>
+    </table>
+    @using (Html.BeginForm("DeleteConfirm","Secciones"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id",Model.Id)
+        <button type="submit" class="btn waves-light" >Eliminar</button> 
+    }
+</div>

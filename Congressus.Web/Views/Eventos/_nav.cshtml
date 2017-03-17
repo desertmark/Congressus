@@ -1,4 +1,5 @@
-﻿<div class="card-tabs">
+﻿@model Congressus.Web.Models.Entities.Evento
+<div class="card-tabs">
     <ul class="tabs tabs-fixed-width">
         <li class="tab"><a href="#Inicio" class="active">Inicio</a></li>
         <li class="tab"><a href="#FechasImportantes">Fechas importantes</a></li>
@@ -6,5 +7,12 @@
         <li class="tab"><a href="#Programa">Programa</a></li>
         <li class="tab"><a href="#Inscripcion">Inscripcion</a></li>
         <li class="tab"><a href="#Charlas">Charlas</a></li>
+        @if (Model.Secciones.Count > 0)
+        {
+            foreach (var seccion in Model.Secciones)
+            {
+                <li class="tab"><a href="#@seccion.Nombre">@seccion.Nombre</a></li>
+            }
+        }
     </ul>
 </div>

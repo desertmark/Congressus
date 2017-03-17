@@ -28,6 +28,7 @@ namespace Congressus.Web.Models.Entities
         public string CertificadoAsistentesPath { get; set; }
         public string CertificadoOradoresPath { get; set; }
         public string LogoPath { get; set; }
+        public string ProgramaPath { get; set; }
         public string ImagenesInicio { get; set; }
         public string ImagenesSponsors { get; set; }
         public string TextoBienvenida { get; set; }

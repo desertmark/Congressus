@@ -9,6 +9,7 @@
 <ul class="tabs tabs-fixed-width">
     <li class="tab col s3"><a href="#Papers" class="active" >Papers</a></li>
     <li class="tab col s3"><a href="#Charlas">Charlas</a></li>
+    <li class="tab col s3"><a href="#Programa">Programa</a></li>
 </ul>
 @* TAB Papers *@
 <div id="Papers">
@@ -63,4 +64,27 @@
        data-tooltip="Agregar charla">
         <i class='material-icons'>add</i>
     </a>
+</div>
+
+@* TAB Programa *@
+<div id="Programa">
+    <h4 class="teal-text">Programa</h4>
+    <h5>Sube el programa del evento en un archivo PDF para que los asistentes puedan verlo online y descargarlo!</h5>
+
+    @using (Html.BeginForm("SubirPrograma", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Id", Model.Id)
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Abrir</span>
+                <input type="file" name="Imagenes">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Selecciona un archivo PDF">
+            </div>
+            @Html.ValidationMessage("Imagenes", new { @class = "red-text" })
+        </div>
+        <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+    }
+    <br />
 </div>

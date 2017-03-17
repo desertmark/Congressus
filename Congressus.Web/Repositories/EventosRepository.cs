@@ -227,7 +227,7 @@ namespace Congressus.Web.Repositories
         public List<string> GuardarImagenes(ImagenesUploadVM model,string carpeta ="")
         {
             var Server = HttpContext.Current.Server;
-            var path = "/Content/Files/Images/Eventos/" + model.Id + "/" + carpeta;
+            var path = "/Content/Files/Images/Eventos/" + model.Id + "/" + carpeta + "/";
 
             if (!Directory.Exists(Server.MapPath(path)))
                 Directory.CreateDirectory(Server.MapPath(path));

@@ -38,5 +38,10 @@ namespace Congressus.Web.Repositories
             _db.Set<T>().Remove(entity);
             _db.SaveChanges();
         }
+        public void Delete(T entity)
+        {
+            _db.Set<T>().Remove(entity);
+            _db.SaveChanges();
+        }
     }
 }

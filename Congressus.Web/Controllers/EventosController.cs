@@ -426,6 +426,22 @@ namespace Congressus.Web.Controllers
         }
 
         [Authorize(Roles = "admin, presidente")]
+        public ActionResult SubirPrograma(ImagenesUploadVM model)
+        {
+            var evento = _repo.FindById(model.Id);
+            if (evento == null)
+                return HttpNotFound();
+            if (ModelState.IsValid)
+            {
+                var pathFile = _repo.GuardarImagenes(model, "Programa").First();
+                evento.ProgramaPath = pathFile;
+                _repo.Edit(evento);
+                return RedirectToAction("Administrar", new { id = model.Id });
+            }
+            return View("Administrar", evento);
+        }
+
+        [Authorize(Roles = "admin, presidente")]
         public ActionResult SubirImagenesInicio(ImagenesUploadVM model)
         {
             var evento = _repo.FindById(model.Id);

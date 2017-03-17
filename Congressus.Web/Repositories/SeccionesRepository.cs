@@ -30,5 +30,17 @@ namespace Congressus.Web.Repositories
             };
 
         }
+        public SeccionEventoVM GetVMFromSeccion(SeccionEvento seccion)
+        {
+            return new SeccionEventoVM()
+            {
+                Id = seccion.Id,
+                Nombre = seccion.Nombre,
+                Titulo = seccion.Titulo,
+                Cuerpo = seccion.Cuerpo,
+                EventoId = seccion.Evento.Id
+            };
+
+        }
     }
 }

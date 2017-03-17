@@ -6,7 +6,7 @@
 
 <h2>Agregar nueva seccion</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Secciones",FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
@@ -33,15 +33,17 @@
         <div>
             @Html.LabelFor(model => model.Cuerpo)
             <div>
-                @Html.TextAreaFor(model => model.Cuerpo)
+                @Html.EditorFor(model => model.Cuerpo)
                 @Html.ValidationMessageFor(model => model.Cuerpo)
             </div>
         </div>
+
          @Html.HiddenFor(model => model.EventoId)
-        <button type="submit" class="btn waves-light"> Crear </button>
+
+        <button type="submit" class="btn waves-light">Crear</button>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Volver", "Index")
+    @Html.ActionLink("Volver", "Index", new { id = Model.EventoId})
 </div>

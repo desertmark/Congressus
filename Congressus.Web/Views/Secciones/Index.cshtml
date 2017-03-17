@@ -1,0 +1,40 @@
+﻿@model Congressus.Web.Models.Entities.Evento
+
+@{
+    ViewBag.Title = "Secciones";
+}
+@Html.Partial("_AdministrarEventoNav",Model)
+<h2>Lista de seciones del evento @Model.Nombre</h2>
+
+<a href="@Url.Action("Create", new { id=Model.Id})" class="modal-trigger btn-floating btn-large waves-effect waves-light green tooltipped"
+   data-position="top"
+   data-delay="50"
+   data-tooltip="Agregar Seccion">
+    <i class='material-icons'>add</i>
+</a>
+<br />
+<br />
+<table class="table striped">
+    <tr>
+        <th>Nombre</th>
+        <th>Titulo</th>
+        <th>Acciones</th>
+    </tr>
+
+    @foreach (var item in Model.Secciones)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

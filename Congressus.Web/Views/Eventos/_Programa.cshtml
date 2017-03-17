@@ -1,7 +1,17 @@
 ﻿@model Congressus.Web.Models.Entities.Evento
 
 <div id="Programa">
-    Proximamente!
+    <h4 class="teal-text">Programa del evento</h4>
+    @if (string.IsNullOrEmpty(Model.ProgramaPath))
+    {
+        <p>Proximamente!</p>
+    }
+    else
+    {
+        <a href="@Model.ProgramaPath" download="Programa">
+            <img src="@Model.ProgramaPath" />
+        </a>
+    }
     @{var estadoCertificados = Model.HabilitarDescargaCertificados ? "Habilitados" : "Deshabilitados";}
     <div>
         <p class="black-text text-accent-4"><strong>Certificados:</strong></p>
