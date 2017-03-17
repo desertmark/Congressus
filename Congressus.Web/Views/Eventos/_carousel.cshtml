@@ -1,11 +1,4 @@
 ﻿@model string[]
-@*@model Congressus.Web.Models.Entities.Evento
-@{
-    string[] imagenes = null;
-    if (Model.ImagenesInicio != null) {
-        imagenes = Model.ImagenesInicio.Split(';');
-    }
-}*@
 @if (Model!=null)
 {
     <div class="carousel carousel-normal">        
