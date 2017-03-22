@@ -36,7 +36,9 @@
 @* SPONSORS *@
 <div class="centrar">
     <h3 class="teal-text">Sponsors</h3>
-    @Html.Partial("_carousel", Model.ImagenesSponsors.Split(';'))
+    @if (Model.ImagenesSponsors != null) { 
+        @Html.Partial("_carousel", Model.ImagenesSponsors.Split(';'))
+    }
 </div>
 <p>
     @if (User.IsInRole("admin") || User.IsInRole("presidente"))

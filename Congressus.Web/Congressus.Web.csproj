@@ -197,7 +197,7 @@
     <Compile Include="Models\Entities\SeccionEvento.cs" />
     <Compile Include="Models\SeccionEventoVM.cs" />
     <Compile Include="Models\TextoInicioVM.cs" />
-    <Compile Include="Models\ImagenesInicioVM.cs" />
+    <Compile Include="Models\ImagenesUploadVM.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MiembrosController.cs" />
     <Compile Include="Controllers\PapersController.cs" />

@@ -7,7 +7,10 @@
     }
 }
 <div id="Inicio">
-    @Html.Partial("_carousel-slider",imagenes)
+    @if (Model.ImagenesInicio != null)
+    {
+        Html.Partial("_carousel-slider", imagenes);
+    }
     <h3 class="teal-text">Bienvenidos</h3>
     <p>@Model.TextoBienvenida</p>
     <br />

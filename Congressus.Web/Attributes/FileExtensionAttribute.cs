@@ -15,14 +15,22 @@ namespace Congressus.Web.Attributes
         }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                return new ValidationResult("Debe seleccionar una imagen.");
+            }
             var imagenes = (List<HttpPostedFileBase>)value;
+            if (imagenes.First() == null)
+            {
+                return new ValidationResult("Debe seleccionar al menos una imagen.");
+            }
             foreach (var imagen in imagenes)
             {
                 if(!Extensions.Any(x => imagen.FileName.EndsWith(x)))
                 {
                     return new ValidationResult("Solo se aceptan imagenes con los siguientes formatos: " + string.Join(" ", Extensions));
                 }
-            }
+            }                            
             return null;
         }
     }

@@ -422,7 +422,7 @@ namespace Congressus.Web.Controllers
                 _repo.Edit(evento);
                 return RedirectToAction("Administrar", new { id = model.Id });
             }
-            return View("ConfigurarInicio", evento);
+            return View("ConfiguracionInicio", evento);
         }
 
         [Authorize(Roles = "admin, presidente")]
