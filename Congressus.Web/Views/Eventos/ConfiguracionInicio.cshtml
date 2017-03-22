@@ -6,6 +6,7 @@
 }
 <h4 class="teal-text">Configuracion de Inicio</h4>
 @Html.ValidationSummary(false,"", new { @class="red-text"})
+
 <h5 class="teal-text">Logo de la conferencia.</h5>
 @using (Html.BeginForm("SubirLogo", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {

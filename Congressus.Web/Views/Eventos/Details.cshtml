@@ -23,7 +23,7 @@
         @Html.Partial("_CharlasPartial", Model.Charlas)
         @foreach (var seccion in Model.Secciones)
         {
-            <div id="@seccion.Nombre">
+            <div id="@seccion.Id">
                 <h5 class="teal-text">@seccion.Titulo</h5>
                 <div>
                     @Html.Raw(HttpUtility.HtmlDecode(@seccion.Cuerpo))
@@ -36,7 +36,7 @@
 @* SPONSORS *@
 <div class="centrar">
     <h3 class="teal-text">Sponsors</h3>
-    @if (Model.ImagenesSponsors != null) { 
+    @if (!string.IsNullOrEmpty(Model.ImagenesSponsors)) { 
         @Html.Partial("_carousel", Model.ImagenesSponsors.Split(';'))
     }
 </div>
