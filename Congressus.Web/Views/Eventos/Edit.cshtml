@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Editar evento</h2>
 
 
 @using (Html.BeginForm())
@@ -75,6 +75,17 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Tema, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tema, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.AreasCientificas)
+            <div>
+                <div class="chips" style="width:38%">
+                    <input type="text" />
+                </div>
+                @Html.HiddenFor(model => model.AreasCientificas, new { @class = "chipHidden" })
+                @Html.ValidationMessageFor(model => model.AreasCientificas)
             </div>
         </div>
 

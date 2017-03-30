@@ -11,56 +11,90 @@
 {
     if (!Model.HabilitarDescargaCertificados)
     {
-        <a href="@Url.Action("HabilitarDescargaCertificados", "Eventos", new { id = Model.Id })">Habilitar descarga de certificados de asistencia</a>
+        <a href="@Url.Action("HabilitarDescargaCertificados", "Certificados", new { id = Model.Id })">Habilitar descarga de certificados de asistencia</a>
     }
     else
     {
-        <a href="@Url.Action("DeshabilitarDescargaCertificados", "Eventos", new { id = Model.Id })">Deshabilitar descarga de certificados de asistencia</a>
+        <a href="@Url.Action("DeshabilitarDescargaCertificados", "Certificados", new { id = Model.Id })">Deshabilitar descarga de certificados de asistencia</a>
     }
 }
 
 <h5 class="teal-text text-darken-1">Certificado para asistentes</h5>
 @if (string.IsNullOrEmpty(Model.CertificadoAsistentesPath))
-            {
-                using (Html.BeginForm("UploadCertificadoAsistentes", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-        @Html.Hidden("eventoId", Model.Id)
+{
+    using (Html.BeginForm("UploadCertificadoAsistentes", "Certificados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Id", Model.Id)
         <div class="file-field input-field">
             <div class="btn">
                 <span>Abrir</span>
-                <input name="certificado" type="file">
+                <input name="Certificado" type="file">
             </div>
             <div class="file-path-wrapper">
                 <input name="path" class="file-path validate" type="text" placeholder="Certificado para asistentes">
             </div>
         </div>
-            <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+        <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
     }
 }
 else
 {
     <div class="row">
         <div class="col s3"><span>Certificado para asistentes</span></div>
-        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoAsistente", new { id = Model.Id })</div>
+        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoAsistentes", "Certificados", new { id = Model.Id }, null)</div>
         <div class="col s1">
-            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoAsistentes",new { id = Model.Id })">
+            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoAsistentes","Certificados", new { id = Model.Id }, null)">
                 <i class='material-icons'>delete</i>
             </a>
         </div>
     </div>
 }
-<br />
-<hr />
-<h5 class="teal-text text-darken-1">Certificado para oradores</h5>
-@if (string.IsNullOrEmpty(Model.CertificadoOradoresPath))
-            {
-                using (Html.BeginForm("UploadCertificadoOradores", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-        @Html.Hidden("eventoId", Model.Id)
+
+
+<h5 class="teal-text text-darken-1">Certificado para asistentes por charla</h5>
+@if (string.IsNullOrEmpty(Model.CertificadoAsistentesXCharlaPath))
+{
+    using (Html.BeginForm("UploadCertificadoAsistentesXCharla", "Certificados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Id", Model.Id)
         <div class="file-field input-field">
             <div class="btn">
                 <span>Abrir</span>
-                <input name="certificado" type="file">
+                <input name="Certificado" type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input name="path" class="file-path validate" type="text" placeholder="Certificado para asistentes por charla">
+            </div>
+        </div>
+        <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col s3"><span>Certificado para asistentes por charla</span></div>
+        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoAsistenteXCharla", "Certificados", new { id = Model.Id }, null)</div>
+        <div class="col s1">
+            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoAsistentesXCharla","Certificados", new { id = Model.Id }, null)">
+                <i class='material-icons'>delete</i>
+            </a>
+        </div>
+    </div>
+}
+
+
+<br />
+<hr />
+<h5 class="teal-text text-darken-1">Certificado para oradores</h5>
+@if (string.IsNullOrEmpty(Model.CertificadoOradores))
+{
+    using (Html.BeginForm("UploadCertificadoOradores", "Certificados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Id", Model.Id)
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Abrir</span>
+                <input name="Certificado" type="file">
             </div>
             <div class="file-path-wrapper">
                 <input name="path" class="file-path validate" type="text" placeholder="Certificado para oradores">
@@ -73,11 +107,45 @@ else
 {
     <div class="row">
         <div class="col s3"><span>Certificado para oradores</span></div>
-        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoOradores", new { id = Model.Id })</div>
+        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoOradores", "Certificados", new { id = Model.Id }, null)</div>
         <div class="col s1">
-            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoOradores",new { id = Model.Id })">
+            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoOradores", "Certificados",new { id = Model.Id }, null)">
                 <i class='material-icons'>delete</i>
             </a>
         </div>
     </div>
 }
+
+<br />
+<hr />
+<h5 class="teal-text text-darken-1">Certificado para Co-Autores</h5>
+@if (string.IsNullOrEmpty(Model.CertificadoCoAutores))
+{
+    using (Html.BeginForm("UploadCertificadoCoAutores", "Certificados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Id", Model.Id)
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>Abrir</span>
+                <input name="Certificado" type="file">
+            </div>
+            <div class="file-path-wrapper">
+                <input name="path" class="file-path validate" type="text" placeholder="Certificado para Co-autores">
+            </div>
+        </div>
+        <button class="btn waves-effect waves-ligt blue darken-2" type="submit">Subir</button>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col s3"><span>Certificado para Co-autores</span></div>
+        <div class="col s1">@Html.ActionLink("Ver", "VerCertificadoCoAutores", "Certificados", new { id = Model.Id }, null)</div>
+        <div class="col s1">
+            <a class="btn waves-effect waves-light" href="@Url.Action("EliminarCertificadoCoAutores", "Certificados",new { id = Model.Id }, null)">
+                <i class='material-icons'>delete</i>
+            </a>
+        </div>
+    </div>
+}
+

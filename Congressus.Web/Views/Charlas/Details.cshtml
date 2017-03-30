@@ -9,21 +9,37 @@
 
 <div>
     <h4>@Model.Tipo - @Model.Titulo</h4>
-    @if (User.Identity.GetUserId() == Model.Orador.UsuarioId)
-    {
-        if (Model.Evento.HabilitarDescargaCertificados)
+    
+     @if (Model.Evento.HabilitarDescargaCertificados)
+     {
+        if (User.Identity.GetUserId() == Model.Orador.UsuarioId)
         {
+         <h5>
+             <a href="@Url.Action("GenerarCertificadoOradores", "Certificados", new { id = Model.Evento.Id, charlaId = Model.Id })">
+                 Descargar certificado de orador
+             </a>
+         </h5>
+         }
+         var uid = User.Identity.GetUserId();
+         if (Model.Inscripciones.FirstOrDefault(x=>x.Asistente.UsuarioId == uid)!=null)
+         {
             <h5>
-                <a href="@Url.Action("GenerarCertificadoOradores", "Eventos", new { id = Model.Evento.Id, charlaId = Model.Id })">
-                    Descargar certificado de orador
+                <a href="@Url.Action("GenerarCertificadoAsistentesXCharla", "Certificados", new { id = Model.Id })">
+                    Descargar certificado de Asistente para esta charla
                 </a>
             </h5>
-        }
-        else
-        {
-            <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
-        }
-    }
+         }
+        <h5>
+            <a href="@Url.Action("GenerarCertificadoCoAutores", "Certificados", new { id = Model.Id })">
+                Descargar certificado de trabajo presentado.
+            </a>
+        </h5>
+     }
+     else
+     {
+         <p class="red-text">Los organizadores aún no han habilitado la descarga de certificados.</p>
+     }
+    
     <hr />
     <table class="striped detailsTable">
         <tr>

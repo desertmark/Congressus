@@ -77,9 +77,14 @@ namespace Congressus.Web.Controllers
             {
                 ViewBag.Mensaje = "Ya ha finalizado la fecha de presentacion de trabajos para este evento.";
                 return View("Error");
-            }
-            ViewBag.EventoId = eventoId;
-            return View();
+            }            
+            var model = new PaperViewModel()
+            {
+                EventoId = evento.Id,
+                AreasCientifica = new SelectList(evento.AreasCientificas.Split(';').AsEnumerable()),
+                Fecha = DateTime.Today
+            };
+            return View(model);
         }
 
         // POST: Papers/Create
@@ -88,38 +93,43 @@ namespace Congressus.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin, autor")]
-        public ActionResult Create(PaperViewModel paperVm, int eventoId)
+        public ActionResult Create(PaperViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var userId = User.Identity.GetUserId();
                 var autor = db.Autores.First(a => a.UsuarioId == userId);
-                var evento = db.Eventos.Find(eventoId);
+                var evento = db.Eventos.Find(model.EventoId);
                 var paper = new Paper()
                 {
-                    Nombre = paperVm.Nombre,
-                    AreaCientifica = paperVm.AreaCientifica,
-                    Descripcion = paperVm.Descripcion,
-                    Fecha = paperVm.Fecha,
-                    Path = paperVm.Path,
+                    Nombre = model.Nombre,
+                    AreaCientifica = model.AreaCientifica,
+                    Descripcion = model.Descripcion,
+                    Fecha = model.Fecha,
+                    Path = model.Path,
                     Autor = autor,
-                    Evento = evento
+                    Evento = evento,
+                    CoAutores = model.CoAutores
                 };
+                var evaluador = evento.Comite.FirstOrDefault(x => x.AreaCientifica == paper.AreaCientifica);
+                if (evaluador != null)
+                    paper.Evaluador = evaluador;
+
                 evento.Papers.Add(paper);
-                evento.Presidente.Papers.Add(paper);
                 autor.Papers.Add(paper);
                 db.Papers.Add(paper);                                                                                                         
                 db.SaveChanges();
-                //Se guarda para y carga de nuevo el mismo paper para poder tener el valor del id.
-                paper = db.Papers.Single(p => p.Nombre == paper.Nombre && p.Fecha == paper.Fecha && p.Autor.Id == paper.Autor.Id);
-                if(paperVm.Archivo!=null) paper.GuardarArchivo(paperVm.Archivo);
-                //Se modifica la variable path al guardar el archivo.
-                db.Entry(paper).State = EntityState.Modified;
-                db.SaveChanges();
+                
+                if (model.Archivo != null) { 
+                    paper.GuardarArchivo(model.Archivo);
+                    //Se modifica la variable path al guardar el archivo.
+                    db.Entry(paper).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
-            return View(paperVm);
+            return View(model);
         }
         [Authorize(Roles = "admin, autor")]
         // GET: Papers/Edit/5
@@ -134,8 +144,20 @@ namespace Congressus.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Evaluacions, "Id", "Comentario", paper.Id);
-            return View(paper);
+            //ViewBag.Id = new SelectList(db.Evaluacions, "Id", "Comentario", paper.Id);
+            var model = new PaperViewModel()
+            {
+                Id = paper.Id,
+                EventoId = paper.Evento.Id,
+                Descripcion = paper.Descripcion,
+                Fecha = paper.Fecha,
+                AreasCientifica = new SelectList(paper.Evento.AreasCientificas.Split(';').AsEnumerable()),
+                Autor = paper.Autor,
+                CoAutores = paper.CoAutores,
+                Nombre = paper.Nombre,
+            };
+            if(!string.IsNullOrEmpty(paper.Path)) model.Path = paper.Path.Split('\\').Last();
+            return View(model);
         }
 
         // POST: Papers/Edit/5
@@ -144,30 +166,30 @@ namespace Congressus.Web.Controllers
         [HttpPost]
         [Authorize(Roles = "admin, autor")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(PaperViewModel paperVm)
+        public ActionResult Edit(PaperViewModel model)
         {
             
             if (ModelState.IsValid)
             {
-                Paper paper = db.Papers.Find(paperVm.Id);
-                if (paperVm.Archivo != null)
+                Paper paper = db.Papers.Find(model.Id);
+                if (model.Archivo != null)
                 {
                     paper.BorrarArchivo();
-                    paper.GuardarArchivo(paperVm.Archivo);
+                    paper.GuardarArchivo(model.Archivo);
                 }
-                paper.Nombre = paperVm.Nombre;
-                paper.AreaCientifica = paperVm.AreaCientifica;
-                paper.Fecha = paperVm.Fecha;
-                paper.Path = paperVm.Path;
-                paper.Descripcion = paperVm.Descripcion;
-                
+                paper.Nombre = model.Nombre;
+                paper.AreaCientifica = model.AreaCientifica;
+                paper.Fecha = model.Fecha;
+                paper.Path = model.Path;
+                paper.Descripcion = model.Descripcion;
+                paper.CoAutores = model.CoAutores;
 
                 db.Entry(paper).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Evaluacions, "Id", "Comentario", paperVm.Id);
-            return View(paperVm);
+            ViewBag.Id = new SelectList(db.Evaluacions, "Id", "Comentario", model.Id);
+            return View(model);
         }
         [Authorize(Roles = "admin, autor")]
         // GET: Papers/Delete/5

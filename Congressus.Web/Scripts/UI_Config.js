@@ -53,9 +53,54 @@
         var upperVal = $(e.currentTarget).val().toUpperCase();
         $(e.currentTarget).val(upperVal);
     });
+
+    //CHIPS
+    var chips = $(".chips");
+    chips.addClass("tooltipped");
+    chips.attr("data-position","right")
+    chips.attr("data-tooltip", "Apretar ENTER luego de ingresar cada valor.");
+    $('.tooltipped').tooltip({ delay: 50 });
+
+    $('.chips').material_chip();
+    
+    $('.chips').on('chip.delete', function (e, chip) {
+        if ($('.chipHidden').val().includes(";")) {
+            $('.chipHidden').val(
+                $('.chipHidden').val().replace(';' + chip.tag, "")
+            );
+        } else {
+            $('.chipHidden').val(
+                $('.chipHidden').val().replace(chip.tag, "")
+            );
+        }
+
+    });
+    $('.chips').on('chip.add', function (e, chip) {
+        if ($('.chipHidden').val() == "") {
+            $('.chipHidden').val($('.chipHidden').val() + chip.tag);
+        }
+        else {
+            $('.chipHidden').val($('.chipHidden').val() + ';' + chip.tag);
+        }
+    });
+
+    var valores = $('.chipHidden').val();
+    console.log(valores);
+    if (valores != "" && valores != null) {
+        var valoresArray = valores.split(';');
+        var data = [];
+        for (var i = 0; i < valoresArray.length; i++) {
+            data.push({ tag: valoresArray[i] });
+        }
+        console.log(data);
+        $('.chips').material_chip({ data: data });
+    }
+
+    
 });
 //Silder eventos
 function next() {
     $('.carousel-slider').carousel('next');
     $('.carousel-normal').carousel('next');
 }
+

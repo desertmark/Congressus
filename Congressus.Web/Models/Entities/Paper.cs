@@ -25,6 +25,7 @@ namespace Congressus.Web.Models.Entities
         public virtual Evento Evento { get; set; }
         public virtual MiembroComite Evaluador { get; set; }
         public virtual Autor Autor { get; set; }
+        public string CoAutores { get; set; }
         public virtual ICollection<Revision> Revisiones { get; set; }
         public virtual Evaluacion Evaluacion { get; set; }
         public virtual string Estado { get; set; } = "Sin aceptar o rechazar";

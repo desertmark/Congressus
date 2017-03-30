@@ -84,24 +84,43 @@ namespace Congressus.Web.Controllers
         }
         [Authorize(Roles="presidente, admin")]
         // GET: Miembros/Create
-         public ActionResult Create()
+        public ActionResult Create()
         {
+            IEnumerable<Evento> eventos;
+
             if(!User.IsInRole("admin"))
             {
                 var userId = User.Identity.GetUserId();
-                var eventos = db.Miembros.Single(m => m.UsuarioId == userId).Eventos.ToList();
-                ViewBag.Eventos =  new SelectList(eventos, "Id", "Nombre");
+                eventos = db.Miembros.Single(m => m.UsuarioId == userId).Eventos.ToList();
             }
             else
             {
-                var eventos = db.Eventos.ToList();
-                var selectList = new SelectList(eventos, "Id", "Nombre");
-                ViewBag.Eventos = selectList;
+                eventos = db.Eventos.ToList();
             }
-            
-            return View();
+            var model = new CrearMiembroViewModel()
+            {
+                Eventos = new SelectList(eventos, "Id", "Nombre"),
+                AreasCientificas = new List<SelectListItem>()
+            };
+            return View(model);
         }
+        public ActionResult AreasCientificas(string Origin, string Target, int Value)
+        {
+            var id = Value;
+            var evento = db.Eventos.FirstOrDefault(x => x.Id == id);
+            if (evento == null) return HttpNotFound();
+            List<SelectListItem> AreasCientificas = new List<SelectListItem>();
+            if (evento.AreasCientificas != null)
+            {
+                foreach (var area in evento.AreasCientificas.Split(';'))
+                {
+                    AreasCientificas.Add(new SelectListItem(){Text = area, Value = area});
+                }
+            }
+                
 
+            return Json(AreasCientificas, JsonRequestBehavior.AllowGet);
+        }
         // POST: Miembros/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.

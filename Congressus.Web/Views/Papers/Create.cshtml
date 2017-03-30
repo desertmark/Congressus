@@ -1,8 +1,7 @@
-﻿@model Congressus.Web.Models.Entities.Paper
+﻿@model Congressus.Web.Models.PaperViewModel
 
 @{
     ViewBag.Title = "Enviar paper";
-    int eventoId = ViewBag.EventoId;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,13 +24,13 @@
         </div>
 
         <div>
-            @Html.Hidden("eventoId", eventoId)
+            @Html.HiddenFor(model => model.EventoId)
         </div>
 
         <div>
-            @Html.LabelFor(model => model.AreaCientifica)
+            @Html.LabelFor(model => model.AreasCientifica)
             <div>
-                @Html.EditorFor(model => model.AreaCientifica)
+                @Html.DropDownListFor(model=>model.AreaCientifica,Model.AreasCientifica,new { @class="browser-default"})
                 @Html.ValidationMessageFor(model => model.AreaCientifica)
             </div>
         </div>
@@ -45,8 +44,18 @@
         </div>
 
         <div>
+            @Html.LabelFor(model => model.CoAutores)
+            <div>
+                <div class="chips" style="width:38%" >
+                    <input type="text" />
+                </div>
+                @Html.HiddenFor(model => model.CoAutores, new { @class="chipHidden"})
+                @Html.ValidationMessageFor(model => model.CoAutores)
+            </div>
+        </div>
+        <div>
             @Html.LabelFor(model => model.Descripcion)
-            <div >
+            <div>
                 @Html.EditorFor(model => model.Descripcion)
                 @Html.ValidationMessageFor(model => model.Descripcion)
             </div>

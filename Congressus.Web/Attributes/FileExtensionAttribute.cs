@@ -9,29 +9,41 @@ namespace Congressus.Web.Attributes
     public class FileExtensionAttribute : ValidationAttribute
     {
         string[] Extensions { get; set; }
-        public FileExtensionAttribute(string[] extensions)
+        bool Multiple { get; set; }
+        public FileExtensionAttribute(string[] extensions, bool multiple = true)
         {
             Extensions = extensions;
+            Multiple = multiple;
         }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)
             {
-                return new ValidationResult("Debe seleccionar una imagen.");
+                return new ValidationResult("Debe seleccionar un archivo.");
             }
-            var imagenes = (List<HttpPostedFileBase>)value;
-            if (imagenes.First() == null)
+            if (value is List<HttpPostedFileBase>)
             {
-                return new ValidationResult("Debe seleccionar al menos una imagen.");
-            }
-            foreach (var imagen in imagenes)
-            {
-                if(!Extensions.Any(x => imagen.FileName.EndsWith(x)))
+                var archivos = (List<HttpPostedFileBase>)value;
+                if (archivos.First() == null)
                 {
-                    return new ValidationResult("Solo se aceptan imagenes con los siguientes formatos: " + string.Join(" ", Extensions));
+                    return new ValidationResult("Debe seleccionar al menos un archivo.");
                 }
-            }                            
-            return null;
+                foreach (var archivo in archivos)
+                {
+                    if (!Extensions.Any(x => archivo.FileName.EndsWith(x)))
+                    {
+                        return new ValidationResult("Solo se aceptan archivos con los siguientes formatos: " + string.Join(" ", Extensions));
+                    }
+                }
+            }else if(value is HttpPostedFileBase)
+            {
+                var archivo = (HttpPostedFileBase)value;
+                if (!Extensions.Any(x => archivo.FileName.EndsWith(x)))
+                {
+                    return new ValidationResult("Solo se aceptan archivos con los siguientes formatos: " + string.Join(" ", Extensions));
+                }
+            }                          
+            return ValidationResult.Success;
         }
     }
 }

@@ -13,6 +13,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Congressus.Web.Models;
 using Congressus.Web.Context;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace Congressus.Web
 {
@@ -21,6 +23,16 @@ namespace Congressus.Web
         public Task SendAsync(IdentityMessage message)
         {
             // Conecte su servicio de correo electrónico aquí para enviar correo electrónico.
+            //message.
+            MailMessage m = new MailMessage();
+            m.Subject = "Cambio de contraseña";
+            m.Body = message.Body;
+            m.IsBodyHtml = true;
+            m.To.Add(message.Destination);
+            using (var smtp = new SmtpClient())
+            {
+                smtp.Send(m);
+            }                
             return Task.FromResult(0);
         }
     }

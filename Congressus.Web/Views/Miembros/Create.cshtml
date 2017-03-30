@@ -1,9 +1,9 @@
-﻿@using Congressus.Web.Models.Entities
+﻿@using Share.Bonnet.AjaxDropDownList;
 @model Congressus.Web.Models.CrearMiembroViewModel
 
 @{
     ViewBag.Title = "Crear";
-    SelectList eventos = ViewBag.Eventos;
+    //SelectList eventos = ViewBag.Eventos;
 }
 
 <h2>Crear</h2>
@@ -20,7 +20,17 @@
         <div>
             @Html.Label("Evento")
             <div>
-                @Html.DropDownList("EventoId", eventos, new { @class = "browser-default" })
+                @*@Html.DropDownList("EventoId", eventos, new { @class = "browser-default" })*@
+                @Html.DropDownListFor(
+                    model => model.EventoId, Model.Eventos,
+                    new { @class = "browser-default", id = "eventoId" },
+                    Ajax.UpdateActionFor(model => model.AreaCientifica,
+                                         new AjaxUpdateOptions()
+                                         {
+                                             DisableTargetWhenEmpty = true,
+                                             Url = Url.Action("AreasCientificas", "Miembros")
+                                         })
+                    )
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "" })
             </div>
         </div>
@@ -44,7 +54,16 @@
         <div>
             @Html.LabelFor(model => model.AreaCientifica, htmlAttributes: new { @class = "" })
             <div>
-                @Html.EditorFor(model => model.AreaCientifica, new { htmlAttributes = new { @class = "" } })
+                @*@Html.EditorFor(model => model.AreaCientifica, new { htmlAttributes = new { @class = "" } })*@
+                @Html.DropDownListFor(
+                            model => model.AreaCientifica,
+                            Model.AreasCientificas,
+                            new
+                            {
+                                @class = "browser-default",
+                                disabled = "disabled"
+                            }
+                )
                 @Html.ValidationMessageFor(model => model.AreaCientifica, "", new { @class = "" })
             </div>
         </div>

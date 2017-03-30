@@ -26,12 +26,16 @@ namespace Congressus.Web.Models.Entities
         public bool HabilitarDescargaCertificados { get; set; }
         public virtual MiembroComite Presidente { get; set; }
         public string CertificadoAsistentesPath { get; set; }
-        public string CertificadoOradoresPath { get; set; }
+        public string CertificadoOradores { get; set; }
+        public string CertificadoCoAutores { get; set; }
+        public string CertificadoAsistentesXCharlaPath { get; set; }
         public string LogoPath { get; set; }
         public string ProgramaPath { get; set; }
         public string ImagenesInicio { get; set; }
         public string ImagenesSponsors { get; set; }
         public string TextoBienvenida { get; set; }
+        [Display(Name = "Areas Cientifica")]
+        public string AreasCientificas { get; set; }
         public virtual ICollection<Paper> Papers{ get; set; }        
         public virtual ICollection<MiembroComite> Comite { get; set; }
         public virtual ICollection<Charla> Charlas { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Congressus.Web.Models
 {
@@ -14,6 +15,7 @@ namespace Congressus.Web.Models
         
         [Display(Name = "Area Cientifica")]
         public string AreaCientifica { get; set; }
+        public IEnumerable<SelectListItem> AreasCientificas { get; set; }
 
         [Required]
         [Display(Name = "Correo electrónico")]
@@ -27,8 +29,10 @@ namespace Congressus.Web.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string Confirm { get; set; }
+
         public int EventoId { get; set; }
+        public IEnumerable<SelectListItem> Eventos { get; set; }
     }
 }

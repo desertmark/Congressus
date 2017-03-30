@@ -47,6 +47,18 @@
             <td><span>@autor</span></td>
         </tr>
         <tr>
+            <th class="black-text text-accent-4"><strong>Co-Autores:</strong></th>
+            <td>
+                @if (Model.CoAutores != null && Model.CoAutores.Count() > 0)
+                {
+                    foreach (var a in Model.CoAutores.Split(';'))
+                    {
+                        <div class="chip">@a</div>
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
             <th class="black-text text-accent-4"><strong>Evaluador:</strong></th>
             <td><span>@evaluador</span></td>
         </tr>

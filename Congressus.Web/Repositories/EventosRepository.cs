@@ -31,7 +31,10 @@ namespace Congressus.Web.Repositories
             var autor = _db.Autores.Single(a => a.UsuarioId == UserId); // buscar autor para ese Id de usuario 
             return autor.Papers.Select(p => p.Evento).Distinct(); // buscar en la lista de papers de ese autor todos los eventos en que participa habiendo enviado un paper
         }
-
+        public Charla FindCharlaById(int id)
+        {
+            return _db.Charlas.FirstOrDefault(x => x.Id == id);
+        }
         public IEnumerable<MiembroComite> MiembrosDeTodosLosEventos(string UserId)
         {
             var eventos = FindByMiembroUserId(UserId);
@@ -99,32 +102,26 @@ namespace Congressus.Web.Repositories
             _db.Eventos.Remove(evento);
             _db.SaveChanges();
         }
-        public void GuardarCertificadoAsistentes(int eventoId, string path, HttpPostedFileBase certificado)
+        public string GuardarCertificados(CertificadoUploadVM model, string FileName)
         {
-            var evento = FindById(eventoId);
-            evento.CertificadoAsistentesPath = path;
-            GuardarCertificado(evento, path, certificado);
-        }
-        public void GuardarCertificadoOradores(int eventoId, string path, HttpPostedFileBase certificado)
-        {
-            var evento = FindById(eventoId);
-            evento.CertificadoOradoresPath = path;
-            GuardarCertificado(evento, path, certificado);
-        }
-        private void GuardarCertificado(Evento evento, string path, HttpPostedFileBase certificado)
-        {
-            MemoryStream stream = new MemoryStream();
-            certificado.InputStream.CopyTo(stream);
-            var bytes = stream.ToArray();
+            var server = HttpContext.Current.Server;
 
-            File.WriteAllBytes(path, bytes);
+            var carpetaPath = "/Content/Files/Eventos/" + model.Id + "/Certificados/";
+            var fileNamePath = carpetaPath + FileName + "." + model.Certificado.FileName.Split('.').Last();
 
-            Edit(evento);
+            if (!Directory.Exists(server.MapPath(carpetaPath)))
+                Directory.CreateDirectory(server.MapPath(carpetaPath));
+
+            model.Certificado.SaveAs(server.MapPath(fileNamePath));
+            return fileNamePath;
         }
 
         public byte[] RenderizarCertificado(int eventoId, string path)
         {
-            
+
+            if (!path.Contains(":\\"))
+                path = HttpContext.Current.Server.MapPath(path);
+
             LocalReport report = new LocalReport();
             
             if (!File.Exists(path))
@@ -164,10 +161,11 @@ namespace Congressus.Web.Repositories
             return renderedBytes;
         }
 
-        public string GenerarCertificado(string path, string nombre, string evento, string fecha, string charla = null)
+        public string GenerarCertificado(string path, string nombre, string evento, string fecha, string charla = null, string CoAutores = null)
         {
-            
-            var rdlText = File.ReadAllLines(path);
+
+            var server = HttpContext.Current.Server;
+            var rdlText = File.ReadAllLines(server.MapPath(path));
             if (rdlText.Any(x => x.Contains("[Nombre]")))
             {
                 var value = rdlText.First(x => x.Contains("[Nombre]"));
@@ -197,6 +195,13 @@ namespace Congressus.Web.Repositories
                 value = value.Replace("[Charla]", charla);
                 rdlText.SetValue(value, index);
             }
+            if (rdlText.Any(x => x.Contains("[CoAutores]")))
+            {
+                var value = rdlText.First(x => x.Contains("[CoAutores]"));
+                var index = Array.IndexOf(rdlText, value);
+                value = value.Replace("[CoAutores]", CoAutores);
+                rdlText.SetValue(value, index);
+            }
             var tempPath = Path.GetTempFileName();
             File.WriteAllLines(tempPath, rdlText);
             return tempPath;
@@ -209,15 +214,27 @@ namespace Congressus.Web.Repositories
             evento.CertificadoAsistentesPath = "";
             Edit(evento);
         }
-
-        public void EliminarCertificadoOradores(Evento evento)
+        public void EliminarCertificadoAsistentesXCharla(Evento evento)
         {
-            if (File.Exists(evento.CertificadoOradoresPath))
-                File.Delete(evento.CertificadoOradoresPath);
-            evento.CertificadoOradoresPath = "";
+            if (File.Exists(evento.CertificadoAsistentesXCharlaPath))
+                File.Delete(evento.CertificadoAsistentesXCharlaPath);
+            evento.CertificadoAsistentesXCharlaPath = "";
             Edit(evento);
         }
-
+        public void EliminarCertificadoOradores(Evento evento)
+        {
+            if (File.Exists(evento.CertificadoCoAutores))
+                File.Delete(evento.CertificadoCoAutores);
+            evento.CertificadoCoAutores = "";
+            Edit(evento);
+        }
+        public void EliminarCertificadoCoAutores(Evento evento)
+        {
+            if (File.Exists(evento.CertificadoCoAutores))
+                File.Delete(evento.CertificadoCoAutores);
+            evento.CertificadoCoAutores = "";
+            Edit(evento);
+        }
         public void HabilitarDeshabilitarCertificados(Evento evento, bool accion)
         {
             evento.HabilitarDescargaCertificados = accion;
@@ -227,7 +244,7 @@ namespace Congressus.Web.Repositories
         public List<string> GuardarImagenes(ImagenesUploadVM model,string carpeta ="")
         {
             var Server = HttpContext.Current.Server;
-            var path = "/Content/Files/Images/Eventos/" + model.Id + "/" + carpeta + "/";
+            var path = "/Content/Files/Eventos/Images" + model.Id + "/" + carpeta + "/";
 
             if (!Directory.Exists(Server.MapPath(path)))
                 Directory.CreateDirectory(Server.MapPath(path));
