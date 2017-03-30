@@ -200,6 +200,7 @@
     <Compile Include="Controllers\SeccionesController.cs" />
     <Compile Include="Models\CertificadoUploadVM.cs" />
     <Compile Include="Models\Entities\SeccionEvento.cs" />
+    <Compile Include="Models\PdfUploadVM.cs" />
     <Compile Include="Models\SeccionEventoVM.cs" />
     <Compile Include="Models\TextoInicioVM.cs" />
     <Compile Include="Models\ImagenesUploadVM.cs" />

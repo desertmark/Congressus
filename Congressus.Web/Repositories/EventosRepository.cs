@@ -258,5 +258,22 @@ namespace Congressus.Web.Repositories
             }
             return imagenes;
         }
+
+        public List<string> GuardarArchivos(List<HttpPostedFileBase> archivos, string relPath)
+        {
+            var Server = HttpContext.Current.Server;
+            var absolutePath = Server.MapPath(relPath);
+            if (!Directory.Exists(absolutePath))
+                Directory.CreateDirectory(absolutePath);
+
+            var relPaths = new List<string>();
+            foreach (var archivo in archivos)
+            {
+                var filePath = relPath + archivo.FileName;
+                archivo.SaveAs(Server.MapPath(filePath));
+                relPaths.Add(filePath);
+            }
+            return relPaths;
+        }
     }
 }

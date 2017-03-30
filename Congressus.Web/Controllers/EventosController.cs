@@ -44,11 +44,7 @@ namespace Congressus.Web.Controllers
         public ActionResult Administrar(int id)
         {
             var model = _repo.FindById(id);
-
-            ////Todos los miembros de los eventos del usuario del presidente.
-            //var userId = model.Presidente.UsuarioId;
-            //ViewBag.miembros = _repo.MiembrosDeTodosLosEventos(userId);
-            //model.Comite.Remove(model.Presidente);               
+               
             return View(model);
         }
         [Authorize(Roles = "presidente, admin")]
@@ -231,21 +227,32 @@ namespace Congressus.Web.Controllers
         }
 
         [Authorize(Roles = "admin, presidente")]
-        public ActionResult SubirPrograma(ImagenesUploadVM model)
+        public ActionResult SubirPrograma(PdfUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
             if (evento == null)
                 return HttpNotFound();
             if (ModelState.IsValid)
             {
-                var pathFile = _repo.GuardarImagenes(model, "Programa").First();
+                var relPath = "/Content/Files/Eventos" + model.Id + "/Programa/";
+                var pathFile = _repo.GuardarArchivos(model.Documentos, relPath).First();
                 evento.ProgramaPath = pathFile;
                 _repo.Edit(evento);
                 return RedirectToAction("Administrar", new { id = model.Id });
             }
             return View("Administrar", evento);
         }
+        public ActionResult Programa(int id)
+        {
+            var evento = _repo.FindById(id);
+            if (evento == null) return HttpNotFound();
+            if (evento.ProgramaPath == null) return HttpNotFound();
+            if (!System.IO.File.Exists(Server.MapPath(evento.ProgramaPath))) return HttpNotFound();
 
+            var fs = new FileStream(Server.MapPath(evento.ProgramaPath), FileMode.Open);
+            return File(fs, "application/pdf");
+            
+        }
         [Authorize(Roles = "admin, presidente")]
         public ActionResult SubirImagenesInicio(ImagenesUploadVM model)
         {

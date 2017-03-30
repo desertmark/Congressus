@@ -8,9 +8,10 @@
     }
     else
     {
-        <a href="@Model.ProgramaPath" download="Programa">
+        @*<a href="@Model.ProgramaPath" download="Programa">
             <img src="@Model.ProgramaPath" style="max-width:100%"/>
-        </a>
+        </a>*@
+        <object data="@Url.Action("Programa", new { Id = Model.Id })" type="application/pdf" width="100%" height="500px"></object>        
     }
     @{var estadoCertificados = Model.HabilitarDescargaCertificados ? "Habilitados" : "Deshabilitados";}
     <div>
