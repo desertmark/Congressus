@@ -249,6 +249,7 @@
     <Compile Include="Repositories\AsistentesRepository.cs" />
     <Compile Include="Repositories\CharlasRepository.cs" />
     <Compile Include="Repositories\EventosRepository.cs" />
+    <Compile Include="Repositories\PaperRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SeccionesRepository.cs" />
     <Compile Include="Startup.cs" />
