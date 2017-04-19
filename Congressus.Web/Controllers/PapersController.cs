@@ -10,6 +10,7 @@ using Congressus.Web.Models;
 using Congressus.Web.Models.Entities;
 using Microsoft.AspNet.Identity;
 using Congressus.Web.Context;
+using Congressus.Web.Repositories;
 
 namespace Congressus.Web.Controllers
 {
@@ -17,7 +18,7 @@ namespace Congressus.Web.Controllers
     public class PapersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private readonly PaperRepository _repo = new PaperRepository();
         //// GET: EnviarPaper
         //[Authorize(Roles ="admin, autor")]
         //public ActionResult EnviarPaper()
