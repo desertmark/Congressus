@@ -19,6 +19,7 @@ namespace Congressus.Web.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly PaperRepository _repo = new PaperRepository();
+        private readonly EventosRepository _eventRepo = new EventosRepository();
         //// GET: EnviarPaper
         //[Authorize(Roles ="admin, autor")]
         //public ActionResult EnviarPaper()
@@ -70,21 +71,13 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "admin, autor")]
         public ActionResult Create(int eventoId)
         {
-            var evento = db.Eventos.FirstOrDefault(x => x.Id == eventoId);
-            if (evento == null) {
-                return HttpNotFound();
-            }
-            else if(evento.FechaFinTrabajos.Date<DateTime.Today)
+            string mensajeError;
+            var model =_repo.CrearPaperVm(eventoId, out mensajeError);
+            if (model == null)
             {
-                ViewBag.Mensaje = "Ya ha finalizado la fecha de presentacion de trabajos para este evento.";
+                ViewBag.Mensaje = mensajeError;
                 return View("Error");
-            }            
-            var model = new PaperViewModel()
-            {
-                EventoId = evento.Id,
-                AreasCientifica = new SelectList(evento.AreasCientificas.Split(';').AsEnumerable()),
-                Fecha = DateTime.Today
-            };
+            }
             return View(model);
         }
 
