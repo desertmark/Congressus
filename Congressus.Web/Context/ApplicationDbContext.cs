@@ -23,7 +23,10 @@ namespace Congressus.Web.Context
         public DbSet<Evaluacion> Evaluacions { get; set; }
         public DbSet<InscripcionEvento> InscripcionesEvento { get; set; }
         public DbSet<InscripcionCharla> InscripcionesCharla { get; set; }
-        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false){}
+
+        public ApplicationDbContext() : base("DESNEA", throwIfV1Schema: false)
+        {            
+        }
 
         public static ApplicationDbContext Create()
         {

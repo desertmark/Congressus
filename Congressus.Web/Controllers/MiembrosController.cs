@@ -97,10 +97,23 @@ namespace Congressus.Web.Controllers
             {
                 eventos = db.Eventos.ToList();
             }
+
+            //Obtener las areas del primer evento si existe.
+            var areas = eventos.FirstOrDefault()?.AreasCientificas.Split(';').ToList();
+            //armar una lista para el select de la vista
+            var areasSelect = new List<SelectListItem>();
+            //para cada area crear un selectlist item.
+            areas.ForEach((item) => {
+                areasSelect.Add(new SelectListItem()
+                {
+                    Value = item,
+                    Text = item,
+                });
+            });
             var model = new CrearMiembroViewModel()
             {
                 Eventos = new SelectList(eventos, "Id", "Nombre"),
-                AreasCientificas = new List<SelectListItem>()
+                AreasCientificas = areasSelect
             };
             return View(model);
         }
