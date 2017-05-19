@@ -14,12 +14,12 @@ namespace Congressus.Web.Models.Entities
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         [Display(Name = "Area Cientifica")]
-        public string AreaCientifica { get; set; }
         public virtual string UsuarioId { get; set; }
-
-        public virtual ICollection<Evento> Eventos { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
+        public virtual ICollection<AreaCientifica> AreaCientifica { get; set; }
+        public virtual ICollection<Evento> Eventos { get; set; }
         public virtual ICollection<Paper> Papers { get; set; }
         public virtual ICollection<Revision> Revsiones { get; set; }
+
     }
 }

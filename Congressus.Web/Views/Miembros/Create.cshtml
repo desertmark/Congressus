@@ -15,88 +15,79 @@
     <div>
         <h4>Miembro Comite</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "" })
+        @Html.ValidationSummary(true)
         
         <div>
             @Html.Label("Evento")
             <div>
-                @*@Html.DropDownList("EventoId", eventos, new { @class = "browser-default" })*@
                 @Html.DropDownListFor(
                     model => model.EventoId, Model.Eventos,
                     new { @class = "browser-default", id = "eventoId" },
-                    Ajax.UpdateActionFor(model => model.AreaCientifica,
+                    Ajax.UpdateActionFor(model => model.AreaCientificaId,
                                          new AjaxUpdateOptions()
                                          {
                                              DisableTargetWhenEmpty = true,
                                              Url = Url.Action("AreasCientificas", "Miembros")
                                          })
                     )
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "" })
+                @Html.ValidationMessageFor(model => model.Nombre)
             </div>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Nombre)
             <div>
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "" })
+                @Html.EditorFor(model => model.Nombre)
+                @Html.ValidationMessageFor(model => model.Nombre)
             </div>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "" })
+            @Html.LabelFor(model => model.Apellido)
             <div>
-                @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "" } })
-                @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "" })
+                @Html.EditorFor(model => model.Apellido)
+                @Html.ValidationMessageFor(model => model.Apellido)
             </div>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.AreaCientifica, htmlAttributes: new { @class = "" })
+            @Html.LabelFor(model => model.AreaCientificaId)
             <div>
-                @*@Html.EditorFor(model => model.AreaCientifica, new { htmlAttributes = new { @class = "" } })*@
                 @Html.DropDownListFor(
-                            model => model.AreaCientifica,
+                            model => model.AreaCientificaId,
                             Model.AreasCientificas,
                             new
                             {
                                 @class = "browser-default",
-                                disabled = "disabled"
                             }
                 )
-                @Html.ValidationMessageFor(model => model.AreaCientifica, "", new { @class = "" })
+                @Html.ValidationMessageFor(model => model.AreaCientificaId)
             </div>
         </div>
 
-        <div>
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })
+            @Html.LabelFor(model => model.Email)
             <div>
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "" })
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
             </div>
-        </div>
 
-        <div>
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "" })
+            @Html.LabelFor(model => model.Password)
             <div>
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "" })
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
             </div>
-        </div>
 
-        <div>
-            @Html.LabelFor(model => model.Confirm, htmlAttributes: new { @class = "" })
+            @Html.LabelFor(model => model.Confirm)
             <div>
-                @Html.EditorFor(model => model.Confirm, new { htmlAttributes = new { @class = "" } })
-                @Html.ValidationMessageFor(model => model.Confirm, "", new { @class = "" })
+                @Html.EditorFor(model => model.Confirm)
+                @Html.ValidationMessageFor(model => model.Confirm)
             </div>
-        </div>
 
-        <div>
             <div>
-                <button type="submit" class="btn waves-effect waves-light black" >Crear <i class="material-icons right">send</i></button>
+                <button type="submit" class="btn waves-effect waves-light black" >
+                Crear 
+                <i class="material-icons right">send</i></button>
             </div>
-        </div>
     </div>
 }
 

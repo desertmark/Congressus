@@ -40,7 +40,7 @@ namespace Congressus.Web.Repositories
             var model = new PaperViewModel()
             {
                 EventoId = Evento.Id,
-                AreasCientifica = new SelectList(Evento.AreasCientificas.Split(';').AsEnumerable()),
+                AreasCientifica = new SelectList(Evento.AreasCientificas,"Id","Descripcion"),
                 Fecha = DateTime.Today
             };
             return model;
@@ -65,7 +65,7 @@ namespace Congressus.Web.Repositories
             var paper = new Paper()
             {
                 Nombre = model.Nombre,
-                AreaCientifica = model.AreaCientifica,
+                AreaCientifica = evento.AreasCientificas.FirstOrDefault( a => a.Id == model.AreaCientificaId),
                 Descripcion = model.Descripcion,
                 Fecha = model.Fecha,
                 Path = model.Path,

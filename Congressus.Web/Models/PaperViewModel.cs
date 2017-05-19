@@ -14,7 +14,7 @@ namespace Congressus.Web.Models
         public int Id { get; set; }
         public int EventoId { get; set; }
         public string Nombre { get; set; }
-        public string AreaCientifica { get; set; }
+        public int AreaCientificaId { get; set; }
         [Display(Name = "Area Cientifica")]
         public IEnumerable<SelectListItem> AreasCientifica { get; set; }
         [DataType(DataType.DateTime)]

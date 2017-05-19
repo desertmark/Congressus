@@ -94,10 +94,11 @@ namespace Congressus.Web.Controllers
                 var userId = User.Identity.GetUserId();
                 var autor = db.Autores.First(a => a.UsuarioId == userId);
                 var evento = db.Eventos.Find(model.EventoId);
+
                 var paper = new Paper()
                 {
                     Nombre = model.Nombre,
-                    AreaCientifica = model.AreaCientifica,
+                    AreaCientifica = evento.AreasCientificas.FirstOrDefault(p => p.Id == model.AreaCientificaId),
                     Descripcion = model.Descripcion,
                     Fecha = model.Fecha,
                     Path = model.Path,
@@ -105,7 +106,7 @@ namespace Congressus.Web.Controllers
                     Evento = evento,
                     CoAutores = model.CoAutores
                 };
-                var evaluador = evento.Comite.FirstOrDefault(x => x.AreaCientifica == paper.AreaCientifica);
+                var evaluador = paper.AreaCientifica.MiembroComite;
                 if (evaluador != null)
                     paper.Evaluador = evaluador;
 
@@ -138,19 +139,21 @@ namespace Congressus.Web.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.Id = new SelectList(db.Evaluacions, "Id", "Comentario", paper.Id);
+
             var model = new PaperViewModel()
             {
                 Id = paper.Id,
                 EventoId = paper.Evento.Id,
                 Descripcion = paper.Descripcion,
                 Fecha = paper.Fecha,
-                AreasCientifica = new SelectList(paper.Evento.AreasCientificas.Split(';').AsEnumerable()),
+                AreasCientifica = new SelectList(paper.Evento.AreasCientificas,"Id","Descripcion"),
                 Autor = paper.Autor,
                 CoAutores = paper.CoAutores,
                 Nombre = paper.Nombre,
             };
-            if(!string.IsNullOrEmpty(paper.Path)) model.Path = paper.Path.Split('\\').Last();
+            if(!string.IsNullOrEmpty(paper.Path))
+                model.Path = paper.Path.Split('\\').Last();
+
             return View(model);
         }
 
@@ -161,8 +164,7 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "admin, autor")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(PaperViewModel model)
-        {
-            
+        {            
             if (ModelState.IsValid)
             {
                 Paper paper = db.Papers.Find(model.Id);
@@ -172,7 +174,7 @@ namespace Congressus.Web.Controllers
                     paper.GuardarArchivo(model.Archivo);
                 }
                 paper.Nombre = model.Nombre;
-                paper.AreaCientifica = model.AreaCientifica;
+                paper.AreaCientifica = paper.Evento.AreasCientificas.FirstOrDefault(a => a.Id == model.AreaCientificaId);
                 paper.Fecha = model.Fecha;
                 paper.Path = model.Path;
                 paper.Descripcion = model.Descripcion;

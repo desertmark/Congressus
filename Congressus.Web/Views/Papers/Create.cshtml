@@ -30,8 +30,8 @@
         <div>
             @Html.LabelFor(model => model.AreasCientifica)
             <div>
-                @Html.DropDownListFor(model=>model.AreaCientifica,Model.AreasCientifica,new { @class="browser-default"})
-                @Html.ValidationMessageFor(model => model.AreaCientifica)
+                @Html.DropDownListFor(model=>model.AreaCientificaId, Model.AreasCientifica,new { @class="browser-default"})
+                @Html.ValidationMessageFor(model => model.AreaCientificaId)
             </div>
         </div>
 

@@ -14,7 +14,7 @@ namespace Congressus.Web.Models.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
         [Display(Name = "Area Cientifica")]
-        public string AreaCientifica { get; set; }
+        public virtual AreaCientifica AreaCientifica { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime Fecha { get; set; }
         [DataType(DataType.MultilineText)]

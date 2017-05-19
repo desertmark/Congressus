@@ -12,9 +12,10 @@ namespace Congressus.Web.Models
         public string Nombre { get; set; }
         
         public string Apellido { get; set; }
-        
-        [Display(Name = "Area Cientifica")]
-        public string AreaCientifica { get; set; }
+
+        [Display(Name = "Área científica")]
+        public int AreaCientificaId { get; set; }
+
         public IEnumerable<SelectListItem> AreasCientificas { get; set; }
 
         [Required]

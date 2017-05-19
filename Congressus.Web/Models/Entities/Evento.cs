@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Congressus.Web.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,12 +13,21 @@ namespace Congressus.Web.Models.Entities
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+
+
         [Display(Name ="Fecha limite presentacion de trabajos")]
         public DateTime FechaFinTrabajos {get; set;}
+
+
         [Display(Name = "Fecha limite de inscripcion al evento")]
         public DateTime FechaFinInscripcion { get; set; }
+
+
         [Display(Name = "Fecha de inicio")]
         public DateTime FechaInicio { get; set; }
+
+
+        [IsDateAfter("FechaInicio", ErrorMessage ="La fecha de fin debe ser posterior a la fecha de inicio.")]
         [Display(Name = "Fecha de finalizacion")]
         public DateTime FechaFin { get; set; }
         public string Lugar { get; set; }
@@ -34,8 +44,9 @@ namespace Congressus.Web.Models.Entities
         public string ImagenesInicio { get; set; }
         public string ImagenesSponsors { get; set; }
         public string TextoBienvenida { get; set; }
+
         [Display(Name = "Areas Cientifica")]
-        public string AreasCientificas { get; set; }
+        public virtual ICollection<AreaCientifica> AreasCientificas { get; set; }
         public virtual ICollection<Paper> Papers{ get; set; }        
         public virtual ICollection<MiembroComite> Comite { get; set; }
         public virtual ICollection<Charla> Charlas { get; set; }

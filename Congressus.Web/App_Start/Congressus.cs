@@ -75,7 +75,7 @@ namespace Congressus.Web.App_Start
                 {
                     Nombre = "Microsoft Student Partner",
                     Fecha = DateTime.Now,
-                    AreaCientifica = "Informatica",
+                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
                     Path = "",
                     Descripcion = "un paper"
                 },
@@ -83,7 +83,7 @@ namespace Congressus.Web.App_Start
                 {
                     Nombre = "Defusion del CIAA",
                     Fecha = DateTime.Now,
-                    AreaCientifica = "Informatica",
+                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
                     Path = "",
                     Descripcion = "un paper"
                 },
@@ -91,7 +91,7 @@ namespace Congressus.Web.App_Start
                 {
                     Nombre = "Arduino: Ventajas y desventajas",
                     Fecha = DateTime.Now,
-                    AreaCientifica = "Informatica",
+                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
                     Path = "",
                     Descripcion = "un paper"
                 }

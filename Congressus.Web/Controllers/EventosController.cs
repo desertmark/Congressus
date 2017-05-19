@@ -106,10 +106,12 @@ namespace Congressus.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create(Evento evento)
+        public ActionResult Create(EventoViewModel model)
         {
+
             if (ModelState.IsValid)
             {
+                var evento = model.ToEvento();
                 var userId = User.Identity.GetUserId();
                 if (!User.IsInRole("admin"))
                 {
@@ -122,7 +124,7 @@ namespace Congressus.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(evento);
+            return View(model);
         }
 
         // GET: Eventos/Edit/5
@@ -132,8 +134,8 @@ namespace Congressus.Web.Controllers
             Evento evento = _repo.FindById(id);
             if (evento == null)
                 return HttpNotFound();
-
-            return View(evento);
+            var model = new EventoViewModel(evento);
+            return View(model);
         }
 
         // POST: Eventos/Edit/5
@@ -142,14 +144,18 @@ namespace Congressus.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "presidente, admin")]
-        public ActionResult Edit(Evento evento)
+        public ActionResult Edit(EventoViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var evento = _repo.FindById(model.Id);
+                if (evento == null)
+                    return HttpNotFound();
+                evento = model.ToEvento(evento);
                 _repo.Edit(evento);
                 return RedirectToAction("Index");
             }
-            return View(evento);
+            return View(model);
         }
 
         // GET: Eventos/Delete/5

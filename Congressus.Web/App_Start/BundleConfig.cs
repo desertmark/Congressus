@@ -10,6 +10,10 @@ namespace Congressus.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
+            
+            //extensiones Mias
+            bundles.Add(new ScriptBundle("~/bundles/jquery.extensions").Include(
+                "~/Scripts/jquery.ajax.extensions.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryUnobtrusive").Include(
                 "~/Scripts/jquery.unobtrusive*"));

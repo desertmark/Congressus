@@ -1,4 +1,4 @@
-﻿@model Congressus.Web.Models.Entities.Evento
+﻿@model Congressus.Web.Models.EventoViewModel
 
 @{
     ViewBag.Title = "Crear Evento";
@@ -12,69 +12,70 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div>
         <h4>Evento</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.ValidationSummary(true)
+        <div>
+            @Html.LabelFor(model => model.Nombre)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Nombre)
+                @Html.ValidationMessageFor(model => model.Nombre)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaFinTrabajos, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.LabelFor(model => model.FechaFinTrabajos)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaFinTrabajos, new { htmlAttributes = new { @class = "input-field" } })
-                @Html.ValidationMessageFor(model => model.FechaFinTrabajos, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FechaFinTrabajos)
+                @Html.ValidationMessageFor(model => model.FechaFinTrabajos)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaFinInscripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.LabelFor(model => model.FechaFinInscripcion)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaFinInscripcion, new { htmlAttributes = new { @class = "input-field" } })
-                @Html.ValidationMessageFor(model => model.FechaFinInscripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "input-field" } })
-                @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "input-field" } })
-                @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FechaFinInscripcion)
+                @Html.ValidationMessageFor(model => model.FechaFinInscripcion)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.LabelFor(model => model.FechaInicio)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FechaInicio)
+                @Html.ValidationMessageFor(model => model.FechaInicio)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Lugar, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.LabelFor(model => model.FechaFin)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Lugar, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Lugar, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FechaFin)
+                @Html.ValidationMessageFor(model => model.FechaFin)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Tema, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.LabelFor(model => model.Direccion)
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Tema, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tema, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Direccion)
+                @Html.ValidationMessageFor(model => model.Direccion)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Lugar)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Lugar)
+                @Html.ValidationMessageFor(model => model.Lugar)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Tema)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tema)
+                @Html.ValidationMessageFor(model => model.Tema)
             </div>
         </div>
 
@@ -89,10 +90,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-default" />
-            </div>
+        <div>
+            <input type="submit" value="Crear" class="btn btn-default" />
         </div>
     </div>
 }

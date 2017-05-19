@@ -29,12 +29,22 @@
             <th class="black-text text-accent-4"><strong>Apellido:</strong></th>
             <td><span>@Model.Apellido</span></td>
         </tr>
-        <tr>
-            <th class="black-text text-accent-4"><strong>Area Cientifica:</strong></th>
-            <td><span>@Model.AreaCientifica</span></td>
-        </tr>
     </table>
-    
+   
+    <h5 class="teal-text">Areas cientificas</h5>
+    <table class="">
+        <tr>
+            <th>Evento</th>
+            <th>Área cientifia</th>
+        </tr>
+        @foreach (var area in Model.AreaCientifica)
+        {
+            <tr>
+                <td>@area.Evento.Nombre</td>
+                <td>area.Descripcion</td>
+            </tr>
+        }
+    </table>
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |

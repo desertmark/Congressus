@@ -186,6 +186,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attributes\IsDateAfterAttribute.cs" />
     <Compile Include="Attributes\FileExtensionAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
     <Compile Include="Context\ModelDbContext.cs" />
@@ -198,7 +199,9 @@
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SeccionesController.cs" />
+    <Compile Include="Helpers\ComboAjaxHelper.cs" />
     <Compile Include="Models\CertificadoUploadVM.cs" />
+    <Compile Include="Models\Entities\AreaCientifica.cs" />
     <Compile Include="Models\Entities\SeccionEvento.cs" />
     <Compile Include="Models\PdfUploadVM.cs" />
     <Compile Include="Models\SeccionEventoVM.cs" />
@@ -321,6 +324,7 @@
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Scripts\jquery-2.2.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.ajax.extensions.js" />
     <Content Include="Scripts\jquery.bonnet.ajax-dropdownlist.js" />
     <Content Include="Scripts\jquery.bonnet.ajax-dropdownlist.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

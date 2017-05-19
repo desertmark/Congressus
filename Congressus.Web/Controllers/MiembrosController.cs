@@ -97,10 +97,23 @@ namespace Congressus.Web.Controllers
             {
                 eventos = db.Eventos.ToList();
             }
+
+            //Areas del primer evento si el evento existe
+            List<SelectListItem> areas = new List<SelectListItem>();
+            if (eventos != null)
+            {
+                eventos.FirstOrDefault()?.AreasCientificas?.ToList().ForEach((area) =>
+                {
+                    areas.Add(new SelectListItem() {
+                        Text = area.Descripcion,
+                        Value = area.Id.ToString()
+                    });
+                });
+            }
             var model = new CrearMiembroViewModel()
             {
                 Eventos = new SelectList(eventos, "Id", "Nombre"),
-                AreasCientificas = new List<SelectListItem>()
+                AreasCientificas = areas
             };
             return View(model);
         }
@@ -112,9 +125,9 @@ namespace Congressus.Web.Controllers
             List<SelectListItem> AreasCientificas = new List<SelectListItem>();
             if (evento.AreasCientificas != null)
             {
-                foreach (var area in evento.AreasCientificas.Split(';'))
+                foreach (var area in evento.AreasCientificas)
                 {
-                    AreasCientificas.Add(new SelectListItem(){Text = area, Value = area});
+                    AreasCientificas.Add(new SelectListItem(){Text = area.Descripcion, Value = area.Id.ToString()});
                 }
             }
                 
@@ -143,8 +156,7 @@ namespace Congressus.Web.Controllers
                 var miembro = new MiembroComite()
                 {
                     Nombre = model.Nombre,
-                    Apellido = model.Apellido,
-                    AreaCientifica = model.AreaCientifica,               
+                    Apellido = model.Apellido,          
                 };
                 var result = UserManager.CrearMiembro(usuario, model.Password, miembro);
                 if (result.Succeeded) { 
@@ -188,7 +200,7 @@ namespace Congressus.Web.Controllers
             {
                 db.Entry(miembroComite).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details/" + miembroComite.Id);
+                return RedirectToAction("Details");
             }
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", miembroComite.UsuarioId);
             return View(miembroComite);
