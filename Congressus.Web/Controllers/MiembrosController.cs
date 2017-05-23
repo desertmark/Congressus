@@ -98,25 +98,10 @@ namespace Congressus.Web.Controllers
                 eventos = db.Eventos.ToList();
             }
 
-            //Areas del primer evento si el evento existe
-            List<SelectListItem> areas = new List<SelectListItem>();
-            if (eventos != null)
-            {
-                eventos.FirstOrDefault()?.AreasCientificas?.ToList().ForEach((area) =>
-                {
-                    areas.Add(new SelectListItem() {
-                        Text = area.Descripcion,
-                        Value = area.Id.ToString()
-                    });
-                });
-            }
-            var model = new CrearMiembroViewModel()
-            {
-                Eventos = new SelectList(eventos, "Id", "Nombre"),
-                AreasCientificas = areas
-            };
+            var model = new CrearMiembroViewModel(eventos);
             return View(model);
         }
+        
         public ActionResult AreasCientificas(string Origin, string Target, int Value)
         {
             var id = Value;
@@ -152,7 +137,6 @@ namespace Congressus.Web.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                 };
-
                 var miembro = new MiembroComite()
                 {
                     Nombre = model.Nombre,
@@ -164,10 +148,32 @@ namespace Congressus.Web.Controllers
                     miembro = db.Miembros.First(m => m.UsuarioId == userId);
 
                     var evento = db.Eventos.Find(model.EventoId);
+                    var area = evento.AreasCientificas.FirstOrDefault(a => a.Id == model.AreaCientificaId);
                     evento.Comite.Add(miembro);
                     miembro.Eventos.Add(evento);
+                    miembro.AreaCientifica.Add(area);
+
                     db.SaveChanges();
                     return RedirectToAction("Index");
+                }
+                else
+                {
+                    IEnumerable<Evento> eventos;
+
+                    if (!User.IsInRole("admin"))
+                    {
+                        var userId = User.Identity.GetUserId();
+                        eventos = db.Miembros.Single(m => m.UsuarioId == userId).Eventos.ToList();
+                    }
+                    else
+                    {
+                        eventos = db.Eventos.ToList();
+                    }
+                    foreach (var err in result.Errors)
+                    {
+                        ModelState.AddModelError("", err);
+                    }
+                    model = new CrearMiembroViewModel(eventos, model);
                 }
             }
             return View(model);

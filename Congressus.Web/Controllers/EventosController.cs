@@ -315,6 +315,21 @@ namespace Congressus.Web.Controllers
         {
             return evento.Presidente.UsuarioId == User.Identity.GetUserId();
         }
+
+
+        public ActionResult AsignarAreaAMiembro(int AreaId)
+        {
+            var area = _repo.FindAreaById(AreaId);
+            if (area == null)
+                return HttpNotFound();
+
+            var model = new AreaCientifiaViewModel(area);
+
+            return View(model);
+        }
+
+
+
         //protected override void Dispose(bool disposing)
         //{
         //    if (disposing)

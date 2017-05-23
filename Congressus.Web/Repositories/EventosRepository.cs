@@ -13,6 +13,10 @@ namespace Congressus.Web.Repositories
 {
     public class EventosRepository : Repository<Evento>
     {
+        public AreaCientifica FindAreaById(int AreaId)
+        {
+            return _db.AreasCientificas.FirstOrDefault(a => a.Id == AreaId);
+        }
         public IQueryable<Evento> FindByPattern(string patron)
         {       
             return _db.Eventos.Where(e => e.Nombre.Contains(patron) ||

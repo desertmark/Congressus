@@ -200,6 +200,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SeccionesController.cs" />
     <Compile Include="Helpers\ComboAjaxHelper.cs" />
+    <Compile Include="Models\AreaCientifiaViewModel.cs" />
     <Compile Include="Models\CertificadoUploadVM.cs" />
     <Compile Include="Models\Entities\AreaCientifica.cs" />
     <Compile Include="Models\Entities\SeccionEvento.cs" />
@@ -707,6 +708,7 @@
     <Content Include="Views\Shared\_AdministrarEventoNav.cshtml" />
     <Content Include="Views\Secciones\Delete.cshtml" />
     <Content Include="Views\Secciones\Edit.cshtml" />
+    <Content Include="Views\Eventos\_AreasCientificas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNet.Identity;
+@using Congressus.Web.Models.Entities;
+
+@model Evento
+@{ 
+    var EsPresidente = User.IsInRole("presidente") && User.Identity.GetUserId() == Model.Presidente.UsuarioId;
+}
+<div id="AreasCientificas">
+    <h4 class="teal-text">Áreas científicas</h4>
+    <table class="striped">
+        <tr>
+            <th>Nombre del área</th>
+            <th>Coordinador de área</th>
+            @if (EsPresidente) {
+                <th>Acciones</th>
+            }
+        </tr>
+        @foreach (var area in Model.AreasCientificas)
+        {
+            <tr>
+                <td>@area.Descripcion</td>
+            @if (area.MiembroComite != null){
+                <td>@area.MiembroComite.NombreCompleto</td>
+            }else{
+                <td>Coordinador no asignado aún.</td>
+            }
+            @if (EsPresidente)
+            {
+                <td>@Html.ActionLink("Asignar otro coordinador", "AsignarAreaAMiembro", "Eventos", new { AreaCientificaId = area.Id }, null)</td>
+            }
+            </tr>
+        }
+    </table>
+    
+    
+</div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Congressus.Web.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -35,5 +36,40 @@ namespace Congressus.Web.Models
 
         public int EventoId { get; set; }
         public IEnumerable<SelectListItem> Eventos { get; set; }
+
+        public CrearMiembroViewModel()
+        {
+        }
+
+        public CrearMiembroViewModel(IEnumerable<Evento> eventos, CrearMiembroViewModel model = null)
+        {
+            //Areas del primer evento si el evento existe
+            List<SelectListItem> areas = new List<SelectListItem>();
+            if (eventos != null)
+            {
+                eventos.FirstOrDefault()?.AreasCientificas?.ToList().ForEach((area) =>
+                {
+                    areas.Add(new SelectListItem()
+                    {
+                        Text = area.Descripcion,
+                        Value = area.Id.ToString()
+                    });
+                });
+            }
+
+            Eventos = new SelectList(eventos, "Id", "Nombre");
+            AreasCientificas = areas;
+            if (model != null)
+            {
+                Nombre = model.Nombre;
+                Apellido = model.Apellido;
+                Email = model.Email;
+                EventoId = model.EventoId;
+                AreaCientificaId = model.AreaCientificaId;
+            }
+
+
+        }
     }
+
 }

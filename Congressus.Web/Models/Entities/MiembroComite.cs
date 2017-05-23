@@ -21,5 +21,7 @@ namespace Congressus.Web.Models.Entities
         public virtual ICollection<Paper> Papers { get; set; }
         public virtual ICollection<Revision> Revsiones { get; set; }
 
+        public string NombreCompleto { get { return Nombre + " " + Apellido; } }
+
     }
 }
