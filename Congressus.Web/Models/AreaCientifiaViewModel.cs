@@ -23,7 +23,7 @@ namespace Congressus.Web.Models
             Id = area.Id;
             Descripcion = area.Descripcion;
             EventoId = area.Evento.Id;
-            MiembroComiteId = area.MiembroComite.Id;
+            MiembroComiteId = area.MiembroComite != null ? area.MiembroComite.Id : 0;
             Miembros = new SelectList(area.Evento.Comite, "Id", "NombreCompleto");
         }
     }

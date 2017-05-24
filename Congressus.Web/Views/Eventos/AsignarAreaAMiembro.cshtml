@@ -1,0 +1,27 @@
+﻿@using Congressus.Web.Models;
+@model AreaCientifiaViewModel
+
+<h5 class="teal-text">Asignar miembro del comité cientifico al a Área científica.</h5>
+@using(Html.BeginForm("AsignarAreaAMiembro","Eventos",FormMethod.Post)){
+    @Html.AntiForgeryToken()    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.MiembroComiteId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.MiembroComiteId, Model.Miembros ,new { @class = "browser-default"} )
+        </div>
+    </div>
+    <div>
+        @Html.HiddenFor(model => model.EventoId)
+        @Html.HiddenFor(model => model.Id)
+    </div>
+    <br />
+    <button class="teal waves-effect btn" type="submit">Guardar cambio</button>
+}
+

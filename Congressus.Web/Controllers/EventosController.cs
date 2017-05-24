@@ -328,6 +328,23 @@ namespace Congressus.Web.Controllers
             return View(model);
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult AsignarAreaAMiembro(AreaCientifiaViewModel model)
+        {
+            var area = _repo.FindAreaById(model.Id);
+            if (model == null)
+                return HttpNotFound();
+            if (ModelState.IsValid)
+            {
+                if (_repo.AsignarAreaAMiembro(model))
+                    return RedirectToAction("Administrar", new { id = model.EventoId });
+            }
+
+            model = new AreaCientifiaViewModel(area);
+
+            return View(model);
+        }
 
 
         //protected override void Dispose(bool disposing)

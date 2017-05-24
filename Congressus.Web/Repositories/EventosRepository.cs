@@ -279,5 +279,20 @@ namespace Congressus.Web.Repositories
             }
             return relPaths;
         }
+
+        public bool AsignarAreaAMiembro(AreaCientifiaViewModel model)
+        {
+            var area = FindAreaById(model.Id);
+            var nuevoMiembro = FindMimembroById(model.MiembroComiteId);
+
+            if (nuevoMiembro == null)
+                return false;
+
+            area.MiembroComite = nuevoMiembro;
+            _db.Entry(area).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            return true;
+        }
     }
 }

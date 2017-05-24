@@ -47,7 +47,7 @@ namespace Congressus.Web.Models
             Direccion = evento.Direccion;
             Tema = evento.Tema;
             AreasCientificas = "";
-            if (evento.AreasCientificas != null) { 
+            if (evento.AreasCientificas != null && evento.AreasCientificas.Count>0) { 
                 foreach (var area in evento.AreasCientificas)
                     AreasCientificas += area.Descripcion + ";";
                 AreasCientificas = AreasCientificas.Remove(AreasCientificas.Length - 1);

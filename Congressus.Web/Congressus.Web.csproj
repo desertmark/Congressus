@@ -709,6 +709,7 @@
     <Content Include="Views\Secciones\Delete.cshtml" />
     <Content Include="Views\Secciones\Edit.cshtml" />
     <Content Include="Views\Eventos\_AreasCientificas.cshtml" />
+    <Content Include="Views\Eventos\AsignarAreaAMiembro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
