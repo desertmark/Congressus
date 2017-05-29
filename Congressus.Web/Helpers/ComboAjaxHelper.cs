@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 
-namespace ComboAjaxHelper.Extensions
+namespace Congressus.Web.Helpers
 {
     public static class ComboAjaxHelper
     {

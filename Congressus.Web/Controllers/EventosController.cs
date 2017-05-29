@@ -316,7 +316,7 @@ namespace Congressus.Web.Controllers
             return evento.Presidente.UsuarioId == User.Identity.GetUserId();
         }
 
-
+        [Authorize(Roles = "presidente, admin")]
         public ActionResult AsignarAreaAMiembro(int AreaId)
         {
             var area = _repo.FindAreaById(AreaId);
@@ -327,7 +327,7 @@ namespace Congressus.Web.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = "presidente, admin")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult AsignarAreaAMiembro(AreaCientifiaViewModel model)

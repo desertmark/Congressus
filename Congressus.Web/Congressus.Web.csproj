@@ -193,16 +193,21 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsistentesController.cs" />
     <Compile Include="Controllers\AutoresController.cs" />
+    <Compile Include="Controllers\BecasController.cs" />
     <Compile Include="Controllers\CertificadosController.cs" />
     <Compile Include="Controllers\CharlasController.cs" />
     <Compile Include="Controllers\EvaluacionesController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
+    <Compile Include="Controllers\FormularioBecaViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SeccionesController.cs" />
+    <Compile Include="Enumeraciones\CategoriaBecaEnum.cs" />
     <Compile Include="Helpers\ComboAjaxHelper.cs" />
+    <Compile Include="Helpers\EnumDisplayName.cs" />
     <Compile Include="Models\AreaCientifiaViewModel.cs" />
     <Compile Include="Models\CertificadoUploadVM.cs" />
     <Compile Include="Models\Entities\AreaCientifica.cs" />
+    <Compile Include="Models\Entities\FormularioBeca.cs" />
     <Compile Include="Models\Entities\SeccionEvento.cs" />
     <Compile Include="Models\PdfUploadVM.cs" />
     <Compile Include="Models\SeccionEventoVM.cs" />
@@ -709,7 +714,8 @@
     <Content Include="Views\Secciones\Delete.cshtml" />
     <Content Include="Views\Secciones\Edit.cshtml" />
     <Content Include="Views\Eventos\_AreasCientificas.cshtml" />
-    <Content Include="Views\Eventos\AsignarAreaAMiembro.cshtml" />
+    <Content Include="Views\Becas\Listado.cshtml" />
+    <Content Include="Views\Becas\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

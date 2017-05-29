@@ -52,7 +52,7 @@ namespace Congressus.Web.Models.Entities
         public virtual ICollection<Charla> Charlas { get; set; }
         public virtual ICollection<InscripcionEvento> Inscripciones { get; set; }
         public virtual ICollection<SeccionEvento> Secciones { get; set; }
-
+        public virtual ICollection<FormularioBeca> Becas { get; set; }
 
         
     }
