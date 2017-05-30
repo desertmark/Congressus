@@ -81,6 +81,10 @@ namespace Congressus.Web.Controllers
         {
             EventoId = evento.Id;
             var areas = new List<SelectListItem>();
+            areas.Add(new SelectListItem() {
+                Text = "Seleccione un área científica",
+                Value = "0"
+            });
             if(evento.AreasCientificas!=null && evento.AreasCientificas.Count > 0) {
                 evento.AreasCientificas.ToList().ForEach((area) => {
                     areas.Add(new SelectListItem() {

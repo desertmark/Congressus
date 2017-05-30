@@ -1,0 +1,86 @@
+﻿@using Congressus.Web.Helpers;
+@using Congressus.Web.Enumeraciones;
+@using System.ComponentModel.DataAnnotations;
+@model Congressus.Web.Controllers.FormularioBecaViewModel
+
+<div class="row">
+    <div class="col s6 form-group">
+        @Html.LabelFor(model => model.TituloGrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.TituloGrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TituloGrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+
+    <div class="col s3 form-group">
+        @Html.LabelFor(model => model.AñoGrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.AñoGrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AñoGrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s6 form-group">
+        @Html.LabelFor(model => model.TituloPosgrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.TituloPosgrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TituloPosgrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+
+    <div class="col s3 form-group">
+        @Html.LabelFor(model => model.AñoPosgrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.AñoPosgrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AñoPosgrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s4 form-group">
+        @Html.LabelFor(model => model.PorcentajePosgrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.PorcentajePosgrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PorcentajePosgrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+
+    <div class="col s4 form-group">
+        @Html.LabelFor(model => model.DirectorPosgrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.DirectorPosgrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DirectorPosgrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+
+    <div class="col s4 form-group">
+        @Html.LabelFor(model => model.LugarTrabajoPosgrado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.LugarTrabajoPosgrado, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LugarTrabajoPosgrado, "", new { @class = "text-red" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 form-group">
+        @Html.LabelFor(model => model.PosicionActual, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.PosicionActual, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PosicionActual, "", new { @class = "text-red" })
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 form-group">
+        @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-red" })
+        </div>
+    </div>
+</div>

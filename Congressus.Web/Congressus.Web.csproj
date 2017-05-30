@@ -716,6 +716,9 @@
     <Content Include="Views\Eventos\_AreasCientificas.cshtml" />
     <Content Include="Views\Becas\Listado.cshtml" />
     <Content Include="Views\Becas\Crear.cshtml" />
+    <Content Include="Views\Becas\Partials\_DatosPersonales.cshtml" />
+    <Content Include="Views\Becas\Partials\_Alumno.cshtml" />
+    <Content Include="Views\Becas\Partials\_DemasCategorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
