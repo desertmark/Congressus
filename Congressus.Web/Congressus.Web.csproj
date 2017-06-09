@@ -200,6 +200,7 @@
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\FormularioBecaViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\MiembroViewModel.cs" />
     <Compile Include="Controllers\SeccionesController.cs" />
     <Compile Include="Enumeraciones\CategoriaBecaEnum.cs" />
     <Compile Include="Helpers\ComboAjaxHelper.cs" />

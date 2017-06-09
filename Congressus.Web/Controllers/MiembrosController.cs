@@ -191,8 +191,9 @@ namespace Congressus.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", miembroComite.UsuarioId);
-            return View(miembroComite);
+            //ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", miembroComite.UsuarioId);
+            var model = new MiembroViewModel(miembroComite);
+            return View(model);
         }
 
         // POST: Miembros/Edit/5
@@ -200,16 +201,23 @@ namespace Congressus.Web.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(MiembroComite miembroComite)
+        public ActionResult Edit(MiembroViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var miembroComite = db.Miembros.FirstOrDefault(m => m.Id == model.Id);
+                if (miembroComite == null)
+                    return HttpNotFound();
+
+                miembroComite.Nombre = model.Nombre;
+                miembroComite.Apellido = model.Apellido;
+
                 db.Entry(miembroComite).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details");
             }
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", miembroComite.UsuarioId);
-            return View(miembroComite);
+            //ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", miembroComite.UsuarioId);
+            return View(model);
         }
 
         // GET: Miembros/Delete/5
