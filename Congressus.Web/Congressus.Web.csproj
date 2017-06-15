@@ -258,6 +258,7 @@
       <DependentUpon>Certificados.xsd</DependentUpon>
     </Compile>
     <Compile Include="Repositories\AsistentesRepository.cs" />
+    <Compile Include="Repositories\BecasRepository.cs" />
     <Compile Include="Repositories\CharlasRepository.cs" />
     <Compile Include="Repositories\EventosRepository.cs" />
     <Compile Include="Repositories\PaperRepository.cs" />

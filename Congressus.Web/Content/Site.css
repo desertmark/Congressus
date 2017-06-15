@@ -94,12 +94,15 @@ body{
 }
 
 .sideMenuDiv {
-    width: 200px;
+    width: 100px;
     padding-bottom:50px;
     float:left;
     border-left:solid 10px #009688;
     top:53px;
     z-index:0;
+}
+.sideMenuItemText{
+    display:none;       
 }
 .icono-medium
 {

@@ -11,7 +11,7 @@ namespace Congressus.Web.Controllers
     public class FormularioBecaViewModel
     {
         public int EventoId { get; set; }
-        public int Id { get; set; }
+        public int Id { get; set; }       
         [Required]
         [Display(Name = "Nombre completo")]
         public string NombreCompleto { get; set; }
@@ -77,23 +77,82 @@ namespace Congressus.Web.Controllers
         public string Puesto { get; set; } //Puesto. Descripción tareas:
         #endregion
 
+        public FormularioBecaViewModel(){}
+
         public FormularioBecaViewModel(Evento evento)
+        {
+            //EventoId = evento.Id;
+            //var areas = new List<SelectListItem>();
+            //areas.Add(new SelectListItem() {
+            //    Text = "Seleccione un área científica",
+            //    Value = "0"
+            //});
+            //if(evento.AreasCientificas!=null && evento.AreasCientificas.Count > 0) {
+            //    evento.AreasCientificas.ToList().ForEach((area) => {
+            //        areas.Add(new SelectListItem() {
+            //            Value = area.Id.ToString(),
+            //            Text = area.Descripcion
+            //        });
+            //    });
+            //}
+            //AreasCientificas = areas;
+            SetearSelectLists(evento);
+        }       
+
+        public void SetearSelectLists(Evento evento)
         {
             EventoId = evento.Id;
             var areas = new List<SelectListItem>();
-            areas.Add(new SelectListItem() {
+            areas.Add(new SelectListItem()
+            {
                 Text = "Seleccione un área científica",
                 Value = "0"
             });
-            if(evento.AreasCientificas!=null && evento.AreasCientificas.Count > 0) {
+            if (evento.AreasCientificas != null && evento.AreasCientificas.Count > 0)
+            {
                 evento.AreasCientificas.ToList().ForEach((area) => {
-                    areas.Add(new SelectListItem() {
+                    areas.Add(new SelectListItem()
+                    {
                         Value = area.Id.ToString(),
                         Text = area.Descripcion
                     });
                 });
             }
             AreasCientificas = areas;
+        }
+
+        public FormularioBeca ToFormularioBeca(FormularioBecaViewModel model)
+        {
+            return new FormularioBeca()
+            {
+                NombreCompleto = model.NombreCompleto,
+                AreaCientificaId = model.AreaCientificaId,
+                AñoGrado = model.AñoGrado,
+                AñoPosgrado = model.AñoPosgrado,
+                Carrera = model.Carrera,
+                CategoriaId = model.CategoriaId,
+                CodigoPostal = model.CodigoPostal,
+                Domicilio = model.Domicilio,
+                DirectorPosgrado = model.DirectorPosgrado,
+                Email = model.Email,
+                EventoId = model.EventoId,
+                Localidad = model.Localidad,
+                LugarTrabajoPosgrado = model.LugarTrabajoPosgrado,
+                Pais = model.Pais,
+                PorcentajeCarrera = model.PorcentajeCarrera,
+                PorcentajePosgrado = model.PorcentajePosgrado,
+                PosicionActual = model.PosicionActual,
+                PresentaTrabajo = model.PresentaTrabajo,
+                PromedioParcial = model.PromedioParcial,
+                Provincia = model.Provincia,
+                Puesto = model.Puesto,
+                Telefono = model.Telefono,
+                TituloGrado = model.TituloGrado,
+                TituloPosgrado = model.TituloPosgrado,
+                Universidad = model.Universidad,
+                Id = model.Id,
+
+            };
         }
     }
 }
