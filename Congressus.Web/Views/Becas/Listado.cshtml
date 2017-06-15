@@ -1,73 +1,74 @@
-﻿@model IEnumerable<Congressus.Web.Models.Entities.FormularioBeca>
+﻿@model Congressus.Web.Models.Entities.Evento
 
 @{
     ViewBag.Title = "Aplicantes a becas";
 }
+
+@Html.Partial("_AdministrarEventoNav", Model)
 
 <h4 class="teal-text">Aplicantes a beca</h4>
 
 <table class="stripped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NombreCompleto)
+            Nombre completo
+            @*@Html.DisplayNameFor(model => model.NombreCompleto)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Domicilio)
+            Teléfono
+            @*@Html.DisplayNameFor(model => model.Telefono)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CodigoPostal)
+            Email
+            @*@Html.DisplayNameFor(model => model.Email)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LocalidadCompleta)
+            Presenta Trabajo
+            @*@Html.DisplayNameFor(model => model.PresentaTrabajo)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Telefono)
+            Área Científica
+            @*@Html.DisplayNameFor(model => model.AreaCientificaId)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PresentaTrabajo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AreaCientificaId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoriaId)
+            Categoría
+            @*@Html.DisplayNameFor(model => model.CategoriaId)*@
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreCompleto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Domicilio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoPostal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LocalidadCompleta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PresentaTrabajo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AreaCientifica.Descripcion)
-        </td>        
-        <td>
-            @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
-        </td>
-    </tr>
+@if (Model.Becas.Count() > 0)
+{
+    foreach (var item in Model.Becas)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Domicilio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocalidadCompleta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PresentaTrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AreaCientifica.Descripcion)
+            </td>        
+            <td>
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+            </td>
+        </tr>
+    }
 }
-
 </table>

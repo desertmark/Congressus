@@ -15,6 +15,9 @@
                 <a href="@Url.Action("ComiteEvaluador", "Eventos", new { id = Model.Id })"><i class="material-icons icono-small left">supervisor_account</i>Comite evaluador</a>
             </li>
             <li>
+                <a href="@Url.Action("Listado", "Becas", new { EventoId = Model.Id })"><i class="material-icons icono-small left">clear_all</i>Solicitudes de Becas</a>
+            </li>
+            <li>
                 <a href="@Url.Action("Index", "Secciones", new { id = Model.Id })"><i class="material-icons icono-small left">clear_all</i>Secciones</a>
             </li>
         </ul>

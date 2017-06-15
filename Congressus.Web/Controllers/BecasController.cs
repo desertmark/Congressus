@@ -14,7 +14,12 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "admin, presidente")]
         public ActionResult Listado(int EventoId)
         {
-            return View();
+            var evento = EventosRepository.FindById(EventoId);
+            if (evento == null)
+                return HttpNotFound();
+            
+
+            return View(evento);
         }
 
         [Route("inscripcion/{EventoId:int}")]
