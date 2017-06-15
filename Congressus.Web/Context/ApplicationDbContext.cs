@@ -12,6 +12,7 @@ namespace Congressus.Web.Context
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private static ApplicationDbContext _instance;
+        public DbSet<FormularioBeca> FormulariosBecas { get; set; }
         public DbSet<AreaCientifica> AreasCientificas { get; set; }
         public DbSet<Charla> Charlas { get; set; }
         public DbSet<Paper> Papers { get; set; }

@@ -25,7 +25,7 @@
                 <ul id="nav-mobile" class="hide-on-med-and-down">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>                    
                     <li>@Html.ActionLink("Eventos", "BuscarEvento", "Eventos")</li>
-                    <li>@Html.ActionLink("Sobre nosotors", "About", "Home")</li>
+                    <li>@Html.ActionLink("Sobre Nosotors", "About", "Home")</li>
                 </ul>
             </div>
             <div class="LoginPartial">@Html.Partial("_LoginPartial")</div>
@@ -35,7 +35,7 @@
     {
         <div class="card sideMenuDiv ">
             <div class="sideMenuTitulo">
-                <span class="titulo"><i class="material-icons icono-medium">view_list</i> Menu</span>
+                <span class="titulo"><i class="material-icons icono-medium">view_list</i> <span class="sideMenuItemText">Menu</span></span>
                 <br /><br />
             </div>
             <ul class="sideMenuUl">
@@ -43,33 +43,33 @@
                 
                 @if (!User.IsInRole("asistente"))
                 {
-                    <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i>Mis Eventos</a></li>
-                    <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i>Mis Papers</a></li>
+                    <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i><span class="sideMenuItemText">Mis Eventos</span></a></li>
+                    <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i><span class="sideMenuItemText">Mis Papers</span></a></li>
                 }
                 @if (User.IsInRole("autor"))
                 {
-                    <li><a href=@Url.Action("Charlas", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">mic_none</i>Mis Charlas</a></li>
-                    <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>                    
+                    <li><a href=@Url.Action("Charlas", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">mic_none</i><span class="sideMenuItemText">Mis Charlas</span></a></li>
+                    <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>                    
                 }
                 @if (User.IsInRole("autor") || User.IsInRole("asistente"))
                 {
-                    <li><a href=@Url.Action("BuscarEvento", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">search</i>Buscar</a></li>
+                    <li><a href=@Url.Action("BuscarEvento", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">search</i><span class="sideMenuItemText">Buscar</span></a></li>
                 }
                 @if (User.IsInRole("presidente") || User.IsInRole("admin"))
                 {
-                    <li><a href=@Url.Action("Index", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">perm_identity</i>Miembros</a></li>
+                    <li><a href=@Url.Action("Index", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">perm_identity</i><span class="sideMenuItemText">Miembros</span></a></li>
                 }
                 @if (User.IsInRole("presidente") || User.IsInRole("MiembroComite"))
                 {
-                    <li><a href=@Url.Action("Details", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
+                    <li><a href=@Url.Action("Details", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
                 }
                 @if (User.IsInRole("asistente"))
                 {
-                    <li><a href=@Url.Action("Details", "Asistentes") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i>Perfil</a></li>
+                    <li><a href=@Url.Action("Details", "Asistentes") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
                 }
                 @if (User.IsInRole("admin"))
                 {
-                    <li><a href=@Url.Action("Index", "Users") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">supervisor_account</i>Usuarios</a></li>
+                    <li><a href=@Url.Action("Index", "Users") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">supervisor_account</i><span class="sideMenuItemText">Usuarios</span></a></li>
                 }
             </ul>
         </div>
@@ -90,12 +90,12 @@
                 <div class="col l6 s12">
                     <h5 class="white-text">Resumen</h5>
                     <p class="grey-text text-lighten-4">
-                        Sistema de organizacion de conferencias que facilita la comunicacion entre oradores y organizadores en relacion con los paper que los primeros presentan para la creacion de las charlas que se desarrollaran.
+                        Sistema de organización de conferencias, que facilita la comunicación entre oradores y organizadores en relación con los paper que los primeros presentan, para la creación de las charlas que se desarrollaran.
                     </p>
 
                 </div>
                 <div class="col l3 s12">
-                    <h5 class="white-text">Institucion</h5>
+                    <h5 class="white-text">Institución</h5>
                     <ul>
                         <li><a class="blue-text text-lighten-3" href="http://frre.utn.edu.ar">UTN - FRRe</a></li>
 

@@ -1,76 +1,6 @@
-﻿@using Congressus.Web.Helpers;
-@using Congressus.Web.Enumeraciones;
-@using System.ComponentModel.DataAnnotations;
-@model Congressus.Web.Controllers.FormularioBecaViewModel
-
-@{
-    ViewBag.Title = "Inscripcion a beca";
-}
-
-<h4 class="teal-text">Inscripcion a beca</h4>
-
-@using (Html.BeginForm("Crear","Becas",FormMethod.Post)) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-red" })
-        
-        @Html.HiddenFor(model => model.EventoId)
-
-        @Html.Partial("Partials/Formulario", Model, new ViewDataDictionary(new { modoVistaCrear = true }))
-        @*@Html.Partial("Partials/_DatosPersonales", Model)
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <p>
-                    <input type="checkbox" name="PresentaTrabajo" id="PresentaTrabajo" vaue="@Model.PresentaTrabajo"/>
-                    @Html.LabelFor(model => model.PresentaTrabajo, htmlAttributes: new { @class = "control-label col-md-2" })
-                </p>
-                @Html.ValidationMessageFor(model => model.PresentaTrabajo, "", new { @class = "text-red" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AreaCientificaId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.AreaCientificaId, Model.AreasCientificas, new { @class = "browser-default", id = "AreaCientifica" })
-                @Html.ValidationMessageFor(model => model.AreaCientificaId, "", new { @class = "text-red" })
-            </div>
-        </div>
-
-        <div class="form-group" id="CategoriaId">
-            @Html.LabelFor(model => model.CategoriaId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumCheckBoxGroup("CategoriaId", typeof(CategoriaBecaEnum))
-                @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-red" })
-            </div>
-        </div>
-        <div id="SeccionAlumnoGrado">
-            @Html.Partial("Partials/_Alumno", Model)
-        </div>
-        <div id="SeccionDemasCategorias">
-            @Html.Partial("Partials/_DemasCategorias", Model)
-        </div>*@   
-
-        <div class="form-group">            
-            <button class="btn waves-effect"  type="submit">Enviar</button>           
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Volver", "Index")
-</div>
-
-
-@section scripts{
-    @Scripts.Render("~/bundles/app/becas");
-    @*<script type="text/javascript">
-        $("document").ready(function () {
+﻿$("document").ready(function () {
             init();
-            
+
         });
 
         function init() {
@@ -145,5 +75,3 @@
 
 
         }
-    </script>*@    
-}

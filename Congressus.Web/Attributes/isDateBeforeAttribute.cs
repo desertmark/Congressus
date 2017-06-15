@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Congressus.Web.Attributes
 {
-    public class IsDateAfter : ValidationAttribute
+    public class IsDateBeforeAttribute : ValidationAttribute
     {
         public string DateToComparePropertyName { set; get; }
-        public IsDateAfter(string dateToComparePropertyName)
+        public IsDateBeforeAttribute(string dateToComparePropertyName)
         {
             DateToComparePropertyName = dateToComparePropertyName;
         }
@@ -18,7 +18,7 @@ namespace Congressus.Web.Attributes
             var DateToCompareInfo = validationContext.ObjectType.GetProperty(DateToComparePropertyName);
             DateTime DateToCompare = (DateTime)DateToCompareInfo.GetValue(validationContext.ObjectInstance);
 
-            if ((DateTime)value>DateToCompare)
+            if ((DateTime)value<DateToCompare)
             {
                 return ValidationResult.Success;
             }

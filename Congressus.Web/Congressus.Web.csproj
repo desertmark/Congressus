@@ -186,6 +186,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attributes\isDateBeforeAttribute.cs" />
     <Compile Include="Attributes\IsDateAfterAttribute.cs" />
     <Compile Include="Attributes\FileExtensionAttribute.cs" />
     <Compile Include="Context\ApplicationDbContext.cs" />
@@ -200,6 +201,8 @@
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\FormularioBecaViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Enumeraciones\SiNoEnum.cs" />
+    <Compile Include="Models\MiembroViewModel.cs" />
     <Compile Include="Controllers\SeccionesController.cs" />
     <Compile Include="Enumeraciones\CategoriaBecaEnum.cs" />
     <Compile Include="Helpers\ComboAjaxHelper.cs" />
@@ -256,6 +259,7 @@
       <DependentUpon>Certificados.xsd</DependentUpon>
     </Compile>
     <Compile Include="Repositories\AsistentesRepository.cs" />
+    <Compile Include="Repositories\BecasRepository.cs" />
     <Compile Include="Repositories\CharlasRepository.cs" />
     <Compile Include="Repositories\EventosRepository.cs" />
     <Compile Include="Repositories\PaperRepository.cs" />
@@ -324,6 +328,7 @@
     <Content Include="Images\congressus.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\presidenteIcon.png" />
+    <Content Include="Scripts\app\becas\formulario.js" />
     <Content Include="Scripts\datetimepicker.min.js" />
     <None Include="Scripts\jquery-2.2.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
@@ -719,6 +724,8 @@
     <Content Include="Views\Becas\Partials\_DatosPersonales.cshtml" />
     <Content Include="Views\Becas\Partials\_Alumno.cshtml" />
     <Content Include="Views\Becas\Partials\_DemasCategorias.cshtml" />
+    <Content Include="Views\Becas\Partials\Formulario.cshtml" />
+    <Content Include="Views\Becas\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

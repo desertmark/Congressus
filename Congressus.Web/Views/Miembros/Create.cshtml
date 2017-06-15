@@ -8,15 +8,16 @@
 
 <h2>Crear</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div>
         <h4>Miembro Comite</h4>
         <hr />
-        @Html.ValidationSummary(true)
-        
+        <div class="red-text">
+            @Html.ValidationSummary(true)
+        </div>        
         <div>
             @Html.Label("Evento")
             <div>
@@ -65,29 +66,30 @@
             </div>
         </div>
 
-            @Html.LabelFor(model => model.Email)
-            <div>
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
+        @Html.LabelFor(model => model.Email)
+        <div>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email,null,new { @class="red-text"})
+        </div>
 
-            @Html.LabelFor(model => model.Password)
-            <div>
-                @Html.EditorFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
+        @Html.LabelFor(model => model.Password)
+        <div>
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password, null, new { @class = "red-text" })
+        </div>
 
-            @Html.LabelFor(model => model.Confirm)
-            <div>
-                @Html.EditorFor(model => model.Confirm)
-                @Html.ValidationMessageFor(model => model.Confirm)
-            </div>
+        @Html.LabelFor(model => model.Confirm)
+        <div>
+            @Html.EditorFor(model => model.Confirm)
+            @Html.ValidationMessageFor(model => model.Confirm, null, new { @class = "red-text" })
+        </div>
 
-            <div>
-                <button type="submit" class="btn waves-effect waves-light black" >
-                Crear 
-                <i class="material-icons right">send</i></button>
-            </div>
+        <div>
+            <button type="submit" class="btn waves-effect waves-light black">
+                Crear
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
     </div>
 }
 

@@ -43,9 +43,16 @@ body{
 
 /*-_LAYOUT-*/
 .logo{
-    width:100px;
-    padding-left:25%!important;
-    padding:10%;
+    width:100%;
+    margin: 0 auto;   
+}
+.brand-logo{
+    display:block;
+    overflow:hidden;
+    background-color:red;
+    width:200px;
+    height:100%;
+    margin-left:1%;
 }
 /*nav*/
 .centrar>ul>li>a, .LoginPartial ul>li>a, .brand-logo {
@@ -87,12 +94,15 @@ body{
 }
 
 .sideMenuDiv {
-    width: 200px;
-    height:70%;
+    width: 100px;
+    padding-bottom:50px;
     float:left;
     border-left:solid 10px #009688;
     top:53px;
     z-index:0;
+}
+.sideMenuItemText{
+    display:none;       
 }
 .icono-medium
 {
@@ -143,7 +153,8 @@ body{
   display: block;
 }
 .page-footer, .RenderBody:after, #index-body:after {
-  height: 227px; 
+  height: 227px;
+  margin-top:50px;
 }
 
 /*EVENTOS*/

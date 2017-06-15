@@ -21,6 +21,21 @@ namespace Congressus.Web.Helpers
 
             return new HtmlString(enumValue.ToString());
         }
+        
+        public static HtmlString EnumDisplayName(this HtmlHelper HtmlHelper, Type enumType, int enumId)
+        {
+            var enumValueName = enumType.GetEnumName(enumId);
+            var member = enumType.GetMember(enumValueName);
+            DisplayAttribute displayName = (DisplayAttribute)member[0].GetCustomAttributes(typeof(DisplayAttribute), false).FirstOrDefault();
+
+            if (displayName != null)
+            {
+                return new HtmlString(displayName.Name);
+            }
+
+            return new HtmlString(enumValueName);
+        }
+
 
         public static MvcHtmlString EnumLabel(this HtmlHelper HtmlHelper, Type enumType, object enumValue)
         {

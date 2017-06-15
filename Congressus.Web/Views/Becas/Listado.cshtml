@@ -1,5 +1,5 @@
 ﻿@model Congressus.Web.Models.Entities.Evento
-
+@using Congressus.Web.Enumeraciones;
 @{
     ViewBag.Title = "Aplicantes a becas";
 }
@@ -45,28 +45,23 @@
                 @Html.DisplayFor(modelItem => item.NombreCompleto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Domicilio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoPostal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalidadCompleta)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PresentaTrabajo)
+                @(item.PresentaTrabajo ? "Si" : "No")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AreaCientifica.Descripcion)
             </td>        
             <td>
-                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                @*@Html.DisplayFor(modelItem => item.CategoriaId)*@
+                @Html.EnumDisplayName(typeof(CategoriaBecaEnum),item.CategoriaId)
+            </td>
+            <td>
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id })
             </td>
         </tr>
     }
