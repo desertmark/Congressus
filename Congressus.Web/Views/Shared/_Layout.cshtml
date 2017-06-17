@@ -31,58 +31,57 @@
             <div class="LoginPartial">@Html.Partial("_LoginPartial")</div>
         </div>
     </nav>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="card sideMenuDiv ">
-            <div class="sideMenuTitulo">
-                <span class="titulo"><i class="material-icons icono-medium">view_list</i> <span class="sideMenuItemText">Menu</span></span>
-                <br /><br />
+    <div class="body">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="card sideMenuDiv ">
+                <div class="sideMenuTitulo">
+                    <span class="titulo"><i class="material-icons icono-medium">view_list</i> <span class="sideMenuItemText">Menu</span></span>
+                    <br /><br />
+                </div>
+                <ul class="sideMenuUl">
+                    @if (!User.IsInRole("asistente"))
+                {
+                <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i><span class="sideMenuItemText">Mis Eventos</span></a></li>
+                <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i><span class="sideMenuItemText">Mis Papers</span></a></li>
+                }
+                    @if (User.IsInRole("autor"))
+                {
+                <li><a href=@Url.Action("Charlas", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">mic_none</i><span class="sideMenuItemText">Mis Charlas</span></a></li>
+                <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
+                }
+                    @if (User.IsInRole("autor") || User.IsInRole("asistente"))
+                {
+                <li><a href=@Url.Action("BuscarEvento", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">search</i><span class="sideMenuItemText">Buscar</span></a></li>
+                }
+                    @if (User.IsInRole("presidente") || User.IsInRole("admin"))
+                {
+                <li><a href=@Url.Action("Index", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">perm_identity</i><span class="sideMenuItemText">Miembros</span></a></li>
+                }
+                    @if (User.IsInRole("presidente") || User.IsInRole("MiembroComite"))
+                {
+                <li><a href=@Url.Action("Details", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
+                }
+                    @if (User.IsInRole("asistente"))
+                {
+                <li><a href=@Url.Action("Details", "Asistentes") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
+                }
+                    @if (User.IsInRole("admin"))
+                {
+                <li><a href=@Url.Action("Index", "Users") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">supervisor_account</i><span class="sideMenuItemText">Usuarios</span></a></li>
+                }
+                </ul>
             </div>
-            <ul class="sideMenuUl">
+        }
 
-                
-                @if (!User.IsInRole("asistente"))
-                {
-                    <li><a href=@Url.Action("Index", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">event</i><span class="sideMenuItemText">Mis Eventos</span></a></li>
-                    <li><a href=@Url.Action("Index", "Papers") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">description</i><span class="sideMenuItemText">Mis Papers</span></a></li>
-                }
-                @if (User.IsInRole("autor"))
-                {
-                    <li><a href=@Url.Action("Charlas", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">mic_none</i><span class="sideMenuItemText">Mis Charlas</span></a></li>
-                    <li><a href=@Url.Action("Details", "Autores") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>                    
-                }
-                @if (User.IsInRole("autor") || User.IsInRole("asistente"))
-                {
-                    <li><a href=@Url.Action("BuscarEvento", "Eventos") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">search</i><span class="sideMenuItemText">Buscar</span></a></li>
-                }
-                @if (User.IsInRole("presidente") || User.IsInRole("admin"))
-                {
-                    <li><a href=@Url.Action("Index", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">perm_identity</i><span class="sideMenuItemText">Miembros</span></a></li>
-                }
-                @if (User.IsInRole("presidente") || User.IsInRole("MiembroComite"))
-                {
-                    <li><a href=@Url.Action("Details", "Miembros") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
-                }
-                @if (User.IsInRole("asistente"))
-                {
-                    <li><a href=@Url.Action("Details", "Asistentes") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">account_circle</i><span class="sideMenuItemText">Perfil</span></a></li>
-                }
-                @if (User.IsInRole("admin"))
-                {
-                    <li><a href=@Url.Action("Index", "Users") class="btn-flat waves-effect waves-teal"><i class="material-icons icono-small">supervisor_account</i><span class="sideMenuItemText">Usuarios</span></a></li>
-                }
-            </ul>
-        </div>
-    }
-
-    <div class="RenderBody">
-        <div class="card contenido">
-            <div class="card-content centrar">
-                @RenderBody()
+        <div class="RenderBody">
+            <div class="card contenido">
+                <div class="card-content centrar">
+                    @RenderBody()
+                </div>
             </div>
         </div>
     </div>
-
     <!--FOOTER-->
     <footer class="page-footer teal">
         <div class="container">

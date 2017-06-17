@@ -33,6 +33,9 @@ body{
 }
 
 /*-HELPERS-*/
+.body {
+    display:flex;
+}
 .centrar
 {
     margin-left:auto!important;
@@ -99,26 +102,64 @@ body{
 #changePassword li:hover > ul{
     display:block;
 }
-
+.RenderBody {
+    margin-top: 60px !important;
+    flex:1;
+    margin-left: 50px;
+}
 .contenido {
-    max-width: 80%;
+    max-width: 95%;
     padding: 20px;
-    margin-top: 60px!important;
-    margin-left:250px!important;
-    margin-right:auto!important;
 }
 
 .sideMenuDiv {
-    width: 100px;
-    padding-bottom:50px;
-    float:left;
-    border-left:solid 10px #009688;
-    top:53px;
-    z-index:0;
+    min-width: 100px;
+    width: 5%;
+    padding-bottom: 50px;
+    border-left: solid 10px #009688;
+    top: 53px;
+    z-index: 0;
+    -webkit-transition: width .5s !important;
+    transition: width .5s !important;
 }
-.sideMenuItemText{
-    display:none;       
+.sideMenuDiv:hover {
+    width: 200px;
 }
+
+.sideMenuItemText {
+    display: none;
+
+}
+.sideMenuDiv:hover .sideMenuItemText {
+    display: inherit;
+}
+
+
+
+
+
+.sideMenuTitulo {
+    padding: 25px;
+    height:112px;
+    -webkit-transition: all .5s;
+}
+
+.sideMenuTitulo:hover {
+    background-color: #7ecec7
+}
+
+.sideMenuUl > li {
+    height: 50px;
+}
+
+.sideMenuUl > li:hover {
+    background-color: #009688
+}
+
+.sideMenuUl > li > a {
+    margin-top: 5px;
+}
+
 .icono-medium
 {
     margin-right:5px;   
@@ -133,14 +174,7 @@ body{
     font-size:26px!important;
 }
 
-.sideMenuTitulo{
-    padding:25px; 
-     -webkit-transition:all 2s;
-}
-.sideMenuTitulo:hover{ background-color:#7ecec7}
-.sideMenuUl>li{ height:50px;}
-.sideMenuUl>li:hover { background-color:#009688}
-.sideMenuUl>li>a { margin-top:5px;}
+
 
 
 /*-INDEX-*/
