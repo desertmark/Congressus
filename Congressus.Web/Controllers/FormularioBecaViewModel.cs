@@ -127,6 +127,8 @@ namespace Congressus.Web.Controllers
             TituloPosgrado = beca.TituloPosgrado;
             Universidad = beca.Universidad;
             Id = beca.Id;
+
+            SetearSelectLists(beca.Evento);
         }
 
         public void SetearSelectLists(Evento evento)

@@ -17,7 +17,7 @@ namespace Congressus.Web.Repositories
             return _db.Set<T>().ToList();
         }
 
-        public T FindById(int id)
+        public virtual T FindById(int id)
         {
             return _db.Set<T>().Find(id);
         }

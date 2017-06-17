@@ -9,7 +9,22 @@ select,
 textarea {
     max-width: 480px;
 }
+input[disabled]{
+    color:black!important;
+}
+h2{
+    font-size:30px!important;
+}
+h3{
+    font-size:24px!important;
+}
+h4 {
+    font-size: 20px !important;
+}
 
+h5 {
+    font-size: 18px !important;
+}
 html, body {
   height: 100%;
 }
@@ -28,7 +43,7 @@ body{
     padding:10px
 }
 .titulo{
-    font-size:24px;
+    font-size:18px;
 }
 /*para darle efecto hover a los renglones de las tablas*/
 .hoverableTr:hover{
@@ -137,7 +152,7 @@ body{
 
 /*-ABOUT-*/
 .about-text{
-    font-size: 16px;
+    font-size: 14px;
 }
 .about-card{
     max-width:350px!important;
@@ -168,10 +183,9 @@ body{
 /*MIEMBROS*/
 /*Details*/
  .detailsTable {
-        background-color: ;
+    font-size: 13px;
+}
 
-        font-size: 17px;
-    }
-    .detailsTable td {
-        color: grey;
-    }
+.detailsTable td {
+    color: grey;
+}

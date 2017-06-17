@@ -17,6 +17,15 @@ namespace Congressus.Web.Repositories
                 .Include(form=>form.Evento)
                 .Where(form => form.EventoId == eventoId);
         }
+
+        public override FormularioBeca FindById(int id)
+        {
+            return _db.FormulariosBecas
+                .Include(form => form.AreaCientifica)
+                .Include(form => form.Evento)
+                .FirstOrDefault(form => form.Id == id);
+        }
+
         public bool Add(FormularioBecaViewModel model)
         {
             var formBeca = model.ToFormularioBeca(model);

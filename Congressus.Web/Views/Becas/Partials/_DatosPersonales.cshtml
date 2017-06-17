@@ -2,12 +2,14 @@
 @using Congressus.Web.Enumeraciones;
 @using System.ComponentModel.DataAnnotations;
 @model Congressus.Web.Controllers.FormularioBecaViewModel
-
+@{ 
+    var disabled = (bool)ViewData["disabled"];
+}
 <h5 class="teal-text">Datos personales</h5>
 <div class="col s12 form-group">
     @Html.LabelFor(model => model.NombreCompleto, htmlAttributes: new { @class = "control-label col-md-2" })
     <div>
-        @Html.EditorFor(model => model.NombreCompleto, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.NombreCompleto, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
         @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-red" })
     </div>
 </div>
@@ -15,7 +17,7 @@
     <div class="col s6 form-group">
         @Html.LabelFor(model => model.Domicilio, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Domicilio, "", new { @class = "text-red" })
         </div>
     </div>
@@ -23,7 +25,7 @@
     <div class="col s6 form-group">
         @Html.LabelFor(model => model.CodigoPostal, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.CodigoPostal, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.CodigoPostal, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.CodigoPostal, "", new { @class = "text-red" })
         </div>
     </div>
@@ -33,7 +35,7 @@
     <div class="col s6 form-group">
         @Html.LabelFor(model => model.Localidad, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Localidad, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Localidad, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Localidad, "", new { @class = "text-red" })
         </div>
     </div>
@@ -41,7 +43,7 @@
     <div class="col s3 form-group">
         @Html.LabelFor(model => model.Provincia, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Provincia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Provincia, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Provincia, "", new { @class = "text-red" })
         </div>
     </div>
@@ -49,7 +51,7 @@
     <div class="col s3 form-group">
         @Html.LabelFor(model => model.Pais, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Pais, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Pais, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-red" })
         </div>
     </div>
@@ -59,7 +61,7 @@
     <div class="col s6 form-group">
         @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-red" })
         </div>
     </div>
@@ -67,7 +69,7 @@
     <div class="col s6 form-group">
         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = disabled } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-red" })
         </div>
     </div>

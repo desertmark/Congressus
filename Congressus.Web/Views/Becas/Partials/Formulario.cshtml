@@ -3,41 +3,61 @@
 @using System.ComponentModel.DataAnnotations;
 @model Congressus.Web.Controllers.FormularioBecaViewModel
 
-@{ var modoVistaCrear = (bool?)ViewData["modoVistaCrear"] ?? true;}
+@{ 
+    var modoVistaCrear = (bool?)ViewData["modoVistaCrear"] ?? true;
+    var disabled = !modoVistaCrear;
+}
 
 
-@Html.Partial("Partials/_DatosPersonales", Model)
+@Html.Partial("Partials/_DatosPersonales", Model, new ViewDataDictionary { { "disabled", disabled } })
 
 <div class="form-group">
     <div class="col-md-10">
         <p>
-            <input type="checkbox" name="PresentaTrabajo" id="PresentaTrabajo" vaue="@Model.PresentaTrabajo" />
+            <input type="checkbox" name="PresentaTrabajo" id="PresentaTrabajo" @(Model.PresentaTrabajo ? "checked" : "") disabled="@disabled"/>
             @Html.LabelFor(model => model.PresentaTrabajo, htmlAttributes: new { @class = "control-label col-md-2" })
         </p>
         @Html.ValidationMessageFor(model => model.PresentaTrabajo, "", new { @class = "text-red" })
     </div>
 </div>
 
-@if (modoVistaCrear) { 
+
     <div class="form-group">
         @Html.LabelFor(model => model.AreaCientificaId, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.AreaCientificaId, Model.AreasCientificas, new { @class = "browser-default", id = "AreaCientifica" })
-            @Html.ValidationMessageFor(model => model.AreaCientificaId, "", new { @class = "text-red" })
+
+            @if (modoVistaCrear)
+            {
+                @Html.DropDownListFor(model => model.AreaCientificaId, Model.AreasCientificas, new { @class = "browser-default", id = "AreaCientifica" })            
+                @Html.ValidationMessageFor(model => model.AreaCientificaId, "", new { @class = "text-red" })
+            }
+            else
+            {
+                var areaCientifica = Model.AreasCientificas.FirstOrDefault(a => int.Parse(a.Value) == Model.AreaCientificaId).Text;
+                @Html.TextBox(areaCientifica, areaCientifica,new { disabled = disabled });
+            }
         </div>
     </div>
 
-}
 <div class="form-group" id="CategoriaId">
     @Html.LabelFor(model => model.CategoriaId, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EnumCheckBoxGroup("CategoriaId", typeof(CategoriaBecaEnum))
-        @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-red" })
+        @if (modoVistaCrear) { 
+            @Html.EnumCheckBoxGroup("CategoriaId", typeof(CategoriaBecaEnum))
+            @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-red" })
+        }
+        @Html.EnumDisplayName(typeof(CategoriaBecaEnum), Model.CategoriaId)
     </div>
 </div>
-<div id="SeccionAlumnoGrado">
-    @Html.Partial("Partials/_Alumno", Model)
-</div>
-<div id="SeccionDemasCategorias">
-    @Html.Partial("Partials/_DemasCategorias", Model)
-</div> 
+
+
+@if(Model.CategoriaId == (int)CategoriaBecaEnum.AlumnoGrado) { 
+    <div id="SeccionAlumnoGrado">
+        @Html.Partial("Partials/_Alumno", Model, new ViewDataDictionary { { "disabled", disabled } })
+    </div>
+}
+else { 
+    <div id="SeccionDemasCategorias">
+        @Html.Partial("Partials/_DemasCategorias", Model, new ViewDataDictionary { { "disabled", disabled } })
+    </div>
+}
