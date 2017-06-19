@@ -304,7 +304,7 @@ namespace Congressus.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    evento.TextoBienvenida = model.Texto;
+                    evento.TextoBienvenida = model.TextoBienvenida;
                     _repo.Edit(evento);
                 }
             }

@@ -12,7 +12,7 @@
         @Html.Partial("_carousel-slider", imagenes)
     }
     <h3 class="teal-text">Bienvenidos</h3>
-    <p>@Model.TextoBienvenida</p>
+    <p>@Html.Raw(new HtmlString(Model.TextoBienvenida))</p>
     <br />
 </div>
  

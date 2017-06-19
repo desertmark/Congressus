@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Congressus.Web.Models.Entities
 {
@@ -43,6 +44,7 @@ namespace Congressus.Web.Models.Entities
         public string ProgramaPath { get; set; }
         public string ImagenesInicio { get; set; }
         public string ImagenesSponsors { get; set; }
+        [UIHint("tinymce_jquery_full"), AllowHtml]
         public string TextoBienvenida { get; set; }
 
         [Display(Name = "Areas Cientifica")]

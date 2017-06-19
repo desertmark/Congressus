@@ -65,7 +65,7 @@
 @using (Html.BeginForm("SubirTextoInicio", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.Hidden("id", Model.Id)
-    @Html.TextArea("texto",Model.TextoBienvenida);
+    @Html.EditorFor(model => model.TextoBienvenida);
     <br />
     <button class="btn waves-effect waves-light blue darken-2" type="submit">Subir</button>
 }

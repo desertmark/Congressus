@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Congressus.Web.Controllers
 {
@@ -9,6 +10,7 @@ namespace Congressus.Web.Controllers
         [Required]
         public int Id { get; set; }
         [Required]
-        public string Texto{ get; set; }
+        [AllowHtml]
+        public string TextoBienvenida{ get; set; }
     }
 }
