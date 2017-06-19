@@ -3,15 +3,14 @@
 @using System.ComponentModel.DataAnnotations;
 @model Congressus.Web.Controllers.FormularioBecaViewModel
 @{
-    var disabled = (bool)ViewData["disabled"];
+    var htmlAttributes = (Dictionary<string,object>)ViewData["htmlAttributes"];
 }
 
-<h5 class="text-teal">Categoria Alumno de grado</h5>
 
 <div class="col s6 form-group">
     @Html.LabelFor(model => model.Universidad, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.Universidad, new { htmlAttributes = new { @class = "form-control" , disabled = disabled } })
+        @Html.EditorFor(model => model.Universidad, new { htmlAttributes })
         @Html.ValidationMessageFor(model => model.Universidad, "", new { @class = "text-red" })
     </div>
 </div>
@@ -19,7 +18,7 @@
 <div class="col s6 form-group">
     @Html.LabelFor(model => model.Carrera, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.Carrera, new { htmlAttributes = new { @class = "form-control" , disabled = disabled } })
+        @Html.EditorFor(model => model.Carrera, new { htmlAttributes })
         @Html.ValidationMessageFor(model => model.Carrera, "", new { @class = "text-red" })
     </div>
 </div>
@@ -28,7 +27,7 @@
     <div class="col s3 form-group">
         @Html.LabelFor(model => model.PorcentajeCarrera, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.PorcentajeCarrera, new { htmlAttributes = new { @class = "form-control" , disabled = disabled } })
+            @Html.EditorFor(model => model.PorcentajeCarrera, new { htmlAttributes })
             @Html.ValidationMessageFor(model => model.PorcentajeCarrera, "", new { @class = "text-red" })
         </div>
     </div>
@@ -36,7 +35,7 @@
     <div class="col s3 form-group">
         @Html.LabelFor(model => model.PromedioParcial, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.PromedioParcial, new { htmlAttributes = new { @class = "form-control" , disabled = disabled } })
+            @Html.EditorFor(model => model.PromedioParcial, new { htmlAttributes })
             @Html.ValidationMessageFor(model => model.PromedioParcial, "", new { @class = "text-red" })
         </div>
     </div>

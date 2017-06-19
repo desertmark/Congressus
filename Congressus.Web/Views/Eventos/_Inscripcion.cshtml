@@ -9,7 +9,11 @@
     {
         if (!inscripto)
         {
-            <a href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
+            <div class="collection">
+                <a class="collection-item" href="@Url.Action("InscribirEvento", "Asistentes", new { EventoId = Model.Id })"><h5>Inscribirme a este evento</h5></a>
+                <a class="collection-item" href="@Url.Action("Crear", "Becas", new { EventoId = Model.Id })"><h5>Solicitar beca</h5></a>
+            </div>
+            
         }
         else
         {

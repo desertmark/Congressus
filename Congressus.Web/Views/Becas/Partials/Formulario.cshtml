@@ -5,16 +5,20 @@
 
 @{ 
     var modoVistaCrear = (bool?)ViewData["modoVistaCrear"] ?? true;
-    var disabled = !modoVistaCrear;
+    var htmlAttributes = new Dictionary<string, object>();
+    htmlAttributes.Add("class", "form-control");
+    if (!modoVistaCrear) {
+        htmlAttributes.Add("readonly", "");
+    }
 }
 
 
-@Html.Partial("Partials/_DatosPersonales", Model, new ViewDataDictionary { { "disabled", disabled } })
+@Html.Partial("Partials/_DatosPersonales", Model, new ViewDataDictionary { { "htmlAttributes", htmlAttributes } })
 
 <div class="form-group">
     <div class="col-md-10">
         <p>
-            <input type="checkbox" name="PresentaTrabajo" id="PresentaTrabajo" @(Model.PresentaTrabajo ? "checked" : "") disabled="@disabled"/>
+            <input type="checkbox" name="PresentaTrabajo" id="PresentaTrabajo" @(Model.PresentaTrabajo ? "checked" : "") @(!modoVistaCrear? "disabled" : "")/>
             @Html.LabelFor(model => model.PresentaTrabajo, htmlAttributes: new { @class = "control-label col-md-2" })
         </p>
         @Html.ValidationMessageFor(model => model.PresentaTrabajo, "", new { @class = "text-red" })
@@ -34,7 +38,7 @@
             else
             {
                 var areaCientifica = Model.AreasCientificas.FirstOrDefault(a => int.Parse(a.Value) == Model.AreaCientificaId).Text;
-                @Html.TextBox(areaCientifica, areaCientifica,new { disabled = disabled });
+                @Html.TextBox(areaCientifica, areaCientifica, htmlAttributes);
             }
         </div>
     </div>
@@ -46,18 +50,31 @@
             @Html.EnumCheckBoxGroup("CategoriaId", typeof(CategoriaBecaEnum))
             @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-red" })
         }
-        @Html.EnumDisplayName(typeof(CategoriaBecaEnum), Model.CategoriaId)
+        else
+        { 
+            @Html.EnumDisplayName(typeof(CategoriaBecaEnum), Model.CategoriaId)
+        }
     </div>
 </div>
 
-
-@if(Model.CategoriaId == (int)CategoriaBecaEnum.AlumnoGrado) { 
+@if (modoVistaCrear) { 
     <div id="SeccionAlumnoGrado">
-        @Html.Partial("Partials/_Alumno", Model, new ViewDataDictionary { { "disabled", disabled } })
+        @Html.Partial("Partials/_Alumno", Model, new ViewDataDictionary { { "htmlAttributes", htmlAttributes} })
+    </div>
+    <div id="SeccionDemasCategorias">
+        @Html.Partial("Partials/_DemasCategorias", Model, new ViewDataDictionary { { "htmlAttributes", htmlAttributes} })
     </div>
 }
 else { 
-    <div id="SeccionDemasCategorias">
-        @Html.Partial("Partials/_DemasCategorias", Model, new ViewDataDictionary { { "disabled", disabled } })
-    </div>
+    if (Model.CategoriaId == (int)CategoriaBecaEnum.AlumnoGrado)
+    {
+        <div id="SeccionAlumnoGrado">
+            @Html.Partial("Partials/_Alumno", Model, new ViewDataDictionary { { "htmlAttributes", htmlAttributes} })
+        </div>
+    }
+    else { 
+        <div id="SeccionDemasCategorias">
+            @Html.Partial("Partials/_DemasCategorias", Model, new ViewDataDictionary { { "htmlAttributes", htmlAttributes} })
+        </div>
+    }
 }
