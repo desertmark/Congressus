@@ -13,17 +13,17 @@ input[disabled]{
     color:black!important;
 }
 h2{
-    font-size:30px!important;
+    font-size:28px!important;
 }
 h3{
-    font-size:24px!important;
+    font-size:22px!important;
 }
 h4 {
-    font-size: 20px !important;
+    font-size: 18px !important;
 }
 
 h5 {
-    font-size: 18px !important;
+    font-size: 16px !important;
 }
 html, body {
   height: 100%;
@@ -46,7 +46,7 @@ body{
     padding:10px
 }
 .titulo{
-    font-size:18px;
+    font-size:16px;
 }
 /*para darle efecto hover a los renglones de las tablas*/
 .hoverableTr:hover{
@@ -186,7 +186,7 @@ body{
 
 /*-ABOUT-*/
 .about-text{
-    font-size: 14px;
+    font-size: 12px;
 }
 .about-card{
     max-width:350px!important;
@@ -217,7 +217,7 @@ body{
 /*MIEMBROS*/
 /*Details*/
  .detailsTable {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .detailsTable td {

@@ -13,11 +13,11 @@ namespace Congressus.Web.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        [IsDateBefore("FechaFinTrabajos", ErrorMessage = "La fecha límite de presentacion de los trabajos debe ser anterior a la fecha de finalización del evento.")]
+        [IsDateBefore("FechaFin", ErrorMessage = "La fecha límite de presentacion de los trabajos debe ser anterior a la fecha de finalización del evento.")]
         [Display(Name = "Fecha limite presentacion de trabajos")]
         public DateTime FechaFinTrabajos { get; set; }
 
-        [IsDateBefore("FechaFinInscripcion", ErrorMessage = "La fecha de límite de inscripción debe ser anterior a la fecha de finalización del evento.")]
+        [IsDateBefore("FechaFin", ErrorMessage = "La fecha de límite de inscripción debe ser anterior a la fecha de finalización del evento.")]
         [Display(Name = "Fecha limite de inscripcion al evento")]
         public DateTime FechaFinInscripcion { get; set; }
 
