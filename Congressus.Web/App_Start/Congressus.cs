@@ -65,47 +65,8 @@ namespace Congressus.Web.App_Start
                 var AutorUser = new ApplicationUser { UserName = "fer@fer.com" };
                 AutorUser.Email = AutorUser.UserName;
                 UserManager.Create(AutorUser, "Password@123");
-                UserManager.AddToRole(AutorUser.Id, "autor");
+                UserManager.AddToRole(AutorUser.Id, "admin");
             }
-
-
-            //Creacion de papers
-            context.Papers.AddOrUpdate(p => p.Nombre,
-                new Paper()
-                {
-                    Nombre = "Microsoft Student Partner",
-                    Fecha = DateTime.Now,
-                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
-                    Path = "",
-                    Descripcion = "un paper"
-                },
-                new Paper()
-                {
-                    Nombre = "Defusion del CIAA",
-                    Fecha = DateTime.Now,
-                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
-                    Path = "",
-                    Descripcion = "un paper"
-                },
-                new Paper()
-                {
-                    Nombre = "Arduino: Ventajas y desventajas",
-                    Fecha = DateTime.Now,
-                    AreaCientifica = new AreaCientifica() { Descripcion = "Informatica" },
-                    Path = "",
-                    Descripcion = "un paper"
-                }
-            );
-            context.SaveChanges();
-            //Creacion de Autores
-            context.Autores.AddOrUpdate(p => p.Nombre,
-                new Autor()
-                {
-                    Nombre = "Fernando Asulay",
-                    Papers = new List<Paper>() { context.Papers.First() },
-                    Usuario = UserManager.FindByName("fer@fer.com")
-                }
-             );
         }
     }
 }

@@ -217,9 +217,34 @@ body{
 /*MIEMBROS*/
 /*Details*/
  .detailsTable {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .detailsTable td {
     color: grey;
+}
+
+/*Carousel INICIO*/
+#inicio carousel{
+
+}
+
+
+
+
+/*DEFAULT*/
+.tinymce ul, .tinymce li {
+    list-style-type: disc !important;
+}
+
+.tinymce li {
+    margin-left: 40px !important;
+}
+
+.tinymce p {
+    padding: 5px !important;
+}
+
+.tinymce strong {
+    font-weight: 600 !important
 }

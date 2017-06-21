@@ -102,6 +102,7 @@ namespace Congressus.Web.Repositories
 
             evento.Papers.ToList().ForEach(p => p.DeletePaper(_db));
             _db.Papers.RemoveRange(evento.Papers);
+            _db.AreasCientificas.RemoveRange(evento.AreasCientificas);
             evento.Comite.Clear();
             _db.Eventos.Remove(evento);
             _db.SaveChanges();
@@ -248,7 +249,7 @@ namespace Congressus.Web.Repositories
         public List<string> GuardarImagenes(ImagenesUploadVM model,string carpeta ="")
         {
             var Server = HttpContext.Current.Server;
-            var path = "/Content/Files/Eventos/Images" + model.Id + "/" + carpeta + "/";
+            var path = "/Content/Files/Eventos/Images/" + model.Id + "/" + carpeta + "/";
 
             if (!Directory.Exists(Server.MapPath(path)))
                 Directory.CreateDirectory(Server.MapPath(path));

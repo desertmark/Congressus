@@ -16,11 +16,11 @@ namespace Congressus.Web.Models.Entities
         public string Nombre { get; set; }
 
 
-        [Display(Name ="Fecha limite presentacion de trabajos")]
+        [Display(Name = "Fecha límite presentación de trabajos")]
         public DateTime FechaFinTrabajos {get; set;}
 
 
-        [Display(Name = "Fecha limite de inscripcion al evento")]
+        [Display(Name = "Fecha límite de inscripción al evento")]
         public DateTime FechaFinInscripcion { get; set; }
 
 
@@ -29,10 +29,11 @@ namespace Congressus.Web.Models.Entities
 
 
         [IsDateAfter("FechaInicio", ErrorMessage ="La fecha de fin debe ser posterior a la fecha de inicio.")]
-        [Display(Name = "Fecha de finalizacion")]
+        [Display(Name = "Fecha de finalización")]
         public DateTime FechaFin { get; set; }
         public string Lugar { get; set; }
-        public string Tema { get; set; }        
+        public string Tema { get; set; }
+        [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         public bool HabilitarDescargaCertificados { get; set; }
         public virtual MiembroComite Presidente { get; set; }
@@ -47,7 +48,7 @@ namespace Congressus.Web.Models.Entities
         [UIHint("tinymce_jquery_full"), AllowHtml]
         public string TextoBienvenida { get; set; }
 
-        [Display(Name = "Areas Cientifica")]
+        [Display(Name = "Áreas Científica")]
         public virtual ICollection<AreaCientifica> AreasCientificas { get; set; }
         public virtual ICollection<Paper> Papers{ get; set; }        
         public virtual ICollection<MiembroComite> Comite { get; set; }

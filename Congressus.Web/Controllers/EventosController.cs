@@ -30,7 +30,7 @@ namespace Congressus.Web.Controllers
             return View(_repo.GetAll());
         }
 
-        [Authorize(Roles = "autor, admin, asistente")]
+        //[Authorize(Roles = "autor, admin, asistente")]
         [HttpPost]
         public ActionResult BuscarEvento(string patron)
         {

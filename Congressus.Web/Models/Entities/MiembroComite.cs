@@ -13,9 +13,10 @@ namespace Congressus.Web.Models.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        [Display(Name = "Area Cientifica")]
+
         public virtual string UsuarioId { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
+        [Display(Name = "Área Científica")]
         public virtual ICollection<AreaCientifica> AreaCientifica { get; set; }
         public virtual ICollection<Evento> Eventos { get; set; }
         public virtual ICollection<Paper> Papers { get; set; }

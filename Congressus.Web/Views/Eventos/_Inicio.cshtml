@@ -7,12 +7,14 @@
     }
 }
 <div id="Inicio">
-    @if (!string.IsNullOrEmpty(Model.ImagenesSponsors))
+    @if (!string.IsNullOrEmpty(Model.ImagenesInicio))
     {
         @Html.Partial("_carousel-slider", imagenes)
     }
     <h3 class="teal-text">Bienvenidos</h3>
-    <p>@Html.Raw(new HtmlString(Model.TextoBienvenida))</p>
+        <div class="tinymce browser-default">
+            @Html.Raw(new HtmlString(Model.TextoBienvenida))
+        </div>
     <br />
 </div>
  

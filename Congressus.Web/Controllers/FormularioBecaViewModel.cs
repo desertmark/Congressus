@@ -18,7 +18,7 @@ namespace Congressus.Web.Controllers
         [Required]
         public string Domicilio { get; set; }
         [Required]
-        [Display(Name = "Codigo postal")]
+        [Display(Name = "Código postal")]
 
         public int CodigoPostal { get; set; }
         #region Localidad Compelta
@@ -27,12 +27,14 @@ namespace Congressus.Web.Controllers
         [Required]
         public string Provincia { get; set; }
         [Required]
+        [Display(Name = "País")]
         public string Pais { get; set; }
         [Display(Name = "Localidad")]
         public string LocalidadCompleta { get { return Localidad + ", " + Provincia + ", " + Pais; } }
         #endregion
 
         [Required]
+        [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
         [Required]
         public string Email { get; set; }
@@ -81,21 +83,6 @@ namespace Congressus.Web.Controllers
 
         public FormularioBecaViewModel(Evento evento)
         {
-            //EventoId = evento.Id;
-            //var areas = new List<SelectListItem>();
-            //areas.Add(new SelectListItem() {
-            //    Text = "Seleccione un área científica",
-            //    Value = "0"
-            //});
-            //if(evento.AreasCientificas!=null && evento.AreasCientificas.Count > 0) {
-            //    evento.AreasCientificas.ToList().ForEach((area) => {
-            //        areas.Add(new SelectListItem() {
-            //            Value = area.Id.ToString(),
-            //            Text = area.Descripcion
-            //        });
-            //    });
-            //}
-            //AreasCientificas = areas;
             SetearSelectLists(evento);
         }       
 
