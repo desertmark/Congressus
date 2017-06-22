@@ -728,6 +728,7 @@
     <Content Include="Views\Becas\Partials\_DemasCategorias.cshtml" />
     <Content Include="Views\Becas\Partials\Formulario.cshtml" />
     <Content Include="Views\Becas\Details.cshtml" />
+    <Content Include="Views\Eventos\AsignarAreaAMiembro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
