@@ -13,12 +13,12 @@ namespace Congressus.Web.Models
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-        [IsDateBefore("FechaFin", ErrorMessage = "La fecha límite de presentacion de los trabajos debe ser anterior a la fecha de finalización del evento.")]
-        [Display(Name = "Fecha limite presentacion de trabajos")]
+        [IsDateBefore("FechaFin", ErrorMessage = "La fecha límite de presentación de los trabajos debe ser anterior a la fecha de finalización del evento.")]
+        [Display(Name = "Fecha límite presentación de trabajos")]
         public DateTime FechaFinTrabajos { get; set; }
 
         [IsDateBefore("FechaFin", ErrorMessage = "La fecha de límite de inscripción debe ser anterior a la fecha de finalización del evento.")]
-        [Display(Name = "Fecha limite de inscripcion al evento")]
+        [Display(Name = "Fecha límite de inscripción al evento")]
         public DateTime FechaFinInscripcion { get; set; }
 
         [IsDateBefore("FechaFin", ErrorMessage = "La fecha de inicio debe ser anterior a la fecha de finalización del evento.")]
@@ -30,6 +30,7 @@ namespace Congressus.Web.Models
         public DateTime FechaFin { get; set; }
         public string Lugar { get; set; }
         public string Tema { get; set; }
+        [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         [Display(Name ="Áreas científicas")]
         public string AreasCientificas { get; set; }
@@ -73,22 +74,26 @@ namespace Congressus.Web.Models
                         });
                     });
                 }
-            }else
+            } else
             {   //si el evento no null --> leer las areas del evento si no estan en el VM borrarlas. 
                 //Luego leer las areas del VM si no estan en el evento agregarlas
                 var areas = new List<AreaCientifica>(evento.AreasCientificas);//se copia la coleccion pq será modificada durante el bucle.
-                foreach (var area in areas)
-                {
-                    if (!AreasCientificas.Split(';').Contains(area.Descripcion))
-                        evento.AreasCientificas.Remove(area);
-                }
-                foreach (var area in AreasCientificas.Split(';'))
-                {
-                    if (!evento.AreasCientificas.Any(a => a.Descripcion == area))
-                        evento.AreasCientificas.Add(new AreaCientifica() {
-                            Evento = evento,
-                            Descripcion = area
-                        });
+                if (string.IsNullOrEmpty(AreasCientificas))
+                    evento.AreasCientificas.Clear();
+                else { 
+                    foreach (var area in areas)
+                    {
+                        if (!AreasCientificas.Split(';').Contains(area.Descripcion))
+                            evento.AreasCientificas.Remove(area);
+                    }
+                    foreach (var area in AreasCientificas.Split(';'))
+                    {
+                        if (!evento.AreasCientificas.Any(a => a.Descripcion == area))
+                            evento.AreasCientificas.Add(new AreaCientifica() {
+                                Evento = evento,
+                                Descripcion = area
+                            });
+                    }
                 }
             }
             

@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.Reporting.WebForms;
 using Congressus.Web.Context;
 using Congressus.Web.Repositories;
+using Congressus.Web.Attributes;
 
 namespace Congressus.Web.Controllers
 {
@@ -60,7 +61,7 @@ namespace Congressus.Web.Controllers
             return RedirectToAction("Administrar/" + eventoId);
         }
 
-        #region EVENTOCRUD
+        #region EVENTO CRUD
 
         // GET: Eventos
         [Authorize(Roles = "presidente, MiembroComite, admin, autor")]
@@ -105,7 +106,6 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "presidente, admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public ActionResult Create(EventoViewModel model)
         {
 
@@ -128,7 +128,7 @@ namespace Congressus.Web.Controllers
         }
 
         // GET: Eventos/Edit/5
-        [Authorize(Roles = "presidente, admin")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Edit(int id)
         {
             Evento evento = _repo.FindById(id);
@@ -143,7 +143,7 @@ namespace Congressus.Web.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "presidente, admin")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Edit(EventoViewModel model)
         {
             if (ModelState.IsValid)
