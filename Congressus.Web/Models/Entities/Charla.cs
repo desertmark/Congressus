@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,9 @@ namespace Congressus.Web.Models.Entities
     public class Charla
     {
         public int Id { get; set; }
+        [Display(Name = "Título")]
         public string Titulo { get; set; }
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
         public string Tipo { get; set; }
         public int Cupo { get; set; }

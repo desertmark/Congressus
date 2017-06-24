@@ -52,7 +52,7 @@ namespace Congressus.Web.Repositories
                 Lugar = model.Lugar,
                 Tipo = model.Cupo>0 ? "Taller" : "Charla",
                 Cupo = model.Cupo,
-                Orador = paper.Autor
+                Orador = paper?.Autor
             };
 
             return charla;

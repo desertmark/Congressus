@@ -246,6 +246,7 @@ namespace Congressus.Web.Controllers
             db.Papers.RemoveRange(miembroComite.Papers);
 
             miembroComite.Papers.Clear();
+            miembroComite.AreaCientifica.Clear();
             db.Miembros.Remove(miembroComite);
             db.SaveChanges();
             return RedirectToAction("Index");

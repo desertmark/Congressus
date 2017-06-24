@@ -13,7 +13,9 @@ namespace Congressus.Web.Models
         [Required]
         public int EventoId { get; set; }
         [Required]
+        [Display(Name ="Título")]
         public string Titulo { get; set; }
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
         [Display(Name = "Fecha y hora")]
         [Required]        
@@ -21,6 +23,8 @@ namespace Congressus.Web.Models
         public int Cupo { get; set; }
         public string Lugar { get; set; }
         public SelectList Papers { get; set; }
+        [Required]
+        [Display(Name = "Paper")]
         public int PaperId { get; set; }
     }
 }

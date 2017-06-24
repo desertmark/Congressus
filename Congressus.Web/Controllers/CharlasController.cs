@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Congressus.Web.Context;
 using Congressus.Web.Models.Entities;
 using Congressus.Web.Repositories;
 using Congressus.Web.Models;
+using Congressus.Web.Attributes;
 
 namespace Congressus.Web.Controllers
 {
@@ -39,7 +41,7 @@ namespace Congressus.Web.Controllers
         }
 
         // GET: Charlas/Create
-        [Authorize(Roles = "admin,presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Create(int eventoId)
         {
             var vm = _repo.GetCharlaViewModel(eventoId);            
@@ -51,7 +53,7 @@ namespace Congressus.Web.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles ="admin,presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Create(CharlaViewModel model)
         {
             if (ModelState.IsValid)
@@ -76,9 +78,8 @@ namespace Congressus.Web.Controllers
             var charla = _repo.FindById(id);
             var model = _repo.GetCharlaViewModel(charla);
             if (charla == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(model);
         }
 
@@ -87,6 +88,7 @@ namespace Congressus.Web.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Edit(CharlaViewModel model)
         {
 
@@ -109,33 +111,40 @@ namespace Congressus.Web.Controllers
         }
 
         // GET: Charlas/Delete/5
+        [Authorize(Roles = "presidente, admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Charla charla = db.Charlas.Find(id);
             if (charla == null)
-            {
                 return HttpNotFound();
-            }
+            if (!ValidarPresidente(charla.Evento))
+                return new HttpUnauthorizedResult();
+
             return View(charla);
         }
 
         // POST: Charlas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "presidente, admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Charla charla = _repo.FindById(id);
             if(charla == null)
-            {
                 return HttpNotFound();
-            }
+
+            if (!ValidarPresidente(charla.Evento))
+                return new HttpUnauthorizedResult();
+
             var eventoId = charla.Evento.Id;
             _repo.Delete(id);
             return RedirectToAction("Administrar", "Eventos", new { id = eventoId});
+        }
+        public bool ValidarPresidente(Evento evento)
+        {
+            return evento.Presidente.UsuarioId == User.Identity.GetUserId();
         }
 
         protected override void Dispose(bool disposing)
@@ -146,5 +155,6 @@ namespace Congressus.Web.Controllers
             }
             base.Dispose(disposing);
         }
+        
     }
 }

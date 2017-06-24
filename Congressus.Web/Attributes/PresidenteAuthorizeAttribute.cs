@@ -24,7 +24,7 @@ namespace Congressus.Web.Attributes
                 var userId = filterContext.HttpContext.User.Identity.GetUserId();
                 if (filterContext.HttpContext.Request.HttpMethod == "GET")
                     //Buscar evento id en la ruta
-                    eventoId = int.Parse(filterContext.HttpContext.Request.Params["EventoId"] ?? filterContext.RouteData.Values["Id"].ToString() ?? "0");
+                    eventoId = int.Parse(filterContext.HttpContext.Request.Params["EventoId"] ?? filterContext.RouteData.Values["Id"]?.ToString() ?? "0");
                 else
                     //Buscar evento id en el body
                     eventoId = int.Parse(filterContext.HttpContext.Request.Form["EventoId"] ?? filterContext.HttpContext.Request.Form["Id"] ?? "0");

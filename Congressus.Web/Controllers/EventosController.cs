@@ -41,20 +41,21 @@ namespace Congressus.Web.Controllers
             return View(_repo.FindByPattern(patron).ToList());
         }
 
-        [Authorize(Roles = "presidente, admin")] 
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Administrar(int id)
         {
             var model = _repo.FindById(id);
                
             return View(model);
         }
-        [Authorize(Roles = "presidente, admin")]
+
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult AgregarMiembro(int miembroId, int eventoId)
         {
             _repo.AgregarMiembroComite(miembroId, eventoId);
             return RedirectToAction("Administrar/" + eventoId);
         }
-        [Authorize(Roles = "presidente, admin")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult RetirarMiembro(int miembroId, int eventoId)
         {
             _repo.RetirarMiembroComite(miembroId, eventoId);
@@ -67,7 +68,6 @@ namespace Congressus.Web.Controllers
         [Authorize(Roles = "presidente, MiembroComite, admin, autor")]
         public ActionResult Index()
         {
-
             if (User.IsInRole("MiembroComite") || User.IsInRole("presidente"))
             {
                 var userId = User.Identity.GetUserId();
@@ -108,7 +108,6 @@ namespace Congressus.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EventoViewModel model)
         {
-
             if (ModelState.IsValid)
             {
                 var evento = model.ToEvento();
@@ -159,7 +158,8 @@ namespace Congressus.Web.Controllers
         }
 
         // GET: Eventos/Delete/5
-        [Authorize(Roles = "presidente, admin")]
+
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Delete(int id)
         {
             Evento evento = _repo.FindById(id);
@@ -170,17 +170,17 @@ namespace Congressus.Web.Controllers
         }
 
         // POST: Eventos/Delete/5
-        [Authorize(Roles = "presidente, admin")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             _repo.EliminarEvento(id);
             return RedirectToAction("Index");
-        } 
+        }
         #endregion
 
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult ComiteEvaluador(int id)
         {
             var evento = _repo.FindById(id);
@@ -195,7 +195,7 @@ namespace Congressus.Web.Controllers
             return View(evento);
         }
 
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult Certificados(int id)
         {
             var evento = _repo.FindById(id);
@@ -205,7 +205,7 @@ namespace Congressus.Web.Controllers
         }
 
         #region INICIO
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult ConfiguracionInicio(int id)
         {
             var evento = _repo.FindById(id);
@@ -214,7 +214,7 @@ namespace Congressus.Web.Controllers
             return View(evento);
         }
 
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirLogo(ImagenesUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -232,7 +232,7 @@ namespace Congressus.Web.Controllers
             return View("ConfiguracionInicio", evento);
         }
 
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirPrograma(PdfUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -248,6 +248,7 @@ namespace Congressus.Web.Controllers
             }
             return View("Administrar", evento);
         }
+
         public ActionResult Programa(int id)
         {
             var evento = _repo.FindById(id);
@@ -259,7 +260,7 @@ namespace Congressus.Web.Controllers
             return File(fs, "application/pdf");
             
         }
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirImagenesInicio(ImagenesUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -277,7 +278,7 @@ namespace Congressus.Web.Controllers
             return View("ConfiguracionInicio", evento);
 
         }
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirImagenesSponsors(ImagenesUploadVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -296,7 +297,7 @@ namespace Congressus.Web.Controllers
 
 
         }
-        [Authorize(Roles = "admin, presidente")]
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirTextoInicio(TextoInicioVM model)
         {
             var evento = _repo.FindById(model.Id);
@@ -327,7 +328,8 @@ namespace Congressus.Web.Controllers
 
             return View(model);
         }
-        [Authorize(Roles = "presidente, admin")]
+
+        [PresidenteAuthorize(Roles = "presidente, admin")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult AsignarAreaAMiembro(AreaCientifiaViewModel model)

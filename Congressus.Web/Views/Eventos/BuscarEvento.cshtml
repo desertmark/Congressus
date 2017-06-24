@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Congressus.Web.Models.Entities.Evento>
+﻿@using Microsoft.AspNet.Identity;
+@model IEnumerable<Congressus.Web.Models.Entities.Evento>
 
 @{
     ViewBag.Title = "Buscar evento";
@@ -74,7 +75,7 @@
                         <span>|</span>
                         <a href="/Papers/Create?eventoId=@item.Id">Enviar paper</a>
                     } 
-                    @if (User.IsInRole("admin") || User.IsInRole("presidente"))
+                    @if (User.IsInRole("admin") || (User.IsInRole("presidente") && User.Identity.GetUserId() == item.Presidente.UsuarioId))
                     {
                         <span>|</span>
                         @Html.ActionLink("Administrar", "Administrar", new { id = item.Id })
