@@ -15,24 +15,26 @@ namespace Congressus.Web.Models.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha límite presentación de trabajos")]
         public DateTime FechaFinTrabajos {get; set;}
 
-
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha límite de inscripción al evento")]
         public DateTime FechaFinInscripcion { get; set; }
 
-
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha de inicio")]
         public DateTime FechaInicio { get; set; }
 
-
+        [DataType(DataType.Date)]
         [IsDateAfter("FechaInicio", ErrorMessage ="La fecha de fin debe ser posterior a la fecha de inicio.")]
         [Display(Name = "Fecha de finalización")]
         public DateTime FechaFin { get; set; }
         public string Lugar { get; set; }
         public string Tema { get; set; }
+        [Display(Name = "Email de Contacto")]
+        public string EmailContacto { get; set; }
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         public bool HabilitarDescargaCertificados { get; set; }

@@ -3,12 +3,16 @@
     <h4 class="teal-text">Contacto</h4>
     <table class="striped detailsTable">
         <tr>
-            <th class="black-text text-accent-4"><strong>Direccion:</strong></th>
-            <td><span>@Model.Direccion</span></td>
+            <th class="black-text text-accent-4"><strong>Dirección:</strong></th>
+            <td><span>@Html.DisplayFor(model => model.Direccion)</span></td>
         </tr>
         <tr>
             <th class="black-text text-accent-4"><strong>Lugar:</strong></th>
-            <td><span>@Model.Lugar</span></td>
+            <td><span>@Html.DisplayFor(model => model.Lugar)</span></td>
+        </tr>
+        <tr>
+            <th class="black-text text-accent-4"><strong>Contactanos a:</strong></th>
+            <td><span>@Html.DisplayFor(model => model.EmailContacto)</span></td>
         </tr>
     </table>
     <h5 class="teal-text">Mapa</h5>

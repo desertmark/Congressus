@@ -30,6 +30,8 @@ namespace Congressus.Web.Models
         public DateTime FechaFin { get; set; }
         public string Lugar { get; set; }
         public string Tema { get; set; }
+        [Display(Name = "Email de Contacto")]
+        public string EmailContacto { get; set; }
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         [Display(Name ="Áreas científicas")]
@@ -45,6 +47,7 @@ namespace Congressus.Web.Models
             FechaFin = evento.FechaFin;
             Lugar = evento.Lugar;
             Direccion = evento.Direccion;
+            EmailContacto = evento.EmailContacto;
             Tema = evento.Tema;
             AreasCientificas = "";
             if (evento.AreasCientificas != null && evento.AreasCientificas.Count>0) { 
@@ -103,6 +106,7 @@ namespace Congressus.Web.Models
             evento.FechaInicio = FechaInicio;
             evento.FechaFin = FechaFin;
             evento.Lugar = Lugar;
+            evento.EmailContacto = EmailContacto;
             evento.Direccion = Direccion;
             evento.Tema = Tema;
             return evento;
