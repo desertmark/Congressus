@@ -80,6 +80,14 @@
         </div>
 
         <div>
+            @Html.LabelFor(model => model.EmailContacto)
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailContacto)
+                @Html.ValidationMessageFor(model => model.EmailContacto, null, new { @class = "red-text" })
+            </div>
+        </div>
+
+        <div>
             @Html.LabelFor(model => model.AreasCientificas)
             <div>
                 <div class="chips" style="width:38%">
