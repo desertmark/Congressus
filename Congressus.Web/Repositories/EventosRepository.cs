@@ -82,7 +82,13 @@ namespace Congressus.Web.Repositories
 
         public void CrearEventoByOrganizador(Evento evento, string userId)
         {
+            
             var presidente = _db.Miembros.Single(p => p.Usuario.Id == userId);
+            foreach (var a in evento.AreasCientificas)
+            {
+                a.MiembroComite = presidente;
+                _db.AreasCientificas.Add(a);
+            }
             evento.Presidente = presidente;
             evento.Presidente.Eventos.Add(evento);
             Add(evento);
@@ -99,11 +105,18 @@ namespace Congressus.Web.Repositories
         public void EliminarEvento(int id)
         {
             Evento evento = FindById(id);
-
+            /*borrar dependencias*/
+            //borrar papers
             evento.Papers.ToList().ForEach(p => p.DeletePaper(_db));
             _db.Papers.RemoveRange(evento.Papers);
+            //borrar areas
             _db.AreasCientificas.RemoveRange(evento.AreasCientificas);
+            //Desvincular miembros
             evento.Comite.Clear();
+            //borrar secciones
+            _db.Secciones.RemoveRange(evento.Secciones);
+            evento.Secciones.Clear();
+            //Borar el evento
             _db.Eventos.Remove(evento);
             _db.SaveChanges();
         }

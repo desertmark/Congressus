@@ -13,6 +13,7 @@ namespace Congressus.Web.Context
     {
         private static ApplicationDbContext _instance;
         public DbSet<FormularioBeca> FormulariosBecas { get; set; }
+        public DbSet<SeccionEvento> Secciones { get; set; }
         public DbSet<AreaCientifica> AreasCientificas { get; set; }
         public DbSet<Charla> Charlas { get; set; }
         public DbSet<Paper> Papers { get; set; }
@@ -46,6 +47,14 @@ namespace Congressus.Web.Context
                             em.MapRightKey("MiembroId");
                             em.ToTable("MiembroComiteEventos");
                         });
+            //modelBuilder.Entity<Evento>().HasMany(s => s.Secciones).WithOptional().WillCascadeOnDelete();
+            //modelBuilder.Entity<Evento>().HasMany(p => p.Papers).WithOptional().WillCascadeOnDelete();
+            //modelBuilder.Entity<Evento>().HasMany(a => a.AreasCientificas).WithOptional().WillCascadeOnDelete();
+            //modelBuilder.Entity<Evento>().HasMany(b => b.Becas).WithOptional().WillCascadeOnDelete();
+            //
+            //modelBuilder.Entity<AreaCientifica>().HasOptional(m => m.MiembroComite).WithMany().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<FormularioBeca>().HasRequired(a => a.AreaCientifica).WithMany().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<FormularioBeca>().HasRequired(a => a.Evento).WithMany().WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
 
         }

@@ -11,13 +11,18 @@
     if (campos.length > 0)
     {
         for (var i in campos) {
+            var campo = $(campos[i]);
 
             var value = campos[i].value;
             var name = campos[i].name;
+            var format = "dd/MM/yyyy";
+
+            if (campo.hasClass("datetime"))
+                format = "dd/MM/yyyy hh:mm:ss";
 
             var widget = '<div class="well">';
             widget += '<div class="input-append datetimepicker">';
-            widget += '<input data-format="dd/MM/yyyy hh:mm:ss" type="text" Name="' + name + '" id="' + name + '" value="' + value + '">';
+            widget += '<input data-format="'+ format +'" type="text" name="' + name + '" id="' + name + '" value="' + value + '">';
             widget += '<span class="add-on btn">';
             widget += '<i class="material-icons">perm_contact_calendar</i>';
             widget += '</span></div></div>';

@@ -17,6 +17,11 @@
         @Html.LabelFor(model => model.Titulo)
         @Html.TextBoxFor(model => model.Titulo)
     </div>
+    <div class="input-field" id="orador">
+        @Html.LabelFor(model => model.OradorSinPaper)
+        @Html.TextBoxFor(model => model.OradorSinPaper)
+        @Html.ValidationMessageFor(model => model.OradorSinPaper)
+    </div>
     <div class="input-field">
         @Html.LabelFor(model => model.Descripcion)
         @Html.TextAreaFor(model => model.Descripcion)
@@ -60,19 +65,21 @@
 
 @section Scripts {
     <script type="text/javascript">
-        $('document').ready(function () {
-            var checkbox = $("#TipoTaller");
-            checkbox.change(function () {
-                if (checkbox.is(":checked")) {
-                    $("#Cupo").prop("disabled", "");
-                } else {
-                    $("#Cupo").prop("disabled", "false");
-                    $("#Cupo").val(0);
-                }
-            });
-        });
+        //$('document').ready(function () {
+        //    var checkbox = $("#TipoTaller");
+        //    checkbox.change(function () {
+        //        if (checkbox.is(":checked")) {
+        //            $("#Cupo").prop("disabled", "");
+        //        } else {
+        //            $("#Cupo").prop("disabled", "false");
+        //            $("#Cupo").val(0);
+        //        }
+        //    });
+        //});
     </script>
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/app/charlas")
+
 }
 
 

@@ -18,7 +18,7 @@ namespace Congressus.Web.Attributes
             var DateToCompareInfo = validationContext.ObjectType.GetProperty(DateToComparePropertyName);
             DateTime DateToCompare = (DateTime)DateToCompareInfo.GetValue(validationContext.ObjectInstance);
 
-            if ((DateTime)value<DateToCompare)
+            if (value == null || (DateTime)value<DateToCompare)
             {
                 return ValidationResult.Success;
             }

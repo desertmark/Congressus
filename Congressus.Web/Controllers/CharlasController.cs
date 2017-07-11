@@ -59,7 +59,7 @@ namespace Congressus.Web.Controllers
             if (ModelState.IsValid)
             {
                 var charla = _repo.GetCharlaFromVm(model);
-                if(charla.FechaHora > charla.Evento.FechaInicio && charla.FechaHora < charla.Evento.FechaFin) { 
+                if(!charla.FechaHora.HasValue || charla.FechaHora > charla.Evento.FechaInicio && charla.FechaHora < charla.Evento.FechaFin) { 
                     _repo.Add(charla);
                     return RedirectToAction("Administrar","Eventos", new { id = model.EventoId});
                 }else

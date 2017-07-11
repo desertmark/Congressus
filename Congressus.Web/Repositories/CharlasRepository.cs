@@ -10,16 +10,28 @@ namespace Congressus.Web.Repositories
 {
     public class CharlasRepository : Repository<Charla>
     {
+        public IEnumerable<SelectListItem>getPaperList(Evento evento)
+        {
+            var paperList = evento.Papers.Where(p => p.Estado == "Aceptado").Select(p => new SelectListItem()
+            {
+                Text = p.Nombre,
+                Value = p.Id.ToString()
+            }).ToList();
+            paperList.Insert(0, new SelectListItem() { Text = "Sin paper asociado", Value = "0" });
+            return paperList;
+        }
         public CharlaViewModel GetCharlaViewModel(int eventoId)
         {
             var evento = _db.Eventos.Find(eventoId);
+
             var vm = new CharlaViewModel()
             {
                 Cupo = 0,
                 Fecha = DateTime.Now,
                 EventoId = eventoId,
-                Papers = new SelectList(evento.Papers.Where(p => p.Estado == "Aceptado"), "Id", "Nombre"),
+                Papers = getPaperList(evento)
             };
+
             return vm;
         }
         public CharlaViewModel GetCharlaViewModel(Charla charla)
@@ -29,11 +41,11 @@ namespace Congressus.Web.Repositories
                 Cupo = charla.Cupo,
                 Fecha = charla.FechaHora,
                 EventoId = charla.Evento.Id,
-                Papers = new SelectList(charla.Evento.Papers.Where(p => p.Estado == "Aceptado"), "Id", "Nombre"),
+                Papers = getPaperList(charla.Evento),//new SelectList(charla.Evento.Papers.Where(p => p.Estado == "Aceptado"), "Id", "Nombre"),
                 Titulo = charla.Titulo,
                 Descripcion = charla.Descripcion,
                 Lugar = charla.Lugar,
-                PaperId = charla.paper.Id
+                PaperId = charla?.paper?.Id
             };
             return vm;
         }
@@ -41,6 +53,7 @@ namespace Congressus.Web.Repositories
         {
             var evento = _db.Eventos.Find(model.EventoId);
             var paper = _db.Papers.Find(model.PaperId);
+            
             var charla = new Charla()
             {
                 Id = model.Id,
@@ -48,13 +61,13 @@ namespace Congressus.Web.Repositories
                 paper = paper,
                 Titulo = model.Titulo,
                 Descripcion = model.Descripcion,
-                FechaHora = model.Fecha,
+                FechaHora = model.Fecha,                
                 Lugar = model.Lugar,
                 Tipo = model.Cupo>0 ? "Taller" : "Charla",
                 Cupo = model.Cupo,
-                Orador = paper?.Autor
+                Orador = paper?.Autor,
+                OradorSinPaper = model.OradorSinPaper
             };
-
             return charla;
         }
     }

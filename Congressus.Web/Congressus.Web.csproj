@@ -332,6 +332,7 @@
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\presidenteIcon.png" />
     <Content Include="Scripts\app\becas\formulario.js" />
+    <Content Include="Scripts\app\charlas\charla.crear.js" />
     <Content Include="Scripts\datetimepicker.min.js" />
     <None Include="Scripts\jquery-2.2.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />

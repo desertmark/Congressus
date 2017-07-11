@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <th class="black-text text-accent-4">Orador</th>
-            <td>@Model.Orador.ToString()</td>
+            <td>@(Model.GetOrador)</td>
         </tr>
         <tr>
             <th class="black-text text-accent-4">Lugar</th>
@@ -65,14 +65,14 @@
         </tr>
         <tr>
             <th class="black-text text-accent-4">Cantidad de inscriptos</th>
-            <td>@Model.Inscripciones.Count</td>
+            <td>@(Model.Inscripciones.Count > 0 ? Model.Inscripciones.Count.ToString() : "Aún no hay incriptos")</td>
         </tr>
         <tr>
             <th class="black-text text-accent-4">Cupo</th>
             <td>
                 @if (Model.Cupo == 0)
                 {
-                    <span>Sin cupo</span>
+                    <span>Sin límite</span>
                 }
                 else
                 {

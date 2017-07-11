@@ -15,16 +15,17 @@ namespace Congressus.Web.Models
         [Required]
         [Display(Name ="Título")]
         public string Titulo { get; set; }
+        [Display(Name ="Orador")]
+        public string OradorSinPaper { get; set; }
         [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
-        [Display(Name = "Fecha y hora")]
-        [Required]        
-        public DateTime Fecha { get; set; }
+        [Display(Name = "Fecha y hora")]    
+        public DateTime? Fecha { get; set; }
         public int Cupo { get; set; }
+        
         public string Lugar { get; set; }
-        public SelectList Papers { get; set; }
-        [Required]
+        public IEnumerable<SelectListItem> Papers { get; set; }
         [Display(Name = "Paper")]
-        public int PaperId { get; set; }
+        public int? PaperId { get; set; }
     }
 }
