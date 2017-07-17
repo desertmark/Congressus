@@ -277,6 +277,21 @@ namespace Congressus.Web.Repositories
             return imagenes;
         }
 
+        public bool EliminarImagenes(int eventoId, string carpeta)
+        {
+            var Server = HttpContext.Current.Server;
+            var path = "/Content/Files/Eventos/Images/" + eventoId + "/" + carpeta + "/";
+            if (!Directory.Exists(path))
+                return true;
+            try { 
+                Directory.Delete(path, true);
+                return true;
+            }catch(Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<string> GuardarArchivos(List<HttpPostedFileBase> archivos, string relPath)
         {
             var Server = HttpContext.Current.Server;

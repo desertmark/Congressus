@@ -28,8 +28,9 @@ h5 {
 html, body {
   height: 100%;
 }
-body{
-    background-color:#c2c2c2;
+body {
+    /*background-color:#c2c2c2;*/
+    background: #E8E8E8 url(http://www.frre.utn.edu.ar/public/themes/utn/images/body-bg.jpg) repeat-x top;
 }
 
 /*-HELPERS-*/
@@ -243,9 +244,9 @@ body{
 .tabs .tab{
     padding:5px!important;
 }
-.tabs .tab a{
-    color:rgb(177,214,65)!important;
-    font-weight:bold;
+.tabs .tab a {
+    color: #1e88e5!important;
+    font-weight: bold;
 }
 .tabs .tab a:hover {
     color: rgb(35,188,67)!important;

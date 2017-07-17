@@ -270,6 +270,7 @@ namespace Congressus.Web.Controllers
             }
             if (ModelState.IsValid)
             {
+                _repo.EliminarImagenes(model.Id, "Inicio");
                 var imagenes = _repo.GuardarImagenes(model, "Inicio");
                 evento.ImagenesInicio = string.Join(";", imagenes);
                 _repo.Edit(evento);
@@ -278,6 +279,8 @@ namespace Congressus.Web.Controllers
             return View("ConfiguracionInicio", evento);
 
         }
+
+        
         [PresidenteAuthorize(Roles = "presidente, admin")]
         public ActionResult SubirImagenesSponsors(ImagenesUploadVM model)
         {
